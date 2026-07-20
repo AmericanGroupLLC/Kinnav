@@ -1,0 +1,202 @@
+import 'package:flutter/material.dart';
+import '../models/guardian.dart';
+import '../theme/app_theme.dart';
+import 'avatar.dart';
+
+/// A stylised, offline map that mimics the reference screens (road grid, parks,
+/// highways) without needing a Google Maps API key. Guardian pins and the user
+/// location are laid out using normalized coordinates.
+class MapView extends StatelessWidget {
+  final bool showUserPhoto;
+  final List<Guardian> pins;
+  final bool showGuardianAvatars; // true = Safe Call style avatars on map
+
+  const MapView({
+    super.key,
+    this.pins = kGuardians,
+    this.showUserPhoto = true,
+    this.showGuardianAvatars = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final w = constraints.maxWidth;
+        final h = constraints.maxHeight;
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: CustomPaint(painter: _MapPainter()),
+            ),
+            // Guardian markers.
+            for (final g in pins)
+              Positioned(
+                left: g.mapPos.dx * w - (showGuardianAvatars ? 22 : 14),
+                top: g.mapPos.dy * h - (showGuardianAvatars ? 22 : 34),
+                child: showGuardianAvatars
+                    ? _AvatarMarker(guardian: g)
+                    : _PinMarker(color: AppColors.pin.withValues(alpha: 0.85)),
+              ),
+            // User location, centered.
+            Positioned(
+              left: w * 0.5 - 30,
+              top: h * 0.5 - 66,
+              child: _UserMarker(showPhoto: showUserPhoto),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _PinMarker extends StatelessWidget {
+  final Color color;
+  const _PinMarker({required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(Icons.location_on, color: color, size: 34);
+  }
+}
+
+class _AvatarMarker extends StatelessWidget {
+  final Guardian guardian;
+  const _AvatarMarker({required this.guardian});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InitialsAvatar(
+          initials: guardian.initials,
+          color: guardian.color,
+          size: 44,
+          borderWidth: 3,
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: const [
+              BoxShadow(color: Colors.black26, blurRadius: 3, offset: Offset(0, 1)),
+            ],
+          ),
+          child: Text(
+            guardian.name.split(' ').first,
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _UserMarker extends StatelessWidget {
+  final bool showPhoto;
+  const _UserMarker({required this.showPhoto});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(3),
+          decoration: const BoxDecoration(
+            color: AppColors.primaryDark,
+            shape: BoxShape.circle,
+          ),
+          child: const InitialsAvatar(
+            initials: 'You',
+            color: AppColors.primary,
+            size: 48,
+          ),
+        ),
+        Transform.translate(
+          offset: const Offset(0, -6),
+          child: const Icon(Icons.arrow_drop_down,
+              color: AppColors.primaryDark, size: 34),
+        ),
+      ],
+    );
+  }
+}
+
+/// Paints a light, Google-Maps-like backdrop: parks, water, roads and highways.
+class _MapPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final bg = Paint()..color = const Color(0xFFF3F1EC);
+    canvas.drawRect(Offset.zero & size, bg);
+
+    // Parks / green areas.
+    final park = Paint()..color = const Color(0xFFD8E8CE);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(size.width * 0.02, size.height * 0.60,
+            size.width * 0.26, size.height * 0.30),
+        const Radius.circular(12),
+      ),
+      park,
+    );
+    canvas.drawCircle(
+        Offset(size.width * 0.34, size.height * 0.34), size.width * 0.08, park);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(size.width * 0.70, size.height * 0.05,
+            size.width * 0.28, size.height * 0.18),
+        const Radius.circular(12),
+      ),
+      park,
+    );
+
+    // Water.
+    final water = Paint()..color = const Color(0xFFAFD3E8);
+    final waterPath = Path()
+      ..moveTo(0, size.height * 0.08)
+      ..lineTo(size.width * 0.10, size.height * 0.02)
+      ..lineTo(size.width * 0.16, size.height * 0.20)
+      ..lineTo(0, size.height * 0.30)
+      ..close();
+    canvas.drawPath(waterPath, water);
+
+    // Minor road grid.
+    final road = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 4
+      ..style = PaintingStyle.stroke;
+    for (int i = 1; i < 7; i++) {
+      final dx = size.width * i / 7;
+      canvas.drawLine(Offset(dx, 0), Offset(dx, size.height), road);
+    }
+    for (int i = 1; i < 12; i++) {
+      final dy = size.height * i / 12;
+      canvas.drawLine(Offset(0, dy), Offset(size.width, dy), road);
+    }
+
+    // Highways (yellow).
+    final hwy = Paint()
+      ..color = const Color(0xFFF6D06B)
+      ..strokeWidth = 9
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+    final h1 = Path()
+      ..moveTo(0, size.height * 0.22)
+      ..cubicTo(size.width * 0.3, size.height * 0.18, size.width * 0.6,
+          size.height * 0.30, size.width, size.height * 0.24);
+    canvas.drawPath(h1, hwy);
+    final h2 = Path()
+      ..moveTo(size.width * 0.46, 0)
+      ..cubicTo(size.width * 0.50, size.height * 0.4, size.width * 0.40,
+          size.height * 0.7, size.width * 0.52, size.height);
+    canvas.drawPath(h2, hwy);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}

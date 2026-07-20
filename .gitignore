@@ -1,0 +1,35 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+.metadata
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# macOS
+.DS_Store
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/Generated.xcconfig
+
+# Android
+android/.gradle/
+android/local.properties
+android/key.properties
+
+# Source design material (kept out of the app repo)
+*.pptx
+*.pdf
+WhatsApp Image*.jpeg
+
