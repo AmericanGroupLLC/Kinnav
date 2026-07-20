@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../app_state.dart';
 import '../models/content.dart';
 import '../theme/app_theme.dart';
 
-/// Wellness & lifestyle rewards available to members.
+/// Wellness & lifestyle rewards; redemptions persist via [AppState].
 class RewardsScreen extends StatelessWidget {
   const RewardsScreen({super.key});
 
@@ -10,42 +11,60 @@ class RewardsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Rewards')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-        children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: AppColors.primaryGradient,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Row(
-              children: [
-                const Icon(Icons.card_giftcard, color: Colors.white, size: 40),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Get safe. Get rewarded.',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700)),
-                      SizedBox(height: 4),
-                      Text(
-                        'Exclusive self-care & wellness deals for the Safer community.',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
+      body: ListenableBuilder(
+        listenable: appState,
+        builder: (context, _) {
+          return ListView(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(18),
                 ),
-              ],
-            ),
-          ),
-          for (final r in kRewards) _RewardTile(reward: r),
-        ],
+                child: Row(
+                  children: [
+                    const Icon(Icons.card_giftcard,
+                        color: Colors.white, size: 40),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Get safe. Get rewarded.',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700)),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${appState.redeemedRewards.length} of ${kRewards.length} offers redeemed',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              for (final r in kRewards)
+                _RewardTile(
+                  reward: r,
+                  redeemed: appState.isRedeemed(r.title),
+                  onRedeem: () {
+                    appState.redeemReward(r.title);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('Redeemed: ${r.offer} from ${r.partner}'),
+                          backgroundColor: AppColors.primaryDark),
+                    );
+                  },
+                ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -53,7 +72,10 @@ class RewardsScreen extends StatelessWidget {
 
 class _RewardTile extends StatelessWidget {
   final Reward reward;
-  const _RewardTile({required this.reward});
+  final bool redeemed;
+  final VoidCallback onRedeem;
+  const _RewardTile(
+      {required this.reward, required this.redeemed, required this.onRedeem});
 
   @override
   Widget build(BuildContext context) {
@@ -83,24 +105,40 @@ class _RewardTile extends StatelessWidget {
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 2),
-                  Text(reward.partner,
+                  Text('${reward.partner} · ${reward.offer}',
                       style: const TextStyle(color: AppColors.textMuted)),
                 ],
               ),
             ),
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppColors.lavenderCard,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(reward.offer,
-                  style: const TextStyle(
-                      color: AppColors.primaryDark,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12)),
-            ),
+            redeemed
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.check_circle,
+                            color: AppColors.online, size: 20),
+                        SizedBox(width: 4),
+                        Text('Redeemed',
+                            style: TextStyle(
+                                color: AppColors.online,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12)),
+                      ],
+                    ),
+                  )
+                : TextButton(
+                    onPressed: onRedeem,
+                    style: TextButton.styleFrom(
+                      backgroundColor: AppColors.lavenderCard,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                    child: const Text('Redeem',
+                        style: TextStyle(
+                            color: AppColors.primaryDark,
+                            fontWeight: FontWeight.w600)),
+                  ),
           ],
         ),
       ),

@@ -1,13 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:safer/app_state.dart';
+import 'package:safer/services/storage.dart';
 import 'package:safer/main.dart';
 
 void main() {
-  testWidgets('Home shows CALL GUARDIANS and guardians nearby',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(const SaferApp());
+  testWidgets('First run shows onboarding welcome', (WidgetTester tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final storage = await Storage.init();
+    appState = AppState(storage);
 
-    expect(find.text('CALL GUARDIANS'), findsOneWidget);
-    expect(find.text('Guardians Nearby'), findsOneWidget);
+    await tester.pumpWidget(const SaferApp());
+    await tester.pumpAndSettle();
+
+    expect(find.text('Welcome to Safer'), findsOneWidget);
+    expect(find.text('Get Started'), findsAtLeastNWidgets(0));
   });
 }

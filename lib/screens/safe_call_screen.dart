@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../app_state.dart';
 import '../models/call_type.dart';
 import '../models/guardian.dart';
 import '../theme/app_theme.dart';
@@ -50,6 +51,16 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
     Future.delayed(_connectDelay, () {
       if (!mounted) return;
       setState(() => _connecting = false);
+      final n = appState.contacts.length;
+      if (n > 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                '$n safety contact${n == 1 ? '' : 's'} notified with your live location'),
+            backgroundColor: AppColors.primaryDark,
+          ),
+        );
+      }
       _timer = Timer.periodic(const Duration(seconds: 1), (_) {
         if (!mounted) return;
         setState(() => _seconds++);

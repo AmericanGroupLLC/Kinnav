@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/links.dart';
 import '../theme/app_theme.dart';
 
 /// About Us — mission, community roles, partners, socials and legal, from the
@@ -67,11 +68,16 @@ class AboutScreen extends StatelessWidget {
             style: TextStyle(fontSize: 15, height: 1.5),
           ),
           const SizedBox(height: 12),
-          _social(Icons.camera_alt_outlined, 'Instagram', '@getsaferapp'),
-          _social(Icons.facebook, 'Facebook', 'facebook.com/getsaferapp'),
-          _social(Icons.alternate_email, 'Twitter / X', '@getsaferapp'),
-          _social(Icons.language, 'Website', 'getsaferapp.webflow.io'),
-          _social(Icons.mail_outline, 'Email', 'saferapp3@gmail.com'),
+          _social(context, Icons.camera_alt_outlined, 'Instagram',
+              '@getsaferapp', 'https://instagram.com'),
+          _social(context, Icons.facebook, 'Facebook',
+              'facebook.com/getsaferapp', 'https://facebook.com'),
+          _social(context, Icons.alternate_email, 'Twitter / X',
+              '@getsaferapp', 'https://twitter.com'),
+          _social(context, Icons.language, 'Website',
+              'getsaferapp.webflow.io', 'https://getsaferapp.webflow.io'),
+          _social(context, Icons.mail_outline, 'Email', 'saferapp3@gmail.com',
+              'mailto:saferapp3@gmail.com'),
           const SizedBox(height: 20),
           const Text('Legal',
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
@@ -100,20 +106,25 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _social(IconData icon, String label, String handle) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: AppColors.primaryDark),
-          const SizedBox(width: 12),
-          Text('$label:  ',
-              style: const TextStyle(fontWeight: FontWeight.w600)),
-          Expanded(
-            child: Text(handle,
-                style: const TextStyle(color: AppColors.textMuted)),
-          ),
-        ],
+  Widget _social(BuildContext context, IconData icon, String label,
+      String handle, String url) {
+    return InkWell(
+      onTap: () => Links.web(url, context),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Icon(icon, size: 20, color: AppColors.primaryDark),
+            const SizedBox(width: 12),
+            Text('$label:  ',
+                style: const TextStyle(fontWeight: FontWeight.w600)),
+            Expanded(
+              child: Text(handle,
+                  style: const TextStyle(color: AppColors.primary)),
+            ),
+            const Icon(Icons.open_in_new, size: 16, color: AppColors.textMuted),
+          ],
+        ),
       ),
     );
   }
@@ -125,13 +136,7 @@ class AboutScreen extends StatelessWidget {
         alignment: Alignment.centerLeft,
         minimumSize: const Size(0, 36),
       ),
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('$label — opens in browser'),
-              backgroundColor: AppColors.primaryDark),
-        );
-      },
+      onPressed: () => Links.web('https://getsaferapp.webflow.io', context),
       child: Text(label,
           style: const TextStyle(
               color: AppColors.primary, fontWeight: FontWeight.w600)),

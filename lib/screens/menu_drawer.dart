@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../app_state.dart';
+import '../services/links.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import 'profile_screen.dart';
@@ -9,6 +11,7 @@ import 'about_screen.dart';
 import 'how_to_use_screen.dart';
 import 'safety_contacts_screen.dart';
 import 'feedback_screen.dart';
+import 'subscription_screen.dart';
 
 /// The slide-in navigation menu mirroring the app's information architecture.
 class MenuDrawer extends StatelessWidget {
@@ -19,84 +22,108 @@ class MenuDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: AppColors.lavenderBg,
       child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
-              child: Row(
-                children: [
-                  const InitialsAvatar(
-                    initials: 'GP',
-                    color: AppColors.primary,
-                    size: 56,
-                  ),
-                  const SizedBox(width: 14),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListenableBuilder(
+          listenable: appState,
+          builder: (context, _) {
+            final p = appState.profile;
+            final name = p?.name ?? 'Community Member';
+            final initials = p?.initials ?? 'S';
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+                  child: Row(
                     children: [
-                      Text('Gayatri Pat',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(fontWeight: FontWeight.w700)),
-                      const Text('Community Member',
-                          style: TextStyle(color: AppColors.textMuted)),
+                      InitialsAvatar(
+                          initials: initials,
+                          color: AppColors.primary,
+                          size: 56),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700)),
+                            Text(
+                              appState.isSubscribed
+                                  ? 'Safer member'
+                                  : (p?.isGuardian == true
+                                      ? 'Guardian'
+                                      : 'Community Member'),
+                              style: const TextStyle(color: AppColors.textMuted),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            const Divider(),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  _item(context, Icons.person_add_alt, 'Invite a Friend',
-                      onTap: () => _snack(context, 'Invite link copied!')),
-                  _item(context, Icons.shield_outlined, 'Become a Guardian',
-                      page: const GuardiansScreen()),
-                  const Divider(),
-                  _item(context, Icons.person_outline, 'My Profile',
-                      page: const ProfileScreen()),
-                  _item(context, Icons.group_outlined, 'My Safety Contacts',
-                      page: const SafetyContactsScreen()),
-                  _item(context, Icons.school_outlined,
-                      'Self Care & Empowerment',
-                      page: const ModulesScreen()),
-                  _item(context, Icons.card_giftcard, 'Rewards',
-                      page: const RewardsScreen()),
-                  const Divider(),
-                  _item(context, Icons.help_outline, 'How to use Safer',
-                      page: const HowToUseScreen()),
-                  _item(context, Icons.mail_outline, 'Contact Us',
-                      onTap: () => _snack(context, 'saferapp3@gmail.com')),
-                  _item(context, Icons.edit_outlined, 'Feedback',
-                      page: const FeedbackScreen()),
-                  _item(context, Icons.info_outline, 'About Us',
-                      page: const AboutScreen()),
-                ],
-              ),
-            ),
-            const Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+                ),
+                const Divider(),
                 Expanded(
-                  child: _item(context, Icons.logout, 'Log out',
-                      color: AppColors.primaryDark,
-                      onTap: () => _snack(context, 'Logged out')),
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      _item(context, Icons.person_add_alt, 'Invite a Friend',
+                          onTap: () => Links.sms('', context,
+                              body:
+                                  'Join me on Safer — a women\'s safety app. https://getsaferapp.webflow.io')),
+                      _item(context, Icons.shield_outlined, 'Become a Guardian',
+                          page: const GuardiansScreen()),
+                      const Divider(),
+                      _item(context, Icons.person_outline, 'My Profile',
+                          page: const ProfileScreen()),
+                      _item(context, Icons.group_outlined, 'My Safety Contacts',
+                          page: const SafetyContactsScreen()),
+                      _item(context, Icons.school_outlined,
+                          'Self Care & Empowerment',
+                          page: const ModulesScreen()),
+                      _item(context, Icons.card_giftcard, 'Rewards',
+                          page: const RewardsScreen()),
+                      _item(context, Icons.workspace_premium_outlined,
+                          'Membership',
+                          page: const SubscriptionScreen()),
+                      const Divider(),
+                      _item(context, Icons.help_outline, 'How to use Safer',
+                          page: const HowToUseScreen()),
+                      _item(context, Icons.mail_outline, 'Contact Us',
+                          onTap: () => Links.email('saferapp3@gmail.com',
+                              context,
+                              subject: 'Safer app enquiry')),
+                      _item(context, Icons.edit_outlined, 'Feedback',
+                          page: const FeedbackScreen()),
+                      _item(context, Icons.info_outline, 'About Us',
+                          page: const AboutScreen()),
+                    ],
+                  ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(right: 16),
-                  child: Text('Version 1.0.0',
-                      style:
-                          TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: _item(context, Icons.logout, 'Log out',
+                          color: AppColors.primaryDark, onTap: () {
+                        Navigator.of(context).popUntil((r) => r.isFirst);
+                        appState.logOut();
+                      }),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 16),
+                      child: Text('Version 1.0.0',
+                          style: TextStyle(
+                              color: AppColors.textMuted, fontSize: 12)),
+                    ),
+                  ],
                 ),
+                const SizedBox(height: 8),
               ],
-            ),
-            const SizedBox(height: 8),
-          ],
+            );
+          },
         ),
       ),
     );
@@ -114,18 +141,11 @@ class MenuDrawer extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pop();
         if (page != null) {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => page));
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
         } else {
           onTap?.call();
         }
       },
-    );
-  }
-
-  void _snack(BuildContext context, String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), backgroundColor: AppColors.primaryDark),
     );
   }
 }

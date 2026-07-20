@@ -105,7 +105,7 @@ class _BottomPanel extends StatelessWidget {
           child: SafeArea(
             top: false,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(16, _btnHeight / 2 + 14, 16, 14),
+              padding: const EdgeInsets.fromLTRB(16, _btnHeight / 2 + 14, 16, 14),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
