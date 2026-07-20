@@ -9,6 +9,6 @@ void main() {
     await tester.pumpWidget(const SaferApp());
 
     expect(find.text('CALL GUARDIANS'), findsOneWidget);
-    expect(find.text('guardians nearby'), findsOneWidget);
+    expect(find.text('Guardians Nearby'), findsOneWidget);
   });
 }

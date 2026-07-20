@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
-/// About Us — mission, community roles and contact, from the deck.
+/// About Us — mission, community roles, partners, socials and legal, from the
+/// deck and reference screens.
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
@@ -11,23 +12,23 @@ class AboutScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('About Us')),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
-        children: const [
-          Text(
+        children: [
+          const Text(
             'A new way of women safety and empowerment.',
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primaryDark),
           ),
-          SizedBox(height: 8),
-          Text(
+          const SizedBox(height: 8),
+          const Text(
             'Safer helps women in unsafe situations, anywhere, anytime — '
             'connecting them to vetted guardians within a 10-mile radius, '
             'and building a community where all women feel free to flourish.',
             style: TextStyle(fontSize: 15, height: 1.5),
           ),
-          SizedBox(height: 24),
-          _Section(
+          const SizedBox(height: 24),
+          const _Section(
             title: 'Becoming a Community Manager',
             body:
                 'A community is only as strong as its members. As a Community '
@@ -35,26 +36,105 @@ class AboutScreen extends StatelessWidget {
                 'creating strong bonds, bringing women together, and improving '
                 'their sense of belonging and confidence.',
           ),
-          _Section(
+          const _Section(
             title: 'Becoming a Campus Ambassador',
             body:
                 'Bring Safer to your university and create a space where all '
                 'women feel free and confident to flourish and pursue their '
                 'dreams. Plan and execute creative, strategic events.',
           ),
-          _Section(
+          const _Section(
             title: 'Becoming a Rewards Provider',
             body:
                 'Partner with Safer to offer exclusive wellness, lifestyle and '
                 'empowerment deals to a values-driven community of women.',
           ),
-          SizedBox(height: 16),
-          _Team(),
-          SizedBox(height: 16),
-          Text('Contact: saferapp3@gmail.com',
-              style: TextStyle(color: AppColors.textMuted)),
+          const _Section(
+            title: 'Becoming a Partner',
+            body:
+                'Does our mission speak to your business values? We offer '
+                'training, customized packages, safety-management insights and '
+                'more. Together we can change women\'s reality one step at a time.',
+          ),
+          const _Team(),
+          const SizedBox(height: 20),
+          const Text('Spreading the word',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+          const SizedBox(height: 8),
+          const Text(
+            'Have questions, suggestions, or just want to let friends and family '
+            'know we exist? Follow and share us:',
+            style: TextStyle(fontSize: 15, height: 1.5),
+          ),
+          const SizedBox(height: 12),
+          _social(Icons.camera_alt_outlined, 'Instagram', '@getsaferapp'),
+          _social(Icons.facebook, 'Facebook', 'facebook.com/getsaferapp'),
+          _social(Icons.alternate_email, 'Twitter / X', '@getsaferapp'),
+          _social(Icons.language, 'Website', 'getsaferapp.webflow.io'),
+          _social(Icons.mail_outline, 'Email', 'saferapp3@gmail.com'),
+          const SizedBox(height: 20),
+          const Text('Legal',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+          const SizedBox(height: 4),
+          _link(context, 'Legal Terms'),
+          _link(context, 'Privacy Policy'),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              gradient: AppColors.primaryGradient,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Text(
+              'It\'s easier to look forward when you don\'t have to watch your back.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                height: 1.4,
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _social(IconData icon, String label, String handle) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Icon(icon, size: 20, color: AppColors.primaryDark),
+          const SizedBox(width: 12),
+          Text('$label:  ',
+              style: const TextStyle(fontWeight: FontWeight.w600)),
+          Expanded(
+            child: Text(handle,
+                style: const TextStyle(color: AppColors.textMuted)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _link(BuildContext context, String label) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.zero,
+        alignment: Alignment.centerLeft,
+        minimumSize: const Size(0, 36),
+      ),
+      onPressed: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('$label — opens in browser'),
+              backgroundColor: AppColors.primaryDark),
+        );
+      },
+      child: Text(label,
+          style: const TextStyle(
+              color: AppColors.primary, fontWeight: FontWeight.w600)),
     );
   }
 }
@@ -93,9 +173,9 @@ class _Team extends StatelessWidget {
         color: AppColors.lavenderCard,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text('Our Team',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
           SizedBox(height: 8),

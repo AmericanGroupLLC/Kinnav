@@ -24,20 +24,28 @@ class MapView extends StatelessWidget {
       builder: (context, constraints) {
         final w = constraints.maxWidth;
         final h = constraints.maxHeight;
+        // Keep markers fully on-screen by clamping their anchor points.
+        double clampX(double v, double half) =>
+            (v * w).clamp(half, w - half);
+        double clampY(double v, double topPad, double bottomPad) =>
+            (v * h).clamp(topPad, h - bottomPad);
+
         return Stack(
           children: [
-            Positioned.fill(
-              child: CustomPaint(painter: _MapPainter()),
-            ),
-            // Guardian markers.
+            Positioned.fill(child: CustomPaint(painter: _MapPainter())),
             for (final g in pins)
-              Positioned(
-                left: g.mapPos.dx * w - (showGuardianAvatars ? 22 : 14),
-                top: g.mapPos.dy * h - (showGuardianAvatars ? 22 : 34),
-                child: showGuardianAvatars
-                    ? _AvatarMarker(guardian: g)
-                    : _PinMarker(color: AppColors.pin.withValues(alpha: 0.85)),
-              ),
+              if (showGuardianAvatars)
+                Positioned(
+                  left: clampX(g.mapPos.dx, 40) - 22,
+                  top: clampY(g.mapPos.dy, 22, 60) - 22,
+                  child: _AvatarMarker(guardian: g),
+                )
+              else
+                Positioned(
+                  left: clampX(g.mapPos.dx, 20) - 20,
+                  top: clampY(g.mapPos.dy, 44, 20) - 44,
+                  child: const GuardianGlyphPin(),
+                ),
             // User location, centered.
             Positioned(
               left: w * 0.5 - 30,
@@ -51,13 +59,36 @@ class MapView extends StatelessWidget {
   }
 }
 
-class _PinMarker extends StatelessWidget {
-  final Color color;
-  const _PinMarker({required this.color});
+/// The branded guardian marker: a purple disc with a "community" glyph and a
+/// pointer, matching the reference map pins.
+class GuardianGlyphPin extends StatelessWidget {
+  const GuardianGlyphPin({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Icon(Icons.location_on, color: color, size: 34);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            gradient: AppColors.primaryGradient,
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.white, width: 2),
+            boxShadow: const [
+              BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 2)),
+            ],
+          ),
+          child: const Icon(Icons.diversity_1, color: Colors.white, size: 22),
+        ),
+        Transform.translate(
+          offset: const Offset(0, -6),
+          child: Icon(Icons.arrow_drop_down,
+              color: AppColors.primary.withValues(alpha: 0.9), size: 26),
+        ),
+      ],
+    );
   }
 }
 
@@ -112,7 +143,7 @@ class _UserMarker extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           child: const InitialsAvatar(
-            initials: 'You',
+            initials: 'Me',
             color: AppColors.primary,
             size: 48,
           ),

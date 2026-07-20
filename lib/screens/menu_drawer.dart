@@ -6,7 +6,9 @@ import 'guardians_screen.dart';
 import 'modules_screen.dart';
 import 'rewards_screen.dart';
 import 'about_screen.dart';
-import 'chat_screen.dart';
+import 'how_to_use_screen.dart';
+import 'safety_contacts_screen.dart';
+import 'feedback_screen.dart';
 
 /// The slide-in navigation menu mirroring the app's information architecture.
 class MenuDrawer extends StatelessWidget {
@@ -52,11 +54,13 @@ class MenuDrawer extends StatelessWidget {
                 children: [
                   _item(context, Icons.person_add_alt, 'Invite a Friend',
                       onTap: () => _snack(context, 'Invite link copied!')),
-                  _item(context, Icons.volunteer_activism, 'Become a Guardian',
+                  _item(context, Icons.shield_outlined, 'Become a Guardian',
                       page: const GuardiansScreen()),
                   const Divider(),
                   _item(context, Icons.person_outline, 'My Profile',
                       page: const ProfileScreen()),
+                  _item(context, Icons.group_outlined, 'My Safety Contacts',
+                      page: const SafetyContactsScreen()),
                   _item(context, Icons.school_outlined,
                       'Self Care & Empowerment',
                       page: const ModulesScreen()),
@@ -64,18 +68,33 @@ class MenuDrawer extends StatelessWidget {
                       page: const RewardsScreen()),
                   const Divider(),
                   _item(context, Icons.help_outline, 'How to use Safer',
-                      page: const ChatScreen()),
+                      page: const HowToUseScreen()),
                   _item(context, Icons.mail_outline, 'Contact Us',
                       onTap: () => _snack(context, 'saferapp3@gmail.com')),
+                  _item(context, Icons.edit_outlined, 'Feedback',
+                      page: const FeedbackScreen()),
                   _item(context, Icons.info_outline, 'About Us',
                       page: const AboutScreen()),
                 ],
               ),
             ),
             const Divider(),
-            _item(context, Icons.logout, 'Log out',
-                color: AppColors.primaryDark,
-                onTap: () => _snack(context, 'Logged out')),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: _item(context, Icons.logout, 'Log out',
+                      color: AppColors.primaryDark,
+                      onTap: () => _snack(context, 'Logged out')),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(right: 16),
+                  child: Text('Version 1.0.0',
+                      style:
+                          TextStyle(color: AppColors.textMuted, fontSize: 12)),
+                ),
+              ],
+            ),
             const SizedBox(height: 8),
           ],
         ),

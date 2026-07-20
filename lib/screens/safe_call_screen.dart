@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../models/call_type.dart';
 import '../models/guardian.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
+import '../widgets/coach_bubble.dart';
 import '../widgets/map_view.dart';
 
 /// The Safe Call experience: guardians join, you see them on the map or switch
 /// to a video grid, can add the police, and control audio/video.
 class SafeCallScreen extends StatefulWidget {
-  const SafeCallScreen({super.key});
+  final CallType callType;
+  const SafeCallScreen({super.key, this.callType = CallType.video});
 
   @override
   State<SafeCallScreen> createState() => _SafeCallScreenState();
@@ -25,13 +28,25 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
   bool _speakerOn = false;
   bool _policeAdded = false;
 
-  // The guardians who answered this call.
+  // Guided coach marks shown once during the call.
+  final List<String> _coach = const [
+    'Add the police to the call, if needed',
+    'Simply switch between map and video',
+    'Back to safety? Thank your guardians and end the call',
+  ];
+  int _coachStep = 0;
+
   late final List<Guardian> _onCall =
       kGuardians.where((g) => g.online).take(4).toList();
 
   @override
   void initState() {
     super.initState();
+    // Emergency & video calls begin in video, and emergency auto-adds police.
+    _videoOn = widget.callType.startsVideo;
+    _videoMode = widget.callType.startsVideo;
+    _policeAdded = widget.callType == CallType.emergency;
+
     Future.delayed(_connectDelay, () {
       if (!mounted) return;
       setState(() => _connecting = false);
@@ -56,6 +71,8 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
 
   void _hangUp() => Navigator.of(context).maybePop();
 
+  void _nextCoach() => setState(() => _coachStep++);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,15 +82,13 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
           Positioned.fill(
             child: _videoMode
                 ? _VideoGrid(guardians: _onCall)
-                : MapView(
-                    pins: _onCall,
-                    showGuardianAvatars: true,
-                  ),
+                : MapView(pins: _onCall, showGuardianAvatars: true),
           ),
           _buildHeader(context),
+          _buildModeToggle(),
           if (_connecting) _buildConnecting(),
           _buildControls(),
-          _buildModeToggle(),
+          if (!_connecting && _coachStep < _coach.length) _buildCoach(),
         ],
       ),
     );
@@ -185,6 +200,41 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
     );
   }
 
+  /// Positions the current coach bubble near the control it explains.
+  Widget _buildCoach() {
+    final topPad = MediaQuery.of(context).padding.top;
+    late Alignment align;
+    late EdgeInsets pad;
+    switch (_coachStep) {
+      case 0: // add police (top-right)
+        align = Alignment.topRight;
+        pad = EdgeInsets.only(top: topPad + 60, right: 16, left: 60);
+        break;
+      case 1: // mode toggle (upper-right, below toggle)
+        align = Alignment.topRight;
+        pad = EdgeInsets.only(top: topPad + 120, right: 16, left: 60);
+        break;
+      default: // end call (bottom-center)
+        align = Alignment.bottomCenter;
+        pad = const EdgeInsets.only(bottom: 140, left: 40, right: 40);
+    }
+    return Positioned.fill(
+      child: GestureDetector(
+        onTap: _nextCoach,
+        child: Container(
+          color: Colors.black.withValues(alpha: 0.15),
+          child: Align(
+            alignment: align,
+            child: Padding(
+              padding: pad,
+              child: CoachBubble(text: _coach[_coachStep], onDismiss: _nextCoach),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildControls() {
     return Align(
       alignment: Alignment.bottomCenter,
@@ -240,7 +290,10 @@ class _VideoGrid extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [g.color.withValues(alpha: 0.9), g.color.withValues(alpha: 0.6)],
+                colors: [
+                  g.color.withValues(alpha: 0.9),
+                  g.color.withValues(alpha: 0.6)
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
