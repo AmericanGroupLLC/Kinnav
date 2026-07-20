@@ -51,10 +51,15 @@ offline in any simulator without API keys.
 
 ## Run
 
+Native **iOS** and **Android** projects are included (bundle id `com.aglabs.safer`).
+
 ```bash
-flutter create . --platforms ios,android   # generate native folders (first time)
 flutter pub get
-flutter run                                 # on a booted simulator/device
+flutter run                 # on a booted simulator / connected device
+# or target explicitly:
+flutter run -d "iPhone 17 Pro"
+flutter build apk           # Android
+flutter build ios           # iOS
 ```
 
 ## Team
