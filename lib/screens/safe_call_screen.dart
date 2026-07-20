@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
+import '../models/call_record.dart';
 import '../models/call_type.dart';
 import '../models/guardian.dart';
 import '../theme/app_theme.dart';
@@ -36,6 +37,7 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
     'Back to safety? Thank your guardians and end the call',
   ];
   int _coachStep = 0;
+  int _startedAtMs = 0;
 
   late final List<Guardian> _onCall =
       kGuardians.where((g) => g.online).take(4).toList();
@@ -47,6 +49,7 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
     _videoOn = widget.callType.startsVideo;
     _videoMode = widget.callType.startsVideo;
     _policeAdded = widget.callType == CallType.emergency;
+    _startedAtMs = DateTime.now().millisecondsSinceEpoch;
 
     Future.delayed(_connectDelay, () {
       if (!mounted) return;
@@ -80,7 +83,17 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
     return '$m:$s';
   }
 
-  void _hangUp() => Navigator.of(context).maybePop();
+  void _hangUp() {
+    // Record the call to persisted history before leaving.
+    appState.addCallRecord(CallRecord(
+      typeLabel: widget.callType.label,
+      guardianCount: _onCall.length,
+      durationSeconds: _seconds,
+      policeAdded: _policeAdded,
+      startedAtMs: _startedAtMs,
+    ));
+    Navigator.of(context).maybePop();
+  }
 
   void _nextCoach() => setState(() => _coachStep++);
 

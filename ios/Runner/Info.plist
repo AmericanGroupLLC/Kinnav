@@ -26,6 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Safer uses your location in the background to keep guardians updated during a Safe Call.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Safer uses your location to show nearby guardians and share your live location during a Safe Call.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchScreen</key>

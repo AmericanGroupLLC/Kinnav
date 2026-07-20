@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'models/call_record.dart';
 import 'models/safety_contact.dart';
 import 'models/user_profile.dart';
 import 'services/storage.dart';
@@ -22,6 +23,9 @@ class AppState extends ChangeNotifier {
   static const _kRedeemed = 'redeemedRewards';
   static const _kCompleted = 'completedModules';
   static const _kPlan = 'subscriptionPlan';
+  static const _kCallHistory = 'callHistory';
+  static const _kGuardianStep = 'guardianCourseStep';
+  static const _kGuardianAvailable = 'guardianAvailable';
 
   // State
   bool _onboarded = false;
@@ -31,6 +35,9 @@ class AppState extends ChangeNotifier {
   Set<String> _redeemedRewards = {};
   Set<String> _completedModules = {};
   SubscriptionPlan _plan = SubscriptionPlan.none;
+  List<CallRecord> _callHistory = [];
+  int _guardianCourseStep = 0; // 0..totalGuardianCourseSteps (Phase 5)
+  bool _guardianAvailable = false;
 
   // Getters
   bool get onboarded => _onboarded;
@@ -42,6 +49,13 @@ class AppState extends ChangeNotifier {
   Set<String> get completedModules => Set.unmodifiable(_completedModules);
   SubscriptionPlan get plan => _plan;
   bool get isSubscribed => _plan != SubscriptionPlan.none;
+  List<CallRecord> get callHistory => List.unmodifiable(_callHistory);
+  int get guardianCourseStep => _guardianCourseStep;
+  bool get guardianAvailable => _guardianAvailable;
+  static const int totalGuardianCourseSteps = 8; // ~5h/module ≈ 40h course
+
+  int get guardianCourseHoursDone =>
+      _guardianCourseStep * (40 ~/ totalGuardianCourseSteps);
 
   void _load() {
     _onboarded = _storage.getBool(_kOnboarded);
@@ -63,6 +77,16 @@ class AppState extends ChangeNotifier {
       (e) => e.name == planName,
       orElse: () => SubscriptionPlan.none,
     );
+    final h = _storage.getJsonList(_kCallHistory);
+    if (h != null) {
+      _callHistory = h
+          .map((e) => CallRecord.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+    _guardianCourseStep = int.tryParse(
+            _storage.getString(_kGuardianStep) ?? '') ??
+        0;
+    _guardianAvailable = _storage.getBool(_kGuardianAvailable);
   }
 
   List<SafetyContact> _defaultContacts() => const [
@@ -144,6 +168,32 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addCallRecord(CallRecord record) async {
+    _callHistory = [record, ..._callHistory];
+    await _storage.setJsonList(
+        _kCallHistory, _callHistory.map((e) => e.toJson()).toList());
+    notifyListeners();
+  }
+
+  Future<void> advanceGuardianCourse() async {
+    if (_guardianCourseStep >= totalGuardianCourseSteps) return;
+    _guardianCourseStep++;
+    await _storage.setString(_kGuardianStep, _guardianCourseStep.toString());
+    if (_guardianCourseStep >= totalGuardianCourseSteps) {
+      await setIsGuardian(true); // course complete → verified guardian
+    }
+    notifyListeners();
+  }
+
+  bool get isGuardianCourseComplete =>
+      _guardianCourseStep >= totalGuardianCourseSteps;
+
+  Future<void> setGuardianAvailable(bool value) async {
+    _guardianAvailable = value;
+    await _storage.setBool(_kGuardianAvailable, value);
+    notifyListeners();
+  }
+
   Future<void> logOut() async {
     _signedIn = false;
     await _storage.setBool(_kSignedIn, false);
@@ -159,6 +209,9 @@ class AppState extends ChangeNotifier {
     _redeemedRewards = {};
     _completedModules = {};
     _plan = SubscriptionPlan.none;
+    _callHistory = [];
+    _guardianCourseStep = 0;
+    _guardianAvailable = false;
     notifyListeners();
   }
 }

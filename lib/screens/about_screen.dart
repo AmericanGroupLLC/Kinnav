@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/links.dart';
 import '../theme/app_theme.dart';
+import 'legal_screen.dart';
 
 /// About Us — mission, community roles, partners, socials and legal, from the
 /// deck and reference screens.
@@ -82,8 +83,8 @@ class AboutScreen extends StatelessWidget {
           const Text('Legal',
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
           const SizedBox(height: 4),
-          _link(context, 'Legal Terms'),
-          _link(context, 'Privacy Policy'),
+          _link(context, 'Legal Terms', LegalScreen.terms()),
+          _link(context, 'Privacy Policy', LegalScreen.privacy()),
           const SizedBox(height: 24),
           Container(
             padding: const EdgeInsets.all(18),
@@ -129,14 +130,15 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _link(BuildContext context, String label) {
+  Widget _link(BuildContext context, String label, Widget page) {
     return TextButton(
       style: TextButton.styleFrom(
         padding: EdgeInsets.zero,
         alignment: Alignment.centerLeft,
         minimumSize: const Size(0, 36),
       ),
-      onPressed: () => Links.web('https://getsaferapp.webflow.io', context),
+      onPressed: () => Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => page)),
       child: Text(label,
           style: const TextStyle(
               color: AppColors.primary, fontWeight: FontWeight.w600)),

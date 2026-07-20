@@ -12,6 +12,7 @@ import 'how_to_use_screen.dart';
 import 'safety_contacts_screen.dart';
 import 'feedback_screen.dart';
 import 'subscription_screen.dart';
+import 'call_history_screen.dart';
 
 /// The slide-in navigation menu mirroring the app's information architecture.
 class MenuDrawer extends StatelessWidget {
@@ -79,6 +80,8 @@ class MenuDrawer extends StatelessWidget {
                           page: const ProfileScreen()),
                       _item(context, Icons.group_outlined, 'My Safety Contacts',
                           page: const SafetyContactsScreen()),
+                      _item(context, Icons.history, 'Safe Call History',
+                          page: const CallHistoryScreen()),
                       _item(context, Icons.school_outlined,
                           'Self Care & Empowerment',
                           page: const ModulesScreen()),

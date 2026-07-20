@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
+import '../services/purchase_service.dart';
 import '../theme/app_theme.dart';
 
 /// Subscription plans ($3.99/mo, $39.99/yr). UI + local state only — real IAP
@@ -12,12 +13,42 @@ class SubscriptionScreen extends StatefulWidget {
 }
 
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
+  final PurchaseService _purchases = MockPurchaseService();
   SubscriptionPlan _selected = SubscriptionPlan.annual;
+  bool _busy = false;
 
   @override
   void initState() {
     super.initState();
     if (appState.plan != SubscriptionPlan.none) _selected = appState.plan;
+  }
+
+  Future<void> _buy() async {
+    setState(() => _busy = true);
+    final ok = await _purchases.buy(_selected);
+    if (!mounted) return;
+    setState(() => _busy = false);
+    if (ok) {
+      await appState.setPlan(_selected);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Membership active. Welcome! 💜'),
+            backgroundColor: AppColors.primaryDark),
+      );
+    }
+  }
+
+  Future<void> _restore() async {
+    final plan = await _purchases.restore();
+    if (!mounted) return;
+    if (plan != null) {
+      await appState.setPlan(plan);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No previous purchases found.')),
+      );
+    }
   }
 
   @override
@@ -68,18 +99,26 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                 ),
-                onPressed: () {
-                  appState.setPlan(_selected);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Membership active. Welcome! 💜'),
-                        backgroundColor: AppColors.primaryDark),
-                  );
-                },
-                child: Text(
-                    active == _selected ? 'Current plan' : 'Start membership',
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w700)),
+                onPressed: (_busy || active == _selected) ? null : _buy,
+                child: _busy
+                    ? const SizedBox(
+                        height: 22,
+                        width: 22,
+                        child: CircularProgressIndicator(
+                            color: Colors.white, strokeWidth: 2))
+                    : Text(
+                        active == _selected
+                            ? 'Current plan'
+                            : 'Start membership',
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w700)),
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: _restore,
+                  child: const Text('Restore purchases',
+                      style: TextStyle(color: AppColors.textMuted)),
+                ),
               ),
               if (active != SubscriptionPlan.none)
                 Center(

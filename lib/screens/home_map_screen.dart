@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/guardian.dart';
+import '../services/location_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import '../widgets/coach_bubble.dart';
@@ -20,6 +21,19 @@ class HomeMapScreen extends StatefulWidget {
 
 class _HomeMapScreenState extends State<HomeMapScreen> {
   bool _showIntro = true;
+  final LocationService _location = GeoLocationService();
+  LatLng? _coords;
+
+  @override
+  void initState() {
+    super.initState();
+    _initLocation();
+  }
+
+  Future<void> _initLocation() async {
+    final pos = await _location.current();
+    if (mounted) setState(() => _coords = pos);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +56,56 @@ class _HomeMapScreenState extends State<HomeMapScreen> {
                   Builder(
                     builder: (context) => _CircleIconButton(
                       icon: Icons.menu,
+                      semanticLabel: 'Open menu',
                       onTap: () => Scaffold.of(context).openDrawer(),
                     ),
                   ),
                   _CircleIconButton(
                     icon: Icons.chat_bubble_outline,
+                    semanticLabel: 'Open support chat',
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const ChatScreen()),
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+          // Live-location status pill.
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 56,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black12, blurRadius: 6, offset: Offset(0, 2)),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      _coords == null ? Icons.location_searching : Icons.my_location,
+                      size: 16,
+                      color: _coords == null
+                          ? AppColors.textMuted
+                          : AppColors.online,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      _coords == null ? 'Locating…' : 'Live location on',
+                      style: const TextStyle(
+                          fontSize: 12, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -168,20 +222,26 @@ class _BottomPanel extends StatelessWidget {
 class _CircleIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
-  const _CircleIconButton({required this.icon, required this.onTap});
+  final String semanticLabel;
+  const _CircleIconButton(
+      {required this.icon, required this.onTap, this.semanticLabel = ''});
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      shape: const CircleBorder(),
-      elevation: 3,
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Icon(icon, color: AppColors.textDark, size: 24),
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      child: Material(
+        color: Colors.white,
+        shape: const CircleBorder(),
+        elevation: 3,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Icon(icon, color: AppColors.textDark, size: 24),
+          ),
         ),
       ),
     );

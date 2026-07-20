@@ -1,6 +1,21 @@
 # Safer — Implementation Plan
 
-Maps requirements (`docs/REQUIREMENTS.md`) to phases. Legend: ✅ done · 🟡 in progress · ⬜ todo.
+Maps requirements (`docs/REQUIREMENTS.md`) to phases. Legend: ✅ done · 🟡 in progress · ⬜ todo · 🔒 gated on external setup (account/API key/legal).
+
+## Progress summary (client-complete, backend-ready)
+
+All phases have been implemented to the fullest extent possible **inside this
+build environment**. Every phase now has a complete, swap-ready client
+architecture; items marked 🔒 require external accounts/keys/legal sign-off that
+cannot be provisioned here and are wired behind interfaces ready to accept them.
+
+- **Phase 2** ✅ real GPS (`geolocator`) + permissions + live-location UI · 🔒 Google Maps SDK (API key) — painted map fallback in place.
+- **Phase 3** ✅ service/repository boundary + persisted data (profile, contacts, history, progress) · 🔒 Firebase/REST backend.
+- **Phase 4** ✅ Safe Call flow + persisted call history via `CallService` · 🔒 real WebRTC/Agora/Twilio.
+- **Phase 5** ✅ guardian 40h course + verification + dashboard/availability + `NotificationService` · 🔒 FCM/APNs push, payouts.
+- **Phase 6** ✅ `PurchaseService` + restore + subscription state · 🔒 real `in_app_purchase` store products.
+- **Phase 7** ✅ Legal/Privacy screens, accessibility labels, tests, CI · 🔒 i18n translation, independent legal/safety review, store assets.
+
 
 ## Phase 0 — Prototype (DONE)
 - ✅ All screens, navigation/IA, brand theme, offline map, Safe Call simulation, coach marks.
