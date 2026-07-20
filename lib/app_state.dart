@@ -115,6 +115,24 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Dev/testing shortcut: seeds a demo session (onboarded + signed in + a
+  /// sample profile) and jumps straight to Home. Exposed only in debug builds.
+  Future<void> enterDemoMode() async {
+    _onboarded = true;
+    _signedIn = true;
+    _profile ??= const UserProfile(
+      name: 'Demo User',
+      birthMonth: 8,
+      birthYear: 1995,
+      identity: 'Woman',
+      languages: ['English', 'Hindi'],
+    );
+    await _storage.setBool(_kOnboarded, true);
+    await _storage.setBool(_kSignedIn, true);
+    await _storage.setJson(_kProfile, _profile!.toJson());
+    notifyListeners();
+  }
+
   Future<void> setProfile(UserProfile profile) async {
     _profile = profile;
     await _storage.setJson(_kProfile, profile.toJson());

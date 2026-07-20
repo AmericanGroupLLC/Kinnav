@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../theme/app_theme.dart';
@@ -116,6 +117,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
             ),
+            // Dev/testing only: skip straight into the app.
+            if (kDebugMode)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: OutlinedButton.icon(
+                  onPressed: () => appState.enterDemoMode(),
+                  icon: const Icon(Icons.bolt, size: 18),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.primaryDark,
+                    side: const BorderSide(color: AppColors.primaryLight),
+                  ),
+                  label: const Text('Demo mode (dev) — skip to app'),
+                ),
+              ),
           ],
         ),
       ),

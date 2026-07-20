@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../services/auth_service.dart';
@@ -163,6 +164,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: AppColors.textMuted, fontSize: 12),
               ),
+              if (kDebugMode) ...[
+                const SizedBox(height: 16),
+                OutlinedButton.icon(
+                  onPressed: () => appState.enterDemoMode(),
+                  icon: const Icon(Icons.bolt, size: 18),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.primaryDark,
+                    side: const BorderSide(color: AppColors.primaryLight),
+                  ),
+                  label: const Text('Demo mode (dev) — skip to app'),
+                ),
+              ],
             ],
           ),
         ),
