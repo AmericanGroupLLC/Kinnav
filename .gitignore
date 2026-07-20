@@ -33,3 +33,7 @@ android/key.properties
 *.pdf
 WhatsApp Image*.jpeg
 
+
+# Local Flutter SDK copy (workdir-writable, ~3.9GB)
+.flutter-sdk/
+_sim_*.png
