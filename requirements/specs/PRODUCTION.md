@@ -104,6 +104,30 @@ Tip: use `--dart-define-from-file=config/prod.json` to avoid long commands.
   `flutter build appbundle --dart-define=...` → **Play Console → Internal testing**.
 - Invite your vetted guardian + user pilot group by email.
 
+### 8.1 Release artifacts (APK / AAB / IPA) — now wired
+
+The repo produces release artifacts two ways:
+
+**A. CI → GitHub Releases (recommended, "attached to the repo").**
+`.github/workflows/release.yml` runs on a version tag and uploads the APK, AAB and
+IPA to a GitHub Release:
+```
+git tag v1.0.0 && git push origin v1.0.0
+```
+Required repo **secrets** (Settings → Secrets → Actions):
+`ANDROID_KEYSTORE_BASE64`, `ANDROID_KEY_PROPERTIES`, `MAPS_API_KEY`, and the Apple
+signing set (cert `.p12` + provisioning profile + `MATCH`/App Store Connect key).
+
+**B. Local builds** via `scripts/build_release.sh [android|ios|all]`:
+- Android needs `android/key.properties` (see `key.properties.example`) →
+  `app-release.apk` + `app-release.aab` (signed, minified with ProGuard).
+- iOS needs Apple signing + `ios/ExportOptions.plist` (set your `teamID`) →
+  `build/ios/ipa/*.ipa`.
+
+> ⚠️ Signed binaries require an Apple Developer cert/profile and an Android upload
+> keystore — they cannot be produced without those credentials. A `--no-codesign`
+> iOS build compiles (verified) but is **not** installable/releasable.
+
 ## 9. Legal & safety launch gate  **[YOU — required]**
 
 - [ ] Lawyer-reviewed **Terms of Service** & **Privacy Policy** (replace the

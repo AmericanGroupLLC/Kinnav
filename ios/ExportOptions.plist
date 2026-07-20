@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  IPA export options. Set your Apple Team ID, then:
+    flutter build ipa --release --export-options-plist=ios/ExportOptions.plist
+  method: app-store-connect (TestFlight/App Store) | ad-hoc | development
+-->
+<plist version="1.0">
+<dict>
+  <key>method</key>
+  <string>app-store-connect</string>
+  <key>teamID</key>
+  <string>TLH7Z3G27A</string>
+  <key>signingStyle</key>
+  <string>automatic</string>
+  <key>uploadSymbols</key>
+  <true/>
+  <key>stripSwiftSymbols</key>
+  <true/>
+</dict>
+</plist>

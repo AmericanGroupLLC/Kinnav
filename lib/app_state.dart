@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'models/call_record.dart';
 import 'models/safety_contact.dart';
 import 'models/user_profile.dart';
+import 'services/secure_store.dart';
 import 'services/storage.dart';
 
 enum SubscriptionPlan { none, monthly, annual }
@@ -215,11 +216,13 @@ class AppState extends ChangeNotifier {
   Future<void> logOut() async {
     _signedIn = false;
     await _storage.setBool(_kSignedIn, false);
+    await SecureStore.instance.clear(); // drop JWTs
     notifyListeners();
   }
 
   Future<void> deleteAccount() async {
     await _storage.clear();
+    await SecureStore.instance.clear();
     _onboarded = false;
     _signedIn = false;
     _profile = null;
