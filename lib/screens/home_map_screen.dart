@@ -4,7 +4,7 @@ import '../services/location_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import '../widgets/coach_bubble.dart';
-import '../widgets/map_view.dart';
+import '../widgets/live_map.dart';
 import '../widgets/primary_button.dart';
 import 'call_options_screen.dart';
 import 'chat_screen.dart';
@@ -45,7 +45,7 @@ class _HomeMapScreenState extends State<HomeMapScreen> {
       drawer: const MenuDrawer(),
       body: Stack(
         children: [
-          const Positioned.fill(child: MapView()),
+          Positioned.fill(child: LiveMap(center: _coords)),
           // Top controls: menu + chat, floating over the map.
           SafeArea(
             child: Padding(

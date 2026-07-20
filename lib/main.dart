@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'app_state.dart';
+import 'services/analytics_service.dart';
 import 'services/storage.dart';
 import 'theme/app_theme.dart';
 import 'screens/onboarding_screen.dart';
@@ -8,10 +10,19 @@ import 'screens/profile_setup_screen.dart';
 import 'screens/home_map_screen.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final storage = await Storage.init();
-  appState = AppState(storage);
-  runApp(const SaferApp());
+  // Route framework + uncaught errors to the analytics/crash boundary
+  // (no-op today; Crashlytics/Sentry in production).
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    FlutterError.onError = (details) {
+      FlutterError.presentError(details);
+      analytics.recordError(details.exception, details.stack);
+    };
+    final storage = await Storage.init();
+    appState = AppState(storage);
+    analytics.logEvent('app_open');
+    runApp(const SaferApp());
+  }, (error, stack) => analytics.recordError(error, stack));
 }
 
 class SaferApp extends StatelessWidget {

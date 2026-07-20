@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import GoogleMaps
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -11,6 +12,13 @@ import UIKit
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    // Google Maps: reads the key from Info.plist (GMSApiKey). Harmless when empty
+    // — the app falls back to the offline painted map.
+    if let key = Bundle.main.object(forInfoDictionaryKey: "GMSApiKey") as? String,
+       !key.isEmpty {
+      GMSServices.provideAPIKey(key)
+    }
+
     flutterEngine.run()
     GeneratedPluginRegistrant.register(with: flutterEngine)
 

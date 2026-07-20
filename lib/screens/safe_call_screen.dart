@@ -4,6 +4,7 @@ import '../app_state.dart';
 import '../models/call_record.dart';
 import '../models/call_type.dart';
 import '../models/guardian.dart';
+import '../services/emergency.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import '../widgets/coach_bubble.dart';
@@ -152,14 +153,9 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
             ),
             _AddPoliceButton(
               added: _policeAdded,
-              onTap: () {
-                setState(() => _policeAdded = true);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Police added to the call'),
-                    backgroundColor: AppColors.primaryDark,
-                  ),
-                );
+              onTap: () async {
+                await Emergency.confirmAndDial(context);
+                if (mounted) setState(() => _policeAdded = true);
               },
             ),
           ],

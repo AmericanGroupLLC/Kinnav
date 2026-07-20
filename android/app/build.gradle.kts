@@ -23,6 +23,10 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // Google Maps key: set MAPS_API_KEY in the environment (or replace the
+        // default) to enable the live map. Empty default keeps builds working.
+        manifestPlaceholders["MAPS_API_KEY"] =
+            System.getenv("MAPS_API_KEY") ?: ""
     }
 
     buildTypes {
