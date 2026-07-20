@@ -7,6 +7,7 @@ decks, the backend integration guide, and the annotated app-flow screens.
 requirements/
 ├── specs/          Authored specs (source of truth for scope & delivery)
 │   ├── REQUIREMENTS.md   Functional (FR) + non-functional (NFR) requirements
+│   ├── DESIGN.md         Technical & product design (architecture, how it's built)
 │   ├── PLAN.md           7-phase implementation plan + status
 │   └── PRODUCTION.md     Field-pilot / go-live runbook + legal-safety gate
 ├── business/       Pitch decks (vision, personas, model, market)
