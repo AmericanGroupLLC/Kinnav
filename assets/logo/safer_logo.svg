@@ -1,0 +1,32 @@
+<svg width="1120" height="320" viewBox="0 0 1120 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Safer logo">
+  <defs>
+    <linearGradient id="brand" x1="40" y1="40" x2="280" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#B57BE0"/>
+      <stop offset="1" stop-color="#9B59D0"/>
+    </linearGradient>
+    <linearGradient id="moon" x1="120" y1="95" x2="215" y2="235" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#B57BE0"/>
+      <stop offset="1" stop-color="#8E3FC7"/>
+    </linearGradient>
+    <mask id="crescent">
+      <rect width="1120" height="320" fill="black"/>
+      <circle cx="160" cy="170" r="52" fill="white"/>
+      <circle cx="186" cy="151" r="48" fill="black"/>
+    </mask>
+  </defs>
+
+  <!-- Icon badge -->
+  <circle cx="160" cy="160" r="128" fill="url(#brand)"/>
+  <path d="M160 78 L242 110 C242 110 242 200 242 212 C242 253 204 275 160 290
+           C116 275 78 253 78 212 C78 200 78 110 78 110 Z" fill="white"/>
+  <g mask="url(#crescent)">
+    <rect x="100" y="95" width="130" height="130" fill="url(#moon)"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="330" y="188" font-family="SF Pro Display, Helvetica Neue, Arial, sans-serif"
+        font-size="150" font-weight="700" letter-spacing="-4" fill="#3A2352">Safer</text>
+  <!-- Tagline -->
+  <text x="338" y="244" font-family="SF Pro Text, Helvetica Neue, Arial, sans-serif"
+        font-size="30" font-weight="500" letter-spacing="3" fill="#9B59D0">SAFETY · EMPOWERMENT · COMMUNITY</text>
+</svg>

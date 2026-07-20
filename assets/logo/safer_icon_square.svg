@@ -1,0 +1,24 @@
+<svg width="1024" height="1024" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Safer app icon">
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#B57BE0"/>
+      <stop offset="1" stop-color="#9B59D0"/>
+    </linearGradient>
+    <linearGradient id="moon" x1="196" y1="150" x2="330" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#B57BE0"/>
+      <stop offset="1" stop-color="#8E3FC7"/>
+    </linearGradient>
+    <mask id="crescent">
+      <rect width="512" height="512" fill="black"/>
+      <circle cx="256" cy="268" r="86" fill="white"/>
+      <circle cx="298" cy="238" r="80" fill="black"/>
+    </mask>
+  </defs>
+  <!-- Full-bleed opaque square (no alpha) — required for iOS marketing icon -->
+  <rect x="0" y="0" width="512" height="512" fill="url(#brand)"/>
+  <path d="M256 96 L392 148 C392 148 392 300 392 320 C392 388 328 424 256 448
+           C184 424 120 388 120 320 C120 300 120 148 120 148 Z" fill="white"/>
+  <g mask="url(#crescent)">
+    <rect x="150" y="150" width="220" height="220" fill="url(#moon)"/>
+  </g>
+</svg>
