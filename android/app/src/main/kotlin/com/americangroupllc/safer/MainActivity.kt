@@ -1,4 +1,4 @@
-package com.aglabs.safer
+package com.americangroupllc.safer
 
 import io.flutter.embedding.android.FlutterActivity
 

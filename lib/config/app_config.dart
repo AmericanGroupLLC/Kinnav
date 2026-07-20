@@ -17,13 +17,30 @@ class AppConfig {
   static const String agoraAppId =
       String.fromEnvironment('AGORA_APP_ID', defaultValue: '');
 
-  /// 'mock' | 'firebase' | 'rest'
+  /// 'mock' | 'americangroupllc' (AmericanGroupLLC API Gateway)
+  /// Default 'mock' keeps the app usable offline (e.g. this sandbox / demos);
+  /// pass --dart-define=BACKEND=americangroupllc to use the live gateway.
   static const String backend =
       String.fromEnvironment('BACKEND', defaultValue: 'mock');
 
-  /// Base URL for a custom REST backend (when BACKEND=rest).
-  static const String apiBaseUrl =
-      String.fromEnvironment('API_BASE_URL', defaultValue: '');
+  // ── AmericanGroupLLC backend (per AmericanGroupLLC_Developer_Docs) ──
+  /// The ONLY URL the app should call.
+  static const String apiBaseUrl = String.fromEnvironment('API_BASE_URL',
+      defaultValue: 'https://api.americangroupllc.com/api/v1');
+  static const String supabaseUrl = String.fromEnvironment('SUPABASE_URL',
+      defaultValue: 'https://smvvjivvlprjhzhoizym.supabase.co');
+  static const String supabaseAnonKey = String.fromEnvironment(
+      'SUPABASE_ANON_KEY',
+      defaultValue: 'sb_publishable_nqtYGp48NKiRF53zivkpsQ_bRiqDSfc');
+  static const String firebaseProjectId = String.fromEnvironment(
+      'FIREBASE_PROJECT_ID',
+      defaultValue: 'americangroupllc-5bdfc');
+  static const String googleClientId = String.fromEnvironment('GOOGLE_CLIENT_ID',
+      defaultValue:
+          '146431650883-blpfddrf32ureu4ucqlp3oku9jo07luq.apps.googleusercontent.com');
+  static const String appleClientId = String.fromEnvironment('APPLE_CLIENT_ID',
+      defaultValue: 'TLH7Z3G27A.com.americangroupllc.app');
+  static const String supportEmail = 'support@safecodeg.com';
 
   /// Emergency number dialled by the "Add police" / Emergency actions.
   /// Override per region (e.g. 112 in the EU) via --dart-define.
