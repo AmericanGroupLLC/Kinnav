@@ -28,10 +28,10 @@ android/.gradle/
 android/local.properties
 android/key.properties
 
-# Source design material (kept out of the app repo)
-*.pptx
-*.pdf
-WhatsApp Image*.jpeg
+# Source design material now lives under requirements/ and IS tracked.
+# Stray originals in the repo root (if any) stay out:
+/WhatsApp Image*.jpeg
+/*.pptx
 
 
 # Local Flutter SDK copy (workdir-writable, ~3.9GB)

@@ -10,7 +10,7 @@ import 'purchase_service.dart';
 /// on [AppConfig]. Screens depend on the interfaces via `Services.x`, so wiring
 /// real backends (Firebase, Agora) is a one-line change here, not a UI refactor.
 ///
-/// To go live (see docs/PRODUCTION.md):
+/// To go live (see requirements/specs/PRODUCTION.md):
 ///   • BACKEND=firebase → return FirebaseAuthService()/FirestoreGuardianService()
 ///   • AGORA_APP_ID set  → return AgoraCallService()
 ///   • Real push         → return FcmNotificationService()

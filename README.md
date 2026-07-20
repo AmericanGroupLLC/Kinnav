@@ -20,6 +20,11 @@ for **iOS and Android**.
   career/financial/ESL training…).
 - **Profile, Guardians, About** — community roles and mission.
 
+## Requirements & source material
+
+All specs, pitch decks, the backend integration guide, and the annotated app-flow
+screens live under [`requirements/`](requirements/README.md).
+
 ## Architecture
 
 ```
