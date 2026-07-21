@@ -31,7 +31,8 @@ class AppConfig {
       defaultValue: 'https://smvvjivvlprjhzhoizym.supabase.co');
   static const String supabaseAnonKey = String.fromEnvironment(
       'SUPABASE_ANON_KEY',
-      defaultValue: 'sb_publishable_nqtYGp48NKiRF53zivkpsQ_bRiqDSfc');
+      defaultValue:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtdnZqaXZ2bHByamh6aG9penltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyMDIxMDMsImV4cCI6MjA5NTc3ODEwM30.csC-AHt-nI6BaZd6yt7imxbpAkS5tEOjqcpetZGWkF0');
   static const String firebaseProjectId = String.fromEnvironment(
       'FIREBASE_PROJECT_ID',
       defaultValue: 'americangroupllc-5bdfc');

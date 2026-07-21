@@ -12,20 +12,22 @@ import 'storage.dart';
 /// storage by the SDK).
 ///
 /// Provisioned shared test/demo accounts (see docs/DESIGN.md → Auth & Backend):
-///   • QA (one-tap test button): qa@safecodeg.com  / QATest@2026!
-///   • Developer:                dev@safecodeg.com / DevTest@2026!
+///   • QA (one-tap test button): qa@safecodeg.com  / QATest@2024!
+///   • Developer:                dev@safecodeg.com / DevTest@2024!
+///   • Admin:                    admin@safecodeg.com / AdminTest@2024!
 class SupabaseAuthService {
   SupabaseAuthService._();
   static final SupabaseAuthService instance = SupabaseAuthService._();
 
   /// The one-tap "Use test account" credentials (QA / primary).
   static const String testEmail = 'qa@safecodeg.com';
-  static const String testPassword = 'QATest@2026!';
+  static const String testPassword = 'QATest@2024!';
 
   /// Credentials allowed to use the offline fallback session (see below).
   static const Map<String, String> _testAccounts = {
-    'qa@safecodeg.com': 'QATest@2026!',
-    'dev@safecodeg.com': 'DevTest@2026!',
+    'qa@safecodeg.com': 'QATest@2024!',
+    'dev@safecodeg.com': 'DevTest@2024!',
+    'admin@safecodeg.com': 'AdminTest@2024!',
   };
 
   /// shared_preferences key marking an active local (offline fallback) session.
