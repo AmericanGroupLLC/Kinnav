@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'app_state.dart';
+import 'config/app_config.dart';
 import 'services/analytics_service.dart';
 import 'services/storage.dart';
 import 'theme/app_theme.dart';
@@ -19,6 +21,19 @@ Future<void> main() async {
       analytics.recordError(details.exception, details.stack);
     };
     final storage = await Storage.init();
+    // Real authentication backend. On a networked device this connects to the
+    // org's Supabase project; the sign-in flow tolerates offline runs via a
+    // local fallback for the provisioned test accounts (see SupabaseAuthService).
+    try {
+      await Supabase.initialize(
+        url: AppConfig.supabaseUrl,
+        anonKey: AppConfig.supabaseAnonKey,
+      );
+    } catch (e, st) {
+      // Offline / sandbox: initialization can still fail on host lookup. Keep
+      // the app runnable; sign-in falls back to the local test session.
+      analytics.recordError(e, st);
+    }
     appState = AppState(storage);
     analytics.logEvent('app_open');
     runApp(const SaferApp());

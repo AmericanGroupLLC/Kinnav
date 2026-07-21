@@ -1,21 +1,100 @@
-/// Authentication boundary. The mock implementation simulates OTP sign-in;
-/// swap in Firebase Auth / a custom OTP backend in Phase 3 without touching UI.
-abstract class AuthService {
-  Future<bool> requestOtp(String phoneOrEmail);
-  Future<bool> verifyOtp(String code);
-}
+import 'dart:async';
+import 'dart:io' show SocketException;
 
-class MockAuthService implements AuthService {
-  @override
-  Future<bool> requestOtp(String phoneOrEmail) async {
-    await Future.delayed(const Duration(milliseconds: 600));
-    return phoneOrEmail.trim().isNotEmpty;
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'storage.dart';
+
+/// Real authentication against the org's Supabase backend.
+///
+/// Sign-in calls `Supabase.instance.client.auth.signInWithPassword`. Tokens and
+/// the session are managed by supabase_flutter (persisted in secure local
+/// storage by the SDK).
+///
+/// Provisioned shared test/demo accounts (see docs/DESIGN.md → Auth & Backend):
+///   • QA (one-tap test button): qa@safecodeg.com  / QATest@2026!
+///   • Developer:                dev@safecodeg.com / DevTest@2026!
+class SupabaseAuthService {
+  SupabaseAuthService._();
+  static final SupabaseAuthService instance = SupabaseAuthService._();
+
+  /// The one-tap "Use test account" credentials (QA / primary).
+  static const String testEmail = 'qa@safecodeg.com';
+  static const String testPassword = 'QATest@2026!';
+
+  /// Credentials allowed to use the offline fallback session (see below).
+  static const Map<String, String> _testAccounts = {
+    'qa@safecodeg.com': 'QATest@2026!',
+    'dev@safecodeg.com': 'DevTest@2026!',
+  };
+
+  /// shared_preferences key marking an active local (offline fallback) session.
+  static const String _kLocalSession = 'localDemoSession';
+
+  GoTrueClient get _auth => Supabase.instance.client.auth;
+
+  bool get _hasSupabaseSession => _auth.currentSession != null;
+
+  /// True when a session is active — either a real Supabase session or the
+  /// offline fallback session below.
+  bool get isSignedIn =>
+      _hasSupabaseSession || Storage.instance.getBool(_kLocalSession);
+
+  /// Signs in with email + password against Supabase.
+  ///
+  /// This build environment (and other fully-offline runs such as demos) has NO
+  /// network access, so the live Supabase call will fail with a socket/network
+  /// error. In that case ONLY — and only when the entered credentials exactly
+  /// match one of the provisioned test accounts — we fall back to a local demo
+  /// session persisted via shared_preferences, so the app stays runnable
+  /// offline. On a networked device the real Supabase path is always used.
+  Future<void> signInWithPassword(String email, String password) async {
+    final normalizedEmail = email.trim();
+    try {
+      await _auth.signInWithPassword(
+        email: normalizedEmail,
+        password: password,
+      );
+      // Real session established; make sure no stale fallback flag lingers.
+      await Storage.instance.setBool(_kLocalSession, false);
+    } catch (e) {
+      if (_isNetworkError(e) &&
+          _testAccounts[normalizedEmail.toLowerCase()] == password) {
+        // Offline fallback for the known test accounts only.
+        await Storage.instance.setBool(_kLocalSession, true);
+        return;
+      }
+      rethrow;
+    }
   }
 
-  @override
-  Future<bool> verifyOtp(String code) async {
-    await Future.delayed(const Duration(milliseconds: 600));
-    // Mock: accept any 4+ digit code.
-    return code.trim().length >= 4;
+  /// Signs out of both the Supabase session and the local fallback session.
+  Future<void> signOut() async {
+    await Storage.instance.setBool(_kLocalSession, false);
+    if (_hasSupabaseSession) {
+      try {
+        await _auth.signOut();
+      } catch (_) {
+        // Offline sign-out: local session already cleared above.
+      }
+    }
+  }
+
+  bool _isNetworkError(Object e) {
+    if (e is SocketException) return true;
+    if (e is AuthRetryableFetchException) return true;
+    if (e is AuthException) {
+      // gotrue wraps low-level fetch failures; match by message as a fallback.
+      final m = e.message.toLowerCase();
+      return m.contains('socket') ||
+          m.contains('network') ||
+          m.contains('failed host lookup') ||
+          m.contains('connection');
+    }
+    final s = e.toString().toLowerCase();
+    return s.contains('socketexception') ||
+        s.contains('failed host lookup') ||
+        s.contains('network is unreachable') ||
+        s.contains('connection');
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'models/call_record.dart';
 import 'models/safety_contact.dart';
 import 'models/user_profile.dart';
+import 'services/auth_service.dart';
 import 'services/secure_store.dart';
 import 'services/storage.dart';
 
@@ -216,11 +217,14 @@ class AppState extends ChangeNotifier {
   Future<void> logOut() async {
     _signedIn = false;
     await _storage.setBool(_kSignedIn, false);
-    await SecureStore.instance.clear(); // drop JWTs
+    // Clear both the Supabase session and the local (offline) fallback session.
+    await SupabaseAuthService.instance.signOut();
+    await SecureStore.instance.clear(); // drop any legacy JWTs
     notifyListeners();
   }
 
   Future<void> deleteAccount() async {
+    await SupabaseAuthService.instance.signOut();
     await _storage.clear();
     await SecureStore.instance.clear();
     _onboarded = false;

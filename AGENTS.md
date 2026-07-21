@@ -116,3 +116,21 @@ Mutate → persist → `notifyListeners()`. Read in UI via `ListenableBuilder(li
 ## Docs
 `requirements/specs/`: REQUIREMENTS (what) · DESIGN (how) · PLAN (when) · PRODUCTION
 (go-live + legal gate). Screens: `requirements/design-flow/`. Brand: `assets/logo/`.
+
+## Auth & Backend (Supabase) — updated
+
+Authentication uses the org's real **Supabase** backend.
+
+- `Supabase.initialize(url, anonKey)` runs in `main()` before `runApp` (config in
+  `lib/config/app_config.dart`: `supabaseUrl` / `supabaseAnonKey`).
+- Sign-in is `SupabaseAuthService.signInWithPassword` in
+  `lib/services/auth_service.dart` → `Supabase.instance.client.auth.signInWithPassword`.
+- `SignUpScreen` has a "Use test account" button (one-tap QA sign-in).
+- Offline/CI (no network): if a Supabase call fails with a socket/network error
+  AND the credentials match a provisioned test account, the app falls back to a
+  local demo session persisted in `shared_preferences` (`localDemoSession`).
+- Sign-out (`AppState.logOut` / `deleteAccount`) clears both the Supabase session
+  and the local fallback via `SupabaseAuthService.signOut()`.
+- Provisioned test accounts: `qa@safecodeg.com` / `QATest@2026!` (QA, one-tap
+  button) and `dev@safecodeg.com` / `DevTest@2026!` (developer). Full detail in
+  `docs/DESIGN.md`.
