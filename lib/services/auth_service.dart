@@ -35,12 +35,30 @@ class SupabaseAuthService {
 
   GoTrueClient get _auth => Supabase.instance.client.auth;
 
-  bool get _hasSupabaseSession => _auth.currentSession != null;
+  /// The current Supabase session, or null if Supabase isn't initialized
+  /// (offline/sandbox runs where `Supabase.initialize` failed on host lookup).
+  Session? get _currentSession {
+    try {
+      return _auth.currentSession;
+    } catch (_) {
+      return null;
+    }
+  }
 
-  /// True when a session is active — either a real Supabase session or the
-  /// offline fallback session below.
+  /// True only when there is a *valid* (non-expired) Supabase session. An
+  /// expired session that could not be refreshed is treated as no session, so
+  /// routing never shows a stale/invalid login as signed in.
+  bool get _hasValidSupabaseSession {
+    final session = _currentSession;
+    if (session == null) return false;
+    return !session.isExpired;
+  }
+
+  /// True when a session is active — either a valid Supabase session or the
+  /// offline fallback session below. This is the authoritative auth state used
+  /// to reconcile routing.
   bool get isSignedIn =>
-      _hasSupabaseSession || Storage.instance.getBool(_kLocalSession);
+      _hasValidSupabaseSession || Storage.instance.getBool(_kLocalSession);
 
   /// Signs in with email + password against Supabase.
   ///
@@ -73,7 +91,7 @@ class SupabaseAuthService {
   /// Signs out of both the Supabase session and the local fallback session.
   Future<void> signOut() async {
     await Storage.instance.setBool(_kLocalSession, false);
-    if (_hasSupabaseSession) {
+    if (_currentSession != null) {
       try {
         await _auth.signOut();
       } catch (_) {

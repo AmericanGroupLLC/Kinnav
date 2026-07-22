@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'models/call_record.dart';
 import 'models/safety_contact.dart';
 import 'models/user_profile.dart';
@@ -13,9 +16,16 @@ enum SubscriptionPlan { none, monthly, annual }
 class AppState extends ChangeNotifier {
   AppState(this._storage) {
     _load();
+    // Routing gates on [signedIn]. That local flag can diverge from the real
+    // auth state (e.g. the Supabase session expired since last launch), so we
+    // reconcile it against [SupabaseAuthService.isSignedIn] at startup and
+    // whenever Supabase reports an auth change.
+    _reconcileSignedIn();
+    _watchAuth();
   }
 
   final Storage _storage;
+  StreamSubscription<AuthState>? _authSub;
 
   // Keys
   static const _kOnboarded = 'onboarded';
@@ -103,6 +113,36 @@ class AppState extends ChangeNotifier {
             relation: 'Best friend',
             colorValue: 0xFF5C6BC0),
       ];
+
+  /// Subscribes to Supabase auth events so a dropped/expired/refreshed session
+  /// immediately flips routing to match. No-op when Supabase isn't initialized
+  /// (offline/sandbox runs).
+  void _watchAuth() {
+    try {
+      _authSub = Supabase.instance.client.auth.onAuthStateChange
+          .listen((_) => _reconcileSignedIn());
+    } catch (_) {
+      // Supabase unavailable — nothing to watch; the local flag is authoritative.
+    }
+  }
+
+  /// Aligns the local [signedIn] flag with the authoritative auth state. If the
+  /// app thinks it is signed in but there is no valid Supabase session and no
+  /// valid local fallback, sign out and route back to login.
+  void _reconcileSignedIn() {
+    if (_signedIn && !SupabaseAuthService.instance.isSignedIn) {
+      _signedIn = false;
+      unawaited(_storage.setBool(_kSignedIn, false));
+      unawaited(SupabaseAuthService.instance.signOut());
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _authSub?.cancel();
+    super.dispose();
+  }
 
   // Mutations
   Future<void> completeOnboarding() async {

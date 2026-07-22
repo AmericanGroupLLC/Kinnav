@@ -7,6 +7,9 @@ class UserProfile {
   final List<String> languages;
   final bool isGuardian;
 
+  /// Local filesystem path to a chosen avatar image, or null for initials.
+  final String? avatarPath;
+
   const UserProfile({
     required this.name,
     required this.birthMonth,
@@ -14,6 +17,7 @@ class UserProfile {
     this.identity = 'Woman',
     this.languages = const ['English'],
     this.isGuardian = false,
+    this.avatarPath,
   });
 
   /// Age in whole years, computed from birth year/month against a reference date.
@@ -37,6 +41,7 @@ class UserProfile {
     String? identity,
     List<String>? languages,
     bool? isGuardian,
+    String? avatarPath,
   }) {
     return UserProfile(
       name: name ?? this.name,
@@ -45,6 +50,7 @@ class UserProfile {
       identity: identity ?? this.identity,
       languages: languages ?? this.languages,
       isGuardian: isGuardian ?? this.isGuardian,
+      avatarPath: avatarPath ?? this.avatarPath,
     );
   }
 
@@ -55,6 +61,7 @@ class UserProfile {
         'identity': identity,
         'languages': languages,
         'isGuardian': isGuardian,
+        'avatarPath': avatarPath,
       };
 
   factory UserProfile.fromJson(Map<String, dynamic> j) => UserProfile(
@@ -65,5 +72,6 @@ class UserProfile {
         languages:
             (j['languages'] as List<dynamic>?)?.cast<String>() ?? const ['English'],
         isGuardian: j['isGuardian'] as bool? ?? false,
+        avatarPath: j['avatarPath'] as String?,
       );
 }

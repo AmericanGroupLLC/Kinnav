@@ -1,17 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../app_state.dart';
 import '../models/user_profile.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
+import 'profile_edit_screen.dart';
 
 /// The member's profile, backed by persisted [AppState].
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   static const _months = [
     '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
     'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
   ];
+
+  final ImagePicker _picker = ImagePicker();
+  bool _pickingAvatar = false;
+
+  Future<void> _pickAvatar() async {
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined),
+              title: const Text('Choose from library'),
+              onTap: () => Navigator.pop(ctx, ImageSource.gallery),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_camera_outlined),
+              title: const Text('Take a photo'),
+              onTap: () => Navigator.pop(ctx, ImageSource.camera),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (source == null) return;
+    setState(() => _pickingAvatar = true);
+    try {
+      final XFile? picked = await _picker.pickImage(
+        source: source,
+        maxWidth: 800,
+        imageQuality: 85,
+      );
+      final profile = appState.profile;
+      if (picked != null && profile != null) {
+        await appState.setProfile(profile.copyWith(avatarPath: picked.path));
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not update photo: $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _pickingAvatar = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +90,31 @@ class ProfileScreen extends StatelessWidget {
                           initials: p.initials,
                           color: AppColors.primary,
                           size: 110,
+                          imagePath: p.avatarPath,
                         ),
                         Positioned(
                           right: 0,
                           bottom: 0,
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              color: AppColors.primaryDark,
-                              shape: BoxShape.circle,
+                          child: Material(
+                            color: AppColors.primaryDark,
+                            shape: const CircleBorder(),
+                            child: InkWell(
+                              customBorder: const CircleBorder(),
+                              onTap: _pickingAvatar ? null : _pickAvatar,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: _pickingAvatar
+                                    ? const SizedBox(
+                                        width: 18,
+                                        height: 18,
+                                        child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                            strokeWidth: 2),
+                                      )
+                                    : const Icon(Icons.camera_alt,
+                                        color: Colors.white, size: 18),
+                              ),
                             ),
-                            child: const Icon(Icons.camera_alt,
-                                color: Colors.white, size: 18),
                           ),
                         ),
                       ],
@@ -68,12 +135,11 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 24),
               Center(
                 child: TextButton(
-                  onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Profile edit request sent for review.'),
-                        backgroundColor: AppColors.primaryDark),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (_) => const ProfileEditScreen()),
                   ),
-                  child: const Text('REQUEST PROFILE EDIT',
+                  child: const Text('EDIT PROFILE',
                       style: TextStyle(
                           color: AppColors.textDark,
                           fontWeight: FontWeight.w700)),

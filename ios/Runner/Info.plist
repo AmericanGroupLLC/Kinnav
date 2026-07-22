@@ -32,6 +32,10 @@
 	<string>Safer uses your location in the background to keep guardians updated during a Safe Call.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Safer uses your location to show nearby guardians and share your live location during a Safe Call.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Safer lets you choose a profile photo from your photo library.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Safer lets you take a profile photo with your camera.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchScreen</key>

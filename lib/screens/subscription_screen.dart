@@ -62,6 +62,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           return ListView(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
             children: [
+              const _DemoBanner(),
+              const SizedBox(height: 12),
               const Text('Join the Safer community',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
               const SizedBox(height: 6),
@@ -156,6 +158,36 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           ),
         ),
     ];
+  }
+}
+
+/// Makes clear that billing here is simulated (no real App Store / Play IAP).
+class _DemoBanner extends StatelessWidget {
+  const _DemoBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.primaryLight.withValues(alpha: 0.25),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColors.primaryLight),
+      ),
+      child: const Row(
+        children: [
+          Icon(Icons.info_outline, size: 20, color: AppColors.primaryDark),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Demo mode — simulated purchase only. No real charge is made and '
+              'no App Store / Play billing is used.',
+              style: TextStyle(fontSize: 13, color: AppColors.primaryDark),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

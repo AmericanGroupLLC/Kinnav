@@ -86,6 +86,30 @@ class LegalScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
         children: [
+          Container(
+            margin: const EdgeInsets.only(bottom: 18),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppColors.primaryLight.withValues(alpha: 0.25),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.primaryLight),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.info_outline,
+                    size: 20, color: AppColors.primaryDark),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    'Template only — this is placeholder wording pending legal '
+                    'review and is not the final, binding document.',
+                    style:
+                        TextStyle(fontSize: 13, color: AppColors.primaryDark),
+                  ),
+                ),
+              ],
+            ),
+          ),
           for (final (heading, body) in sections)
             Padding(
               padding: const EdgeInsets.only(bottom: 18),

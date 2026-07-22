@@ -4,7 +4,10 @@ import '../app_state.dart';
 import '../models/call_record.dart';
 import '../models/call_type.dart';
 import '../models/guardian.dart';
+import '../models/safety_contact.dart';
 import '../services/emergency.dart';
+import '../services/links.dart';
+import '../services/location_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import '../widgets/coach_bubble.dart';
@@ -55,21 +58,52 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
     Future.delayed(_connectDelay, () {
       if (!mounted) return;
       setState(() => _connecting = false);
-      final n = appState.contacts.length;
-      if (n > 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-                '$n safety contact${n == 1 ? '' : 's'} notified with your live location'),
-            backgroundColor: AppColors.primaryDark,
-          ),
-        );
+      // Notify safety contacts for real: open the device SMS composer prefilled
+      // with the user's live location. (A true silent push needs a backend that
+      // isn't available on-device, so we do a real, user-visible compose rather
+      // than falsely claiming contacts were notified.)
+      final contacts = appState.contacts;
+      if (contacts.isNotEmpty) {
+        unawaited(_notifySafetyContacts(contacts));
       }
       _timer = Timer.periodic(const Duration(seconds: 1), (_) {
         if (!mounted) return;
         setState(() => _seconds++);
       });
     });
+  }
+
+  /// Opens the SMS composer addressed to the user's safety contacts with a
+  /// pre-filled alert and (when available) a live-location map link.
+  Future<void> _notifySafetyContacts(List<SafetyContact> contacts) async {
+    final numbers = contacts
+        .map((c) => c.phone.replaceAll(RegExp(r'[^\d+]'), ''))
+        .where((n) => n.isNotEmpty)
+        .toList();
+    if (numbers.isEmpty) return;
+    final n = contacts.length;
+
+    String locationLine = '';
+    try {
+      final pos = await GeoLocationService().current();
+      locationLine =
+          ' My live location: https://maps.google.com/?q=${pos.lat},${pos.lng}.';
+    } catch (_) {
+      // Location unavailable — send the alert without a map link.
+    }
+    final body =
+        'Safer alert: I\'ve started a Safe Call and may need help.$locationLine '
+        'Please check on me.';
+
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+            'Opening a text to notify your $n safety contact${n == 1 ? '' : 's'}…'),
+        backgroundColor: AppColors.primaryDark,
+      ),
+    );
+    await Links.sms(numbers.join(','), context, body: body);
   }
 
   @override
@@ -146,6 +180,19 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
                     style: TextStyle(
                       fontSize: 15,
                       color: _videoMode ? Colors.white70 : AppColors.textMuted,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.45),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text(
+                      'DEMO · simulated safe call (no live video)',
+                      style: TextStyle(color: Colors.white, fontSize: 10),
                     ),
                   ),
                 ],
