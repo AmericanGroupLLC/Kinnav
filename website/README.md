@@ -35,4 +35,4 @@ pnpm preview    # Preview production build
 
 The Safer app is developed by [EmbeddedOS Foundation](https://www.embeddedos.org/) — a 501(c)(3) nonprofit — on behalf of American Group LLC.
 
-Contact: [support@safecodeg.com](mailto:support@safecodeg.com) · [saferapp3@gmail.com](mailto:saferapp3@gmail.com)
+Contact: [saferapp3@gmail.com](mailto:saferapp3@gmail.com) · [foundation@embeddedos.org](mailto:foundation@embeddedos.org)

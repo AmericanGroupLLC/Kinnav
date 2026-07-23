@@ -4,7 +4,7 @@
 **App:** Safer — Women's Safety, Empowerment & Rewards  
 **Developer:** EmbeddedOS Foundation (501c3 · EIN 41-4821627)  
 **Owner:** American Group LLC  
-**GitHub:** https://github.com/AmericanGroupLLC/Safer-Women  
+**GitHub:** https://github.com/Safer-Women (GitHub)  
 
 ---
 
@@ -51,7 +51,7 @@ The donation system uses **Zeffy** — a 0% platform fee nonprofit payment proce
 
 - **Wire/Check:** foundation@embeddedos.org
 - **GitHub Sponsors:** https://github.com/sponsors/embeddedos-org
-- **Grant Partnerships:** support@safecodeg.com
+- **Grant Partnerships:** saferapp3@gmail.com
 
 ---
 
@@ -60,7 +60,7 @@ The donation system uses **Zeffy** — a 0% platform fee nonprofit payment proce
 ### Option 1: Netlify (Recommended — Free)
 
 1. Go to [netlify.com](https://netlify.com) → New site from Git
-2. Connect to `AmericanGroupLLC/Safer-Women` repository
+2. Connect to `Safer-Women (GitHub)` repository
 3. Set **Base directory:** `website`
 4. Set **Build command:** `pnpm build`
 5. Set **Publish directory:** `website/dist`
@@ -71,7 +71,7 @@ The donation system uses **Zeffy** — a 0% platform fee nonprofit payment proce
 ### Option 2: Vercel (Recommended — Free)
 
 1. Go to [vercel.com](https://vercel.com) → New Project
-2. Import `AmericanGroupLLC/Safer-Women`
+2. Import `Safer-Women (GitHub)`
 3. Set **Root Directory:** `website`
 4. Build command: `pnpm build` · Output directory: `dist`
 5. Deploy — Vercel uses `website/vercel.json` for SPA routing
@@ -111,7 +111,7 @@ Before going live, confirm the following:
 - [ ] `www.mysaferapp.com` redirects to `mysaferapp.com`
 
 ### Email Addresses (Verify these work)
-- [ ] `support@safecodeg.com` — app support inbox
+- [ ] `saferapp3@gmail.com` — app support inbox
 - [ ] `saferapp3@gmail.com` — team inbox
 - [ ] `foundation@embeddedos.org` — EmbeddedOS Foundation grants
 
@@ -131,10 +131,10 @@ Before going live, confirm the following:
 
 | Role | Email |
 |---|---|
-| App Support | support@safecodeg.com |
+| App Support | saferapp3@gmail.com |
 | Team / General | saferapp3@gmail.com |
 | EmbeddedOS Foundation | foundation@embeddedos.org |
-| Grant Partnerships | support@safecodeg.com |
+| Grant Partnerships | saferapp3@gmail.com |
 
 ---
 
@@ -151,7 +151,7 @@ The following grant programs are aligned with Safer's mission:
 | Campus Safety Innovation Grants | U.S. Department of Education | Medium-High |
 | Open Source Foundation Grants | Mozilla / Linux Foundation | Medium |
 
-**To apply for grants:** Contact support@safecodeg.com with subject "Grant Partnership Inquiry — Safer Women"
+**To apply for grants:** Contact saferapp3@gmail.com with subject "Grant Partnership Inquiry — Safer Women"
 
 ---
 
