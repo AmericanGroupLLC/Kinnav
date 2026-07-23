@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Menu, X, Shield } from 'lucide-react'
 
 const navLinks = [
@@ -13,6 +13,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -22,9 +23,33 @@ export default function Navbar() {
 
   useEffect(() => setOpen(false), [location])
 
-  const navBg = scrolled
+  // Handle donate button — navigate to grant-funding then scroll to #donate
+  const handleDonate = (e) => {
+    e.preventDefault()
+    setOpen(false)
+    if (location.pathname === '/grant-funding') {
+      const el = document.getElementById('donate')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      navigate('/grant-funding')
+      // After navigation, scroll to donate section
+      setTimeout(() => {
+        const el = document.getElementById('donate')
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      }, 400)
+    }
+  }
+
+  const isHome = location.pathname === '/'
+  const navBg = scrolled || !isHome
     ? 'bg-white/95 backdrop-blur-md shadow-lg shadow-purple-100/50'
     : 'bg-transparent'
+
+  const textColor = (scrolled || !isHome) ? '#374151' : 'rgba(255,255,255,0.9)'
+  const activeColor = '#9B59D0'
+  const logoColor = (scrolled || !isHome) ? '#6A1B9A' : '#fff'
+  const logoSubColor = (scrolled || !isHome) ? '#9B59D0' : 'rgba(255,255,255,0.8)'
+  const mobileIconColor = (scrolled || !isHome) ? '#6A1B9A' : '#fff'
 
   return (
     <nav
@@ -40,13 +65,13 @@ export default function Navbar() {
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
             <img src="/images/safer_icon.png" alt="Safer" style={{ width: 40, height: 40, borderRadius: 10 }} />
             <div>
-              <div style={{ fontWeight: 800, fontSize: 20, color: scrolled ? '#6A1B9A' : '#fff', lineHeight: 1 }}>Safer</div>
-              <div style={{ fontSize: 10, color: scrolled ? '#9B59D0' : 'rgba(255,255,255,0.8)', letterSpacing: 1.5, textTransform: 'uppercase', fontWeight: 600 }}>Women's Safety App</div>
+              <div style={{ fontWeight: 800, fontSize: 20, color: logoColor, lineHeight: 1 }}>Safer</div>
+              <div style={{ fontSize: 10, color: logoSubColor, letterSpacing: 1.5, textTransform: 'uppercase', fontWeight: 600 }}>Women's Safety App</div>
             </div>
           </Link>
 
           {/* Desktop links */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }} className="hidden-mobile">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }} className="nav-desktop">
             {navLinks.map(link => {
               const active = location.pathname === link.to
               return (
@@ -59,7 +84,7 @@ export default function Navbar() {
                     fontWeight: 600,
                     fontSize: 15,
                     textDecoration: 'none',
-                    color: active ? '#9B59D0' : (scrolled ? '#374151' : 'rgba(255,255,255,0.9)'),
+                    color: active ? activeColor : textColor,
                     background: active ? 'rgba(155,89,208,0.1)' : 'transparent',
                     transition: 'all 0.2s',
                   }}
@@ -68,23 +93,24 @@ export default function Navbar() {
                 </Link>
               )
             })}
-            <a
-              href="/grant-funding#donate"
+            <button
+              onClick={handleDonate}
               style={{
                 marginLeft: 8,
                 padding: '10px 24px',
                 borderRadius: 50,
                 fontWeight: 700,
                 fontSize: 15,
-                textDecoration: 'none',
+                cursor: 'pointer',
                 color: '#fff',
                 background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
                 boxShadow: '0 4px 15px rgba(155,89,208,0.4)',
                 transition: 'all 0.2s',
+                border: 'none',
               }}
             >
               Donate Now 💜
-            </a>
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -95,10 +121,10 @@ export default function Navbar() {
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: scrolled ? '#6A1B9A' : '#fff',
+              color: mobileIconColor,
               padding: 8,
             }}
-            className="show-mobile"
+            className="nav-mobile-btn"
             aria-label="Toggle menu"
           >
             {open ? <X size={24} /> : <Menu size={24} />}
@@ -133,33 +159,35 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <a
-            href="/grant-funding#donate"
+          <button
+            onClick={handleDonate}
             style={{
               display: 'block',
+              width: '100%',
               marginTop: 12,
               padding: '12px 24px',
               borderRadius: 50,
               fontWeight: 700,
               fontSize: 16,
-              textDecoration: 'none',
+              cursor: 'pointer',
               color: '#fff',
               background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
               textAlign: 'center',
+              border: 'none',
             }}
           >
             Donate Now 💜
-          </a>
+          </button>
         </div>
       )}
 
       <style>{`
         @media (max-width: 768px) {
-          .hidden-mobile { display: none !important; }
-          .show-mobile { display: block !important; }
+          .nav-desktop { display: none !important; }
+          .nav-mobile-btn { display: block !important; }
         }
         @media (min-width: 769px) {
-          .show-mobile { display: none !important; }
+          .nav-mobile-btn { display: none !important; }
         }
       `}</style>
     </nav>

@@ -1,0 +1,6 @@
+# robots.txt — mysaferapp.com
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mysaferapp.com/sitemap.xml

@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
-import { Shield, Heart, Mail, GitBranch, Globe, Share2 } from 'lucide-react'
+import { Heart, Mail, Globe, Share2, GitBranch, ExternalLink } from 'lucide-react'
 
 export default function Footer() {
+  const year = new Date().getFullYear()
+
   return (
     <footer style={{
       background: 'linear-gradient(135deg, #1a0533 0%, #3d1278 100%)',
@@ -12,7 +14,7 @@ export default function Footer() {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1.5rem' }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '3rem',
           marginBottom: '3rem',
         }}>
@@ -30,9 +32,9 @@ export default function Footer() {
             </p>
             <div style={{ display: 'flex', gap: 12 }}>
               {[
-{ icon: <Share2 size={18} />, href: '#', label: 'Instagram' },
-              { icon: <Globe size={18} />, href: '#', label: 'Twitter' },
-              { icon: <GitBranch size={18} />, href: 'https://github.com/AmericanGroupLLC/Safer-Women', label: 'GitHub' },
+                { icon: <Share2 size={18} />, href: 'https://instagram.com', label: 'Instagram' },
+                { icon: <Globe size={18} />, href: 'https://x.com', label: 'Twitter/X' },
+                { icon: <GitBranch size={18} />, href: 'https://github.com/AmericanGroupLLC/Safer-Women', label: 'GitHub' },
               ].map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                   aria-label={s.label}
@@ -58,7 +60,7 @@ export default function Footer() {
               { to: '/how-it-works', label: 'How It Works' },
               { to: '/grant-funding', label: 'Grant & Funding' },
               { to: '/about', label: 'About Us' },
-              { to: '/privacy', label: 'Privacy Policy' },
+              { to: '/contact', label: 'Contact' },
             ].map(l => (
               <Link key={l.to} to={l.to} style={{
                 display: 'block', color: 'rgba(255,255,255,0.7)', textDecoration: 'none',
@@ -86,42 +88,51 @@ export default function Footer() {
             ))}
           </div>
 
-          {/* Contact */}
+          {/* Contact & Legal */}
           <div>
-            <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#B57BE0', marginBottom: 16 }}>Contact & Support</h4>
-            <a href="mailto:support@safecodeg.com" style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 12,
-            }}>
-              <Mail size={16} style={{ color: '#B57BE0' }} />
-              support@safecodeg.com
+            <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#B57BE0', marginBottom: 16 }}>Contact & Legal</h4>
+            <a href="mailto:support@safecodeg.com" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 10 }}>
+              <Mail size={14} style={{ color: '#B57BE0' }} /> support@safecodeg.com
             </a>
-            <a href="mailto:saferapp3@gmail.com" style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 20,
-            }}>
-              <Mail size={16} style={{ color: '#B57BE0' }} />
-              saferapp3@gmail.com
+            <a href="mailto:saferapp3@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 20 }}>
+              <Mail size={14} style={{ color: '#B57BE0' }} /> saferapp3@gmail.com
             </a>
-            <div style={{
-              background: 'rgba(255,255,255,0.08)',
-              border: '1px solid rgba(181,123,224,0.3)',
-              borderRadius: 12,
-              padding: '16px',
-            }}>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', marginBottom: 8 }}>Developed by</div>
-              <a href="https://www.embeddedos.org/" target="_blank" rel="noopener noreferrer"
-                style={{ color: '#B57BE0', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
-                EmbeddedOS Foundation
-              </a>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>501(c)(3) · Open Source</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+              {[
+                { to: '/privacy', label: 'Privacy Policy' },
+                { to: '/terms', label: 'Terms of Service' },
+                { to: '/contact', label: 'Contact Us' },
+              ].map(l => (
+                <Link key={l.to} to={l.to} style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 13 }}>{l.label}</Link>
+              ))}
             </div>
+            <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(181,123,224,0.25)', borderRadius: 12, padding: '14px 16px' }}>
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6 }}>Developed by</div>
+              <a href="https://www.embeddedos.org/" target="_blank" rel="noopener noreferrer"
+                style={{ color: '#B57BE0', fontWeight: 700, fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
+                EmbeddedOS Foundation <ExternalLink size={12} />
+              </a>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>501(c)(3) · EIN 41-4821627 · MIT License</div>
+            </div>
+          </div>
+        </div>
+
+        {/* App store badges */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '1.5rem', paddingBottom: '1.5rem', display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '8px 18px', color: 'rgba(255,255,255,0.5)', fontSize: 13, fontWeight: 600 }}>
+            📱 iOS App — Coming Soon
+          </div>
+          <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '8px 18px', color: 'rgba(255,255,255,0.5)', fontSize: 13, fontWeight: 600 }}>
+            🤖 Android App — Coming Soon
+          </div>
+          <div style={{ background: 'rgba(155,89,208,0.15)', border: '1px solid rgba(181,123,224,0.3)', borderRadius: 10, padding: '8px 18px', color: '#B57BE0', fontSize: 13, fontWeight: 700 }}>
+            <Link to="/grant-funding#waitlist" style={{ color: 'inherit', textDecoration: 'none' }}>💜 Join Waitlist — Get Early Access</Link>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.1)',
+          borderTop: '1px solid rgba(255,255,255,0.08)',
           paddingTop: '1.5rem',
           display: 'flex',
           flexWrap: 'wrap',
@@ -129,11 +140,11 @@ export default function Footer() {
           alignItems: 'center',
           gap: 12,
         }}>
-          <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>
-            © 2025 Safer — American Group LLC. All rights reserved.
+          <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
+            © {year} Safer — American Group LLC. All rights reserved.
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>
-            Made with <Heart size={14} style={{ color: '#B57BE0', fill: '#B57BE0' }} /> for women's safety worldwide
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
+            Made with <Heart size={13} style={{ color: '#B57BE0', fill: '#B57BE0' }} /> for women's safety worldwide
           </div>
         </div>
       </div>
