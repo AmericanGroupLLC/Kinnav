@@ -242,11 +242,8 @@ function ZeffyDonateEmbed() {
           <a href="mailto:foundation@embeddedos.org?subject=Donation%20to%20Safer%20Women%20Project" style={{ color: '#B57BE0', fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
             <Mail size={14} /> Wire / Check: foundation@embeddedos.org
           </a>
-          <a href="https://github.com/sponsors/embeddedos-org" target="_blank" rel="noopener noreferrer" style={{ color: '#B57BE0', fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <ExternalLink size={14} /> GitHub Sponsors: github.com/sponsors/embeddedos-org
-          </a>
-          <a href="mailto:support@safecodeg.com?subject=Grant%20Partnership%20Inquiry" style={{ color: '#B57BE0', fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <Mail size={14} /> Grant Partnerships: support@safecodeg.com
+          <a href="mailto:saferapp3@gmail.com?subject=Grant%20Partnership%20Inquiry" style={{ color: '#B57BE0', fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Mail size={14} /> Grant Partnerships: saferapp3@gmail.com
           </a>
         </div>
       </div>
@@ -491,7 +488,7 @@ export default function GrantFunding() {
               <div style={{ background: 'rgba(155,89,208,0.15)', border: '1px solid rgba(181,123,224,0.3)', borderRadius: 20, padding: '1.5rem', textAlign: 'center' }}>
                 <h3 style={{ fontWeight: 800, fontSize: 16, color: '#fff', marginBottom: 8 }}>Grant Partnership?</h3>
                 <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, marginBottom: 16, lineHeight: 1.6 }}>For foundations, government agencies, or corporate CSR programs.</p>
-                <a href="mailto:support@safecodeg.com?subject=Grant%20Partnership%20Inquiry%20—%20Safer%20Women"
+                <a href="mailto:saferapp3@gmail.com?subject=Grant%20Partnership%20Inquiry%20—%20Safer%20Women"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 50, background: 'linear-gradient(135deg, #B57BE0, #9B59D0)', color: '#fff', fontWeight: 700, fontSize: 14, textDecoration: 'none' }}>
                   Contact Us <ArrowRight size={14} />
                 </a>
@@ -531,7 +528,7 @@ export default function GrantFunding() {
             style={{ marginTop: '3rem', background: 'linear-gradient(135deg, #F4ECFA, #EDE3F6)', borderRadius: 20, padding: '2.5rem', border: '1px solid rgba(155,89,208,0.2)', textAlign: 'center' }}>
             <h3 style={{ fontWeight: 900, fontSize: 22, color: '#1a1a2e', marginBottom: 12 }}>Are you a grant officer or foundation?</h3>
             <p style={{ color: '#6B7280', fontSize: 16, marginBottom: 24 }}>We welcome partnership inquiries from foundations, government agencies, and corporate social responsibility programs.</p>
-            <a href="mailto:support@safecodeg.com?subject=Grant%20Partnership%20Inquiry%20—%20Safer%20Women"
+            <a href="mailto:saferapp3@gmail.com?subject=Grant%20Partnership%20Inquiry%20—%20Safer%20Women"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px', borderRadius: 50, background: 'linear-gradient(135deg, #B57BE0, #9B59D0)', color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
               Contact for Grant Partnership <ArrowRight size={16} />
             </a>
@@ -570,7 +567,7 @@ export default function GrantFunding() {
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px', borderRadius: 50, background: 'linear-gradient(135deg, #B57BE0, #9B59D0)', color: '#fff', fontWeight: 700, fontSize: 16, textDecoration: 'none', boxShadow: '0 8px 30px rgba(155,89,208,0.4)' }}>
                 Request Pitch Deck <ArrowRight size={18} />
               </a>
-              <a href="mailto:support@safecodeg.com?subject=Partner%20With%20Safer"
+              <a href="mailto:saferapp3@gmail.com?subject=Partner%20With%20Safer"
                 style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 32px', borderRadius: 50, border: '2px solid #9B59D0', color: '#9B59D0', fontWeight: 700, fontSize: 16, textDecoration: 'none' }}>
                 Partner With Us
               </a>

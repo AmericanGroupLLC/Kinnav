@@ -54,7 +54,7 @@ export default function PrivacyPolicy() {
                   Safer ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use the Safer mobile application and website (mysaferapp.com). Please read this policy carefully. If you disagree with its terms, please discontinue use of the app.
                 </P>
                 <P>
-                  Safer is developed by EmbeddedOS (EoS) Research Foundation, a 501(c)(3) nonprofit organization, on behalf of American Group LLC.
+                  Safer is developed by EmbeddedOS (EoS) Research Foundation, a 501(c)(3) nonprofit organization.
                 </P>
               </Section>
 
@@ -85,7 +85,7 @@ export default function PrivacyPolicy() {
 
               <Section title="6. Your Rights (GDPR / CCPA)">
                 <P>Depending on your jurisdiction, you may have the right to: access your personal data; correct inaccurate data; request deletion of your account and data; opt out of certain data processing; and data portability.</P>
-                <P>To exercise these rights, contact us at <a href="mailto:support@safecodeg.com" style={{ color: '#9B59D0' }}>support@safecodeg.com</a>. We will respond within 30 days.</P>
+                <P>To exercise these rights, contact us at <a href="mailto:saferapp3@gmail.com" style={{ color: '#9B59D0' }}>saferapp3@gmail.com</a>. We will respond within 30 days.</P>
               </Section>
 
               <Section title="7. Children's Privacy">
@@ -109,12 +109,9 @@ export default function PrivacyPolicy() {
                   border: '1px solid rgba(155,89,208,0.15)',
                   marginTop: 16,
                 }}>
-                  <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Safer — American Group LLC</div>
+                  <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Safer</div>
                   <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>
-                    Email: <a href="mailto:support@safecodeg.com" style={{ color: '#9B59D0' }}>support@safecodeg.com</a>
-                  </div>
-                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>
-                    App contact: <a href="mailto:saferapp3@gmail.com" style={{ color: '#9B59D0' }}>saferapp3@gmail.com</a>
+                    Email: <a href="mailto:saferapp3@gmail.com" style={{ color: '#9B59D0' }}>saferapp3@gmail.com</a>
                   </div>
                   <div style={{ color: '#6B7280', fontSize: 15 }}>
                     Website: <a href="https://mysaferapp.com" style={{ color: '#9B59D0' }}>mysaferapp.com</a>

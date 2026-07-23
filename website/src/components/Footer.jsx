@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Heart, Mail, Globe, Share2, GitBranch, ExternalLink } from 'lucide-react'
+import { Heart, Mail, Globe, Share2, ExternalLink } from 'lucide-react'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -32,9 +32,8 @@ export default function Footer() {
             </p>
             <div style={{ display: 'flex', gap: 12 }}>
               {[
-                { icon: <Share2 size={18} />, href: 'https://instagram.com', label: 'Instagram' },
-                { icon: <Globe size={18} />, href: 'https://x.com', label: 'Twitter/X' },
-                { icon: <GitBranch size={18} />, href: 'https://github.com/AmericanGroupLLC/Safer-Women', label: 'GitHub' },
+                { icon: <Share2 size={18} />, href: 'https://instagram.com/mysaferapp', label: 'Instagram' },
+                { icon: <Globe size={18} />, href: 'https://x.com/mysaferapp', label: 'Twitter/X' },
               ].map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                   aria-label={s.label}
@@ -91,9 +90,6 @@ export default function Footer() {
           {/* Contact & Legal */}
           <div>
             <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#B57BE0', marginBottom: 16 }}>Contact & Legal</h4>
-            <a href="mailto:support@safecodeg.com" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 10 }}>
-              <Mail size={14} style={{ color: '#B57BE0' }} /> support@safecodeg.com
-            </a>
             <a href="mailto:saferapp3@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 20 }}>
               <Mail size={14} style={{ color: '#B57BE0' }} /> saferapp3@gmail.com
             </a>
@@ -112,7 +108,7 @@ export default function Footer() {
                 style={{ color: '#B57BE0', fontWeight: 700, fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
                 EmbeddedOS Foundation <ExternalLink size={12} />
               </a>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>501(c)(3) · EIN 41-4821627 · MIT License</div>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>501(c)(3) · EIN 41-4821627</div>
             </div>
           </div>
         </div>
@@ -141,7 +137,7 @@ export default function Footer() {
           gap: 12,
         }}>
           <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
-            © {year} Safer — American Group LLC. All rights reserved.
+            © {year} Safer. All rights reserved.
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
             Made with <Heart size={13} style={{ color: '#B57BE0', fill: '#B57BE0' }} /> for women's safety worldwide

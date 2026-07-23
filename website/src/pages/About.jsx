@@ -382,7 +382,7 @@ export default function About() {
               }}>
                 Email the Team
               </a>
-              <a href="mailto:support@safecodeg.com" style={{
+              <a href="mailto:saferapp3@gmail.com?subject=App%20Support%20%E2%80%94%20Safer" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '14px 32px', borderRadius: 50,
                 border: '2px solid #9B59D0',

@@ -31,7 +31,7 @@ export default function Terms() {
             <motion.div variants={fadeUp}>
               <Section title="1. Acceptance of Terms">
                 <P>By accessing or using the Safer application ("App") or website at mysaferapp.com ("Site"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the App or Site. These Terms apply to all users, including visitors, registered users, and guardians.</P>
-                <P>Safer is operated by American Group LLC, with the App developed by EmbeddedOS (EoS) Research Foundation, a 501(c)(3) nonprofit organization.</P>
+                <P>Safer is developed by EmbeddedOS (EoS) Research Foundation, a 501(c)(3) nonprofit organization.</P>
               </Section>
 
               <Section title="2. Eligibility">
@@ -44,7 +44,7 @@ export default function Terms() {
               </Section>
 
               <Section title="4. Guardian Program">
-                <P>Guardians are independent volunteers and contractors who have completed a 40-hour advocacy training course and passed a vetting process. Guardians are not employees of American Group LLC or EmbeddedOS Foundation. American Group LLC does not guarantee the conduct, qualifications, or availability of any guardian.</P>
+                <P>Guardians are independent volunteers and contractors who have completed a 40-hour advocacy training course and passed a vetting process. Guardians are not employees of EmbeddedOS Foundation. Safer does not guarantee the conduct, qualifications, or availability of any guardian.</P>
                 <P>By becoming a guardian, you agree to: complete the required training, maintain accurate availability status, treat all users with dignity and respect, and comply with all applicable laws and our Guardian Code of Conduct.</P>
               </Section>
 
@@ -57,7 +57,7 @@ export default function Terms() {
               </Section>
 
               <Section title="7. Intellectual Property">
-                <P>The Safer name, logo, app design, and content are the property of American Group LLC. The underlying App code is open-source under the MIT License, developed by EmbeddedOS Foundation. User-generated content (profile information, feedback) remains your property, but you grant us a license to use it to operate the service.</P>
+                <P>The Safer name, logo, app design, and content are the property of Safer. The underlying App code is open-source under the MIT License, developed by EmbeddedOS Foundation. User-generated content (profile information, feedback) remains your property, but you grant us a license to use it to operate the service.</P>
               </Section>
 
               <Section title="8. Disclaimer of Warranties">
@@ -65,7 +65,7 @@ export default function Terms() {
               </Section>
 
               <Section title="9. Limitation of Liability">
-                <P>TO THE MAXIMUM EXTENT PERMITTED BY LAW, AMERICAN GROUP LLC AND EMBEDDEDOS FOUNDATION SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF THE APP, INCLUDING ANY FAILURE OF THE SAFETY FEATURES TO PREVENT HARM. OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU PAID FOR THE SERVICE IN THE PAST 12 MONTHS.</P>
+                <P>TO THE MAXIMUM EXTENT PERMITTED BY LAW, SAFER AND EMBEDDEDOS FOUNDATION SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF THE APP, INCLUDING ANY FAILURE OF THE SAFETY FEATURES TO PREVENT HARM. OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU PAID FOR THE SERVICE IN THE PAST 12 MONTHS.</P>
               </Section>
 
               <Section title="10. Governing Law">
@@ -78,9 +78,8 @@ export default function Terms() {
 
               <Section title="12. Contact">
                 <div style={{ background: '#F9F5FF', borderRadius: 16, padding: '1.5rem 2rem', border: '1px solid rgba(155,89,208,0.15)', marginTop: 16 }}>
-                  <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Safer — American Group LLC</div>
-                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>Email: <a href="mailto:support@safecodeg.com" style={{ color: '#9B59D0' }}>support@safecodeg.com</a></div>
-                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>App: <a href="mailto:saferapp3@gmail.com" style={{ color: '#9B59D0' }}>saferapp3@gmail.com</a></div>
+                  <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Safer</div>
+                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>Email: <a href="mailto:saferapp3@gmail.com" style={{ color: '#9B59D0' }}>saferapp3@gmail.com</a></div>
                   <div style={{ color: '#6B7280', fontSize: 15 }}>Website: <a href="https://mysaferapp.com" style={{ color: '#9B59D0' }}>mysaferapp.com</a></div>
                 </div>
               </Section>

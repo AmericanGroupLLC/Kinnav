@@ -1,17 +1,20 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Send, RefreshCw, MessageSquare, Users, Shield, BookOpen, ExternalLink } from 'lucide-react'
+import { Mail, Send, RefreshCw, MessageSquare, Shield, ExternalLink } from 'lucide-react'
 
 const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } }
 
+const CONTACT_EMAIL = 'saferapp3@gmail.com'
+const FOUNDATION_EMAIL = 'foundation@embeddedos.org'
+
 const contactTypes = [
-  { value: 'general', label: '💬 General Inquiry', email: 'saferapp3@gmail.com', subject: 'General Inquiry — Safer' },
-  { value: 'support', label: '🛠️ App Support', email: 'support@safecodeg.com', subject: 'App Support — Safer' },
-  { value: 'guardian', label: '🛡️ Become a Guardian', email: 'saferapp3@gmail.com', subject: 'Guardian Application — Safer' },
-  { value: 'partner', label: '🤝 Partnership / NGO', email: 'support@safecodeg.com', subject: 'Partnership Inquiry — Safer' },
-  { value: 'grant', label: '💼 Grant / Funding', email: 'support@safecodeg.com', subject: 'Grant Inquiry — Safer' },
-  { value: 'press', label: '📰 Press / Media', email: 'saferapp3@gmail.com', subject: 'Press Inquiry — Safer' },
+  { value: 'general', label: '💬 General Inquiry', email: CONTACT_EMAIL, subject: 'General Inquiry — Safer' },
+  { value: 'support', label: '🛠️ App Support', email: CONTACT_EMAIL, subject: 'App Support — Safer' },
+  { value: 'guardian', label: '🛡️ Become a Guardian', email: CONTACT_EMAIL, subject: 'Guardian Application — Safer' },
+  { value: 'partner', label: '🤝 Partnership / NGO', email: CONTACT_EMAIL, subject: 'Partnership Inquiry — Safer' },
+  { value: 'grant', label: '💼 Grant / Funding', email: FOUNDATION_EMAIL, subject: 'Grant Inquiry — Safer' },
+  { value: 'press', label: '📰 Press / Media', email: CONTACT_EMAIL, subject: 'Press Inquiry — Safer' },
 ]
 
 function ContactForm() {
@@ -91,10 +94,6 @@ function ContactForm() {
           onFocus={e => e.target.style.borderColor = '#9B59D0'} onBlur={e => e.target.style.borderColor = '#EDE3F6'} />
       </div>
 
-      <div style={{ background: '#F9F5FF', borderRadius: 12, padding: '12px 16px', border: '1px solid rgba(155,89,208,0.15)', fontSize: 13, color: '#6B7280' }}>
-        Your message will be sent to: <strong style={{ color: '#9B59D0' }}>{selectedType.email}</strong>
-      </div>
-
       <button type="submit" disabled={status === 'submitting'}
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
@@ -141,9 +140,8 @@ export default function Contact() {
             {/* Contact info sidebar */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {[
-                { icon: <Mail size={20} />, title: 'App Support', email: 'support@safecodeg.com', desc: 'Technical issues, account help, feedback' },
-                { icon: <MessageSquare size={20} />, title: 'General / Team', email: 'saferapp3@gmail.com', desc: 'Partnerships, press, general questions' },
-                { icon: <Shield size={20} />, title: 'EmbeddedOS Foundation', email: 'foundation@embeddedos.org', desc: 'Grant inquiries, development partnership' },
+                { icon: <Mail size={20} />, title: 'General & App Support', email: CONTACT_EMAIL, desc: 'Technical issues, partnerships, press, general questions' },
+                { icon: <Shield size={20} />, title: 'EmbeddedOS Foundation', email: FOUNDATION_EMAIL, desc: 'Grant inquiries, development partnership' },
               ].map((c, i) => (
                 <motion.div key={i} initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                   style={{ background: '#F9F5FF', borderRadius: 16, padding: '1.5rem', border: '1px solid rgba(155,89,208,0.1)' }}>
@@ -156,14 +154,15 @@ export default function Contact() {
                 </motion.div>
               ))}
 
-              <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}
+              {/* EmbeddedOS Foundation card */}
+              <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
                 style={{ background: 'linear-gradient(135deg, #F4ECFA, #EDE3F6)', borderRadius: 16, padding: '1.5rem', border: '1px solid rgba(155,89,208,0.15)' }}>
-                <div style={{ fontWeight: 800, fontSize: 15, color: '#1a1a2e', marginBottom: 8 }}>GitHub Repository</div>
-                <a href="https://github.com/AmericanGroupLLC/Safer-Women" target="_blank" rel="noopener noreferrer"
+                <div style={{ fontWeight: 800, fontSize: 15, color: '#1a1a2e', marginBottom: 8 }}>EmbeddedOS Foundation</div>
+                <a href="https://www.embeddedos.org/" target="_blank" rel="noopener noreferrer"
                   style={{ color: '#9B59D0', fontWeight: 600, fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-                  AmericanGroupLLC/Safer-Women <ExternalLink size={14} />
+                  www.embeddedos.org <ExternalLink size={14} />
                 </a>
-                <div style={{ color: '#9B7AB0', fontSize: 13, marginTop: 4 }}>Open source · MIT License</div>
+                <div style={{ color: '#9B7AB0', fontSize: 13, marginTop: 4 }}>501(c)(3) · EIN 41-4821627</div>
               </motion.div>
             </div>
           </div>
