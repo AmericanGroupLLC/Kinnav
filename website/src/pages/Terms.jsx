@@ -79,7 +79,7 @@ export default function Terms() {
               <Section title="12. Contact">
                 <div style={{ background: '#F9F5FF', borderRadius: 16, padding: '1.5rem 2rem', border: '1px solid rgba(155,89,208,0.15)', marginTop: 16 }}>
                   <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Safer</div>
-                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}><a href="/contact" style={{ color: '#9B59D0' }}>Contact Us</a></div>
+                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}><Link to="/contact" style={{ color: '#9B59D0' }}>Contact Us</Link></div>
                   <div style={{ color: '#6B7280', fontSize: 15 }}>Website: <a href="https://mysaferapp.com" style={{ color: '#9B59D0' }}>mysaferapp.com</a></div>
                 </div>
               </Section>

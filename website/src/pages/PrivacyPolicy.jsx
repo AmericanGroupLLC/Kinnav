@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -83,7 +84,7 @@ export default function PrivacyPolicy() {
 
               <Section title="6. Your Rights (GDPR / CCPA)">
                 <P>Depending on your jurisdiction, you may have the right to: access your personal data; correct inaccurate data; request deletion of your account and data; opt out of certain data processing; and data portability.</P>
-                <P>To exercise these rights, visit our <a href="/contact" style={{ color: '#9B59D0' }}>Contact page</a>. We will respond within 30 days.</P>
+                <P>To exercise these rights, visit our <Link to="/contact" style={{ color: '#9B59D0' }}>Contact page</Link>. We will respond within 30 days.</P>
               </Section>
 
               <Section title="7. Children's Privacy">
@@ -109,7 +110,7 @@ export default function PrivacyPolicy() {
                 }}>
                   <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Safer</div>
                   <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>
-                    <a href="/contact" style={{ color: '#9B59D0' }}>Contact Us</a>
+                    <Link to="/contact" style={{ color: '#9B59D0' }}>Contact Us</Link>
                   </div>
                   <div style={{ color: '#6B7280', fontSize: 15 }}>
                     Website: <a href="https://mysaferapp.com" style={{ color: '#9B59D0' }}>mysaferapp.com</a>
