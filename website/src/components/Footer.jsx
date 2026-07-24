@@ -90,9 +90,9 @@ export default function Footer() {
           {/* Contact & Legal */}
           <div>
             <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#B57BE0', marginBottom: 16 }}>Contact & Legal</h4>
-            <a href="mailto:saferapp3@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 20 }}>
-              <Mail size={14} style={{ color: '#B57BE0' }} /> saferapp3@gmail.com
-            </a>
+            <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 20 }}>
+              <Mail size={14} style={{ color: '#B57BE0' }} /> Contact Us
+            </Link>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
               {[
                 { to: '/privacy', label: 'Privacy Policy' },

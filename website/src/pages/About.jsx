@@ -372,7 +372,7 @@ export default function About() {
               Whether you're interested in partnering, becoming a guardian, applying for a community role, or supporting our mission — we'd love to hear from you.
             </motion.p>
             <motion.div variants={fadeUp} style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href="mailto:saferapp3@gmail.com" style={{
+              <a href="/contact" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '14px 32px', borderRadius: 50,
                 background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
@@ -380,16 +380,16 @@ export default function About() {
                 textDecoration: 'none',
                 boxShadow: '0 8px 30px rgba(155,89,208,0.4)',
               }}>
-                Email the Team
+                Get in Touch
               </a>
-              <a href="mailto:saferapp3@gmail.com?subject=App%20Support%20%E2%80%94%20Safer" style={{
+              <a href="/contact" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '14px 32px', borderRadius: 50,
                 border: '2px solid #9B59D0',
                 color: '#9B59D0', fontWeight: 700, fontSize: 16,
                 textDecoration: 'none',
               }}>
-                App Support
+                Contact Us
               </a>
             </motion.div>
           </motion.div>

@@ -1,20 +1,17 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Send, RefreshCw, MessageSquare, Shield, ExternalLink } from 'lucide-react'
+import { Mail, Send, RefreshCw, MessageSquare, Shield, ExternalLink, Users, Briefcase, Newspaper } from 'lucide-react'
 
 const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } }
 
-const CONTACT_EMAIL = 'saferapp3@gmail.com'
-const FOUNDATION_EMAIL = 'foundation@embeddedos.org'
-
 const contactTypes = [
-  { value: 'general', label: '💬 General Inquiry', email: CONTACT_EMAIL, subject: 'General Inquiry — Safer' },
-  { value: 'support', label: '🛠️ App Support', email: CONTACT_EMAIL, subject: 'App Support — Safer' },
-  { value: 'guardian', label: '🛡️ Become a Guardian', email: CONTACT_EMAIL, subject: 'Guardian Application — Safer' },
-  { value: 'partner', label: '🤝 Partnership / NGO', email: CONTACT_EMAIL, subject: 'Partnership Inquiry — Safer' },
-  { value: 'grant', label: '💼 Grant / Funding', email: FOUNDATION_EMAIL, subject: 'Grant Inquiry — Safer' },
-  { value: 'press', label: '📰 Press / Media', email: CONTACT_EMAIL, subject: 'Press Inquiry — Safer' },
+  { value: 'general', label: '💬 General Inquiry', email: 'saferapp3@gmail.com', subject: 'General Inquiry — Safer' },
+  { value: 'support', label: '🛠️ App Support', email: 'saferapp3@gmail.com', subject: 'App Support — Safer' },
+  { value: 'guardian', label: '🛡️ Become a Guardian', email: 'saferapp3@gmail.com', subject: 'Guardian Application — Safer' },
+  { value: 'partner', label: '🤝 Partnership / NGO', email: 'saferapp3@gmail.com', subject: 'Partnership Inquiry — Safer' },
+  { value: 'grant', label: '💼 Grant / Funding', email: 'foundation@embeddedos.org', subject: 'Grant Inquiry — Safer' },
+  { value: 'press', label: '📰 Press / Media', email: 'saferapp3@gmail.com', subject: 'Press Inquiry — Safer' },
 ]
 
 function ContactForm() {
@@ -112,6 +109,15 @@ function ContactForm() {
 }
 
 export default function Contact() {
+  const contactCards = [
+    { icon: <MessageSquare size={24} />, title: 'General & App Support', desc: 'Technical issues, account help, feedback, and general questions.', color: '#9B59D0' },
+    { icon: <Users size={24} />, title: 'Become a Guardian', desc: 'Join our vetted guardian network and help protect women in your community.', color: '#7B3FBE' },
+    { icon: <Briefcase size={24} />, title: 'Partnerships & NGOs', desc: 'Collaborate with Safer to expand our reach and impact.', color: '#B57BE0' },
+    { icon: <Shield size={24} />, title: 'Grant & Funding', desc: 'Foundation, government, and corporate grant partnership inquiries.', color: '#6A1B9A' },
+    { icon: <Newspaper size={24} />, title: 'Press & Media', desc: 'Media inquiries, press kits, and interview requests.', color: '#E91E8C' },
+    { icon: <ExternalLink size={24} />, title: 'EmbeddedOS Foundation', desc: 'Development partnership and open-source collaboration.', color: '#43A047', link: 'https://www.embeddedos.org/' },
+  ]
+
   return (
     <div style={{ paddingTop: 72 }}>
       <section style={{ background: 'linear-gradient(135deg, #1a0533 0%, #3d1278 50%, #6A1B9A 100%)', padding: '5rem 1.5rem', textAlign: 'center' }}>
@@ -126,48 +132,44 @@ export default function Contact() {
         </div>
       </section>
 
-      <section style={{ padding: '6rem 1.5rem', background: '#fff' }}>
+      {/* Contact topic cards */}
+      <section style={{ padding: '5rem 1.5rem', background: '#F9F5FF' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '4rem', alignItems: 'start' }} className="contact-grid">
-            {/* Form */}
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              style={{ background: '#fff', borderRadius: 24, padding: '2.5rem', boxShadow: '0 8px 40px rgba(155,89,208,0.1)', border: '1px solid rgba(155,89,208,0.1)' }}>
-              <h2 style={{ fontWeight: 900, fontSize: 24, color: '#1a1a2e', marginBottom: 8 }}>Send us a message</h2>
-              <p style={{ color: '#6B7280', fontSize: 15, marginBottom: 28 }}>We typically respond within 1–2 business days.</p>
-              <ContactForm />
-            </motion.div>
-
-            {/* Contact info sidebar */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {[
-                { icon: <Mail size={20} />, title: 'General & App Support', email: CONTACT_EMAIL, desc: 'Technical issues, partnerships, press, general questions' },
-                { icon: <Shield size={20} />, title: 'EmbeddedOS Foundation', email: FOUNDATION_EMAIL, desc: 'Grant inquiries, development partnership' },
-              ].map((c, i) => (
-                <motion.div key={i} initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                  style={{ background: '#F9F5FF', borderRadius: 16, padding: '1.5rem', border: '1px solid rgba(155,89,208,0.1)' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-                    <div style={{ color: '#9B59D0' }}>{c.icon}</div>
-                    <div style={{ fontWeight: 800, fontSize: 15, color: '#1a1a2e' }}>{c.title}</div>
-                  </div>
-                  <a href={`mailto:${c.email}`} style={{ color: '#9B59D0', fontWeight: 600, fontSize: 14, textDecoration: 'none', display: 'block', marginBottom: 4 }}>{c.email}</a>
-                  <div style={{ color: '#9B7AB0', fontSize: 13 }}>{c.desc}</div>
-                </motion.div>
-              ))}
-
-              {/* EmbeddedOS Foundation card */}
-              <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-                style={{ background: 'linear-gradient(135deg, #F4ECFA, #EDE3F6)', borderRadius: 16, padding: '1.5rem', border: '1px solid rgba(155,89,208,0.15)' }}>
-                <div style={{ fontWeight: 800, fontSize: 15, color: '#1a1a2e', marginBottom: 8 }}>EmbeddedOS Foundation</div>
-                <a href="https://www.embeddedos.org/" target="_blank" rel="noopener noreferrer"
-                  style={{ color: '#9B59D0', fontWeight: 600, fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-                  www.embeddedos.org <ExternalLink size={14} />
-                </a>
-                <div style={{ color: '#9B7AB0', fontSize: 13, marginTop: 4 }}>501(c)(3) · EIN 41-4821627</div>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 900, color: '#1a1a2e', marginBottom: 12 }}>How can we help?</h2>
+            <p style={{ color: '#6B7280', fontSize: 16 }}>Use the form below to reach the right team for your inquiry.</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '4rem' }}>
+            {contactCards.map((card, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                style={{ background: '#fff', borderRadius: 18, padding: '1.75rem', border: '1px solid rgba(155,89,208,0.1)', boxShadow: '0 4px 20px rgba(155,89,208,0.06)' }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: `${card.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: card.color, marginBottom: 14 }}>
+                  {card.icon}
+                </div>
+                <h3 style={{ fontWeight: 800, fontSize: 16, color: '#1a1a2e', marginBottom: 8 }}>{card.title}</h3>
+                <p style={{ color: '#6B7280', fontSize: 14, lineHeight: 1.7, marginBottom: card.link ? 12 : 0 }}>{card.desc}</p>
+                {card.link && (
+                  <a href={card.link} target="_blank" rel="noopener noreferrer"
+                    style={{ color: card.color, fontWeight: 600, fontSize: 13, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+                    Visit Website <ExternalLink size={12} />
+                  </a>
+                )}
               </motion.div>
-            </div>
+            ))}
           </div>
         </div>
-        <style>{`@media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr !important; } }`}</style>
+      </section>
+
+      {/* Contact form */}
+      <section style={{ padding: '0 1.5rem 6rem', background: '#F9F5FF' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            style={{ background: '#fff', borderRadius: 24, padding: '2.5rem', boxShadow: '0 8px 40px rgba(155,89,208,0.1)', border: '1px solid rgba(155,89,208,0.1)' }}>
+            <h2 style={{ fontWeight: 900, fontSize: 24, color: '#1a1a2e', marginBottom: 8 }}>Send us a message</h2>
+            <p style={{ color: '#6B7280', fontSize: 15, marginBottom: 28 }}>We typically respond within 1–2 business days.</p>
+            <ContactForm />
+          </motion.div>
+        </div>
       </section>
     </div>
   )
