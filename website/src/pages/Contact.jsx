@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Send, RefreshCw, MessageSquare, Shield, ExternalLink, Users, Briefcase, Newspaper } from 'lucide-react'
+import { Mail, Send, RefreshCw, MessageSquare, Shield, Users, Briefcase, Newspaper } from 'lucide-react'
 
 const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } }
@@ -115,7 +115,7 @@ export default function Contact() {
     { icon: <Briefcase size={24} />, title: 'Partnerships & NGOs', desc: 'Collaborate with Safer to expand our reach and impact.', color: '#B57BE0' },
     { icon: <Shield size={24} />, title: 'Grant & Funding', desc: 'Foundation, government, and corporate grant partnership inquiries.', color: '#6A1B9A' },
     { icon: <Newspaper size={24} />, title: 'Press & Media', desc: 'Media inquiries, press kits, and interview requests.', color: '#E91E8C' },
-    { icon: <ExternalLink size={24} />, title: 'EmbeddedOS Foundation', desc: 'Development partnership and open-source collaboration.', color: '#43A047', link: 'https://www.embeddedos.org/' },
+
   ]
 
   return (

@@ -611,9 +611,7 @@ export default function Home() {
             <motion.p variants={fadeUp} style={{ fontSize: 17, color: '#4B5563', lineHeight: 1.8, marginBottom: 16, maxWidth: 700, margin: '0 auto 16px' }}>
               The Safer prototype is built. The vision is clear. Now we need grant funding and community support to bring the full production app to life — with real-time guardian calls, backend infrastructure, and global reach.
             </motion.p>
-            <motion.p variants={fadeUp} style={{ fontSize: 17, color: '#4B5563', lineHeight: 1.8, marginBottom: 40, maxWidth: 700, margin: '0 auto 40px' }}>
-              Your donation supports <strong style={{ color: '#9B59D0' }}>EmbeddedOS Foundation</strong> — a 501(c)(3) nonprofit — to build the technology that powers Safer.
-            </motion.p>
+
             <motion.div variants={fadeUp} style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link to="/grant-funding#donate" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,

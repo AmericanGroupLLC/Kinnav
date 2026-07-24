@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Shield, Heart, Users, Star, Globe, ArrowRight, ExternalLink } from 'lucide-react'
+import { Shield, Heart, Users, Star, Globe, ArrowRight } from 'lucide-react'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -78,7 +78,7 @@ const values = [
   { title: 'Community Power', desc: 'Safety is a collective responsibility. We build communities that protect each other.', icon: '🤝' },
   { title: 'Empowerment', desc: 'Safety is not just about protection — it\'s about building confidence and capability.', icon: '⚡' },
   { title: 'Accessibility', desc: 'At $3.99/month, Safer is designed to be accessible to every woman who needs it.', icon: '🌍' },
-  { title: 'Open & Transparent', desc: 'Built on open-source foundations by EmbeddedOS Foundation — transparent by design.', icon: '🔓' },
+  { title: 'Open & Transparent', desc: 'Built on open-source foundations — transparent, auditable, and community-driven by design.', icon: '🔓' },
 ]
 
 export default function About() {
@@ -157,20 +157,7 @@ export default function About() {
               <p style={{ fontSize: 16, color: '#4B5563', lineHeight: 1.8, marginBottom: 32 }}>
                 Our tagline says it best: <em style={{ color: '#9B59D0', fontStyle: 'italic' }}>"It's easier to look forward when you don't have to watch your back."</em>
               </p>
-              <div style={{
-                background: 'linear-gradient(135deg, #F4ECFA, #EDE3F6)',
-                borderRadius: 16,
-                padding: '1.5rem',
-                border: '1px solid rgba(155,89,208,0.15)',
-              }}>
-                <div style={{ fontSize: 14, color: '#9B7AB0', fontWeight: 600, marginBottom: 8 }}>Developed by</div>
-                <a href="https://www.embeddedos.org/" target="_blank" rel="noopener noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-                  <div style={{ fontWeight: 800, fontSize: 18, color: '#9B59D0' }}>EmbeddedOS Foundation</div>
-                  <ExternalLink size={16} style={{ color: '#B57BE0' }} />
-                </a>
-                <div style={{ fontSize: 13, color: '#9B7AB0', marginTop: 4 }}>501(c)(3) Nonprofit · Open Source</div>
-              </div>
+
             </motion.div>
 
             <motion.div variants={fadeUp}>

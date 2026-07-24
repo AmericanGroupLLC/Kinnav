@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Heart, Mail, Globe, Share2, ExternalLink } from 'lucide-react'
+import { Heart, Mail, Globe, Share2 } from 'lucide-react'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -102,14 +102,7 @@ export default function Footer() {
                 <Link key={l.to} to={l.to} style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 13 }}>{l.label}</Link>
               ))}
             </div>
-            <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(181,123,224,0.25)', borderRadius: 12, padding: '14px 16px' }}>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', marginBottom: 6 }}>Developed by</div>
-              <a href="https://www.embeddedos.org/" target="_blank" rel="noopener noreferrer"
-                style={{ color: '#B57BE0', fontWeight: 700, fontSize: 14, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-                EmbeddedOS Foundation <ExternalLink size={12} />
-              </a>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>501(c)(3) · EIN 41-4821627</div>
-            </div>
+
           </div>
         </div>
 

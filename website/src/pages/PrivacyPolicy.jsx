@@ -53,9 +53,7 @@ export default function PrivacyPolicy() {
                 <P>
                   Safer ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use the Safer mobile application and website (mysaferapp.com). Please read this policy carefully. If you disagree with its terms, please discontinue use of the app.
                 </P>
-                <P>
-                  Safer is developed by EmbeddedOS (EoS) Research Foundation, a 501(c)(3) nonprofit organization.
-                </P>
+
               </Section>
 
               <Section title="2. Information We Collect">
