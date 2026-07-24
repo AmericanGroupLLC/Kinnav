@@ -186,7 +186,7 @@ function ZeffyDonateEmbed() {
       <div style={{ marginBottom: 16 }}>
         <h2 style={{ fontSize: 24, fontWeight: 900, color: '#fff', marginBottom: 8 }}>Make a Donation</h2>
         <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 14, lineHeight: 1.6 }}>
-          Powered by <strong style={{ color: '#B57BE0' }}>Zeffy</strong> — 0% platform fees. All funds go directly to EmbeddedOS Foundation to build Safer.
+          Powered by <strong style={{ color: '#B57BE0' }}>Zeffy</strong> — 0% platform fees. All funds go directly to building the Safer app.
         </p>
       </div>
 
@@ -218,7 +218,7 @@ function ZeffyDonateEmbed() {
         )}
         <iframe
           ref={iframeRef}
-          title="Donation form — EmbeddedOS Foundation for Safer Women"
+          title="Donation form — Safer Women"
           src={ZEFFY_URL}
           allow="payment"
           onLoad={() => setLoaded(true)}
