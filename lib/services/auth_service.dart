@@ -1,8 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io' show SocketException;
+import 'dart:math' show Random;
 
+import 'package:crypto/crypto.dart' show sha256;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../config/app_config.dart';
 import 'storage.dart';
 
 /// Real authentication against the org's Supabase backend.
@@ -88,7 +94,100 @@ class SupabaseAuthService {
     }
   }
 
-  /// Signs out of both the Supabase session and the local fallback session.
+  /// Sign in with Apple via the Supabase-native ID-token flow.
+  ///
+  /// Generates a cryptographically random raw nonce and sends its SHA-256 hash
+  /// to Apple; Apple binds the hash into the returned identity token, and
+  /// Supabase re-derives the hash from the raw nonce to verify the binding
+  /// (replay protection). Supabase auto-creates the account on first sign-in.
+  Future<void> signInWithApple() async {
+    final rawNonce = _generateNonce();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+
+    final credential = await SignInWithApple.getAppleIDCredential(
+      scopes: const [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+      nonce: hashedNonce,
+    );
+
+    final idToken = credential.identityToken;
+    if (idToken == null) {
+      throw const AuthException('Apple sign-in failed: missing identity token.');
+    }
+
+    final res = await _auth.signInWithIdToken(
+      provider: OAuthProvider.apple,
+      idToken: idToken,
+      nonce: rawNonce,
+    );
+    if (res.session == null) {
+      throw const AuthException('Apple sign-in failed: no session returned.');
+    }
+    // Real session established; make sure no stale fallback flag lingers.
+    await Storage.instance.setBool(_kLocalSession, false);
+  }
+
+  /// Sign in with Google via the Supabase-native ID-token flow.
+  ///
+  /// The native SDK returns a Google `idToken` (+ `accessToken`); Supabase
+  /// exchanges them for a session and auto-creates the account on first
+  /// sign-in. [AppConfig.googleServerClientId] (the web/server client id) must
+  /// match the Google provider's configured Client ID in the Supabase dashboard,
+  /// or the exchange is rejected.
+  Future<void> signInWithGoogle() async {
+    final iosClientId = AppConfig.googleIosClientId;
+    final googleSignIn = GoogleSignIn(
+      serverClientId: AppConfig.googleServerClientId,
+      clientId: iosClientId.isNotEmpty ? iosClientId : null,
+    );
+
+    final account = await googleSignIn.signIn();
+    if (account == null) {
+      throw const AuthException('Google sign-in was cancelled.');
+    }
+    final googleAuth = await account.authentication;
+    final idToken = googleAuth.idToken;
+    if (idToken == null) {
+      throw const AuthException('Google sign-in failed: missing ID token.');
+    }
+
+    final res = await _auth.signInWithIdToken(
+      provider: OAuthProvider.google,
+      idToken: idToken,
+      accessToken: googleAuth.accessToken,
+    );
+    if (res.session == null) {
+      throw const AuthException('Google sign-in failed: no session returned.');
+    }
+    // Real session established; make sure no stale fallback flag lingers.
+    await Storage.instance.setBool(_kLocalSession, false);
+  }
+
+  /// Seamless, no-login identity. Creates a real (anonymous) Supabase session
+  /// that persists and can later be upgraded to a full account.
+  Future<void> signInAnonymously() async {
+    final res = await _auth.signInAnonymously();
+    if (res.session == null) {
+      throw const AuthException('Anonymous sign-in failed.');
+    }
+    await Storage.instance.setBool(_kLocalSession, false);
+  }
+
+  /// Cryptographically secure random nonce (URL-safe charset) for Apple sign-in.
+  String _generateNonce([int length = 32]) {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  /// Signs out of the Supabase session, the native Google session, and the
+  /// local fallback session. Only ever called on an explicit, user-initiated
+  /// sign-out — never automatically at launch, so auto-login relies on the
+  /// persisted session staying put.
   Future<void> signOut() async {
     await Storage.instance.setBool(_kLocalSession, false);
     if (_currentSession != null) {
@@ -97,6 +196,11 @@ class SupabaseAuthService {
       } catch (_) {
         // Offline sign-out: local session already cleared above.
       }
+    }
+    try {
+      await GoogleSignIn().signOut();
+    } catch (_) {
+      // No cached Google account — ignore.
     }
   }
 

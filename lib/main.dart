@@ -28,6 +28,15 @@ Future<void> main() async {
       await Supabase.initialize(
         url: AppConfig.supabaseUrl,
         anonKey: AppConfig.supabaseAnonKey,
+        // AUTO-LOGIN: keep the default persistent, auto-refreshing session so a
+        // returning user is signed in on launch with no login screen. The
+        // session is stored in the platform-secure local store
+        // (Keychain/Keystore) and the access token is refreshed in the
+        // background. Set explicitly to document the guarantee the auth flow
+        // relies on.
+        authOptions: const FlutterAuthClientOptions(
+          autoRefreshToken: true,
+        ),
       );
     } catch (e, st) {
       // Offline / sandbox: initialization can still fail on host lookup. Keep

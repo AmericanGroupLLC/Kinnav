@@ -68,6 +68,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  /// Runs a real OAuth sign-in (Apple / Google). On success the account is
+  /// created/authenticated by Supabase and routing advances into the app; on
+  /// failure it surfaces an honest error rather than faking a session. User
+  /// cancellation of the native sheet is silent (no error shown).
+  Future<void> _oauthSignIn(Future<void> Function() signIn) async {
+    if (_busy) return;
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    try {
+      await signIn();
+      await appState.signIn(); // routes to profile setup / home
+    } catch (e) {
+      if (mounted && !_isCancellation(e)) {
+        setState(() =>
+            _error = 'Sign-in unavailable right now. Please try again.');
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  /// The native SDKs throw when the user backs out of the sheet — that is not an
+  /// error, so we don't show a message for it.
+  bool _isCancellation(Object e) {
+    if (e is AuthException) {
+      return e.message.toLowerCase().contains('cancel');
+    }
+    final s = e.toString().toLowerCase();
+    return s.contains('cancel') || s.contains('canceled');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +186,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 label: const Text('Use test account'),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 18),
+              const Row(
+                children: [
+                  Expanded(child: Divider()),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text('or',
+                        style: TextStyle(color: AppColors.textMuted)),
+                  ),
+                  Expanded(child: Divider()),
+                ],
+              ),
+              const SizedBox(height: 14),
+              OutlinedButton.icon(
+                onPressed: _busy
+                    ? null
+                    : () => _oauthSignIn(_auth.signInWithApple),
+                icon: const Icon(Icons.apple, size: 20),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.textDark,
+                  side: const BorderSide(color: AppColors.primaryLight),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                label: const Text('Sign in with Apple',
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: _busy
+                    ? null
+                    : () => _oauthSignIn(_auth.signInWithGoogle),
+                icon: const Icon(Icons.g_mobiledata, size: 26),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.textDark,
+                  side: const BorderSide(color: AppColors.primaryLight),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                label: const Text('Continue with Google',
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+              ),
+              const SizedBox(height: 12),
               const Text(
                 'By continuing you agree to our Terms & Privacy Policy.',
                 textAlign: TextAlign.center,

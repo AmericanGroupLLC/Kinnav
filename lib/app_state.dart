@@ -126,11 +126,21 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  /// Aligns the local [signedIn] flag with the authoritative auth state. If the
-  /// app thinks it is signed in but there is no valid Supabase session and no
-  /// valid local fallback, sign out and route back to login.
+  /// Aligns the local [signedIn] flag with the authoritative auth state.
+  ///
+  /// AUTO-LOGIN: if there is a valid persisted Supabase session (or the local
+  /// fallback) but the local flag is stale/false, flip it on so a returning user
+  /// routes straight into the app with no login screen. Conversely, if the app
+  /// thinks it is signed in but there is no valid session, sign out and route
+  /// back to login. Never signs out purely because of a launch — only when the
+  /// authoritative session is genuinely gone.
   void _reconcileSignedIn() {
-    if (_signedIn && !SupabaseAuthService.instance.isSignedIn) {
+    final authed = SupabaseAuthService.instance.isSignedIn;
+    if (authed && !_signedIn) {
+      _signedIn = true;
+      unawaited(_storage.setBool(_kSignedIn, true));
+      notifyListeners();
+    } else if (_signedIn && !authed) {
       _signedIn = false;
       unawaited(_storage.setBool(_kSignedIn, false));
       unawaited(SupabaseAuthService.instance.signOut());

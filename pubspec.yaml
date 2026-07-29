@@ -18,6 +18,10 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   supabase_flutter: ^2.16.0
   image_picker: ^1.1.2
+  # Native OAuth for the Supabase-native ID-token sign-in flow.
+  google_sign_in: ^6.2.1
+  sign_in_with_apple: ^6.1.0
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:
