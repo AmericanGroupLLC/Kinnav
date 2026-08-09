@@ -40,7 +40,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
         children: [
-          const Text('How is your Safer experience?',
+          const Text('How is your Kinnav experience?',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
           Row(

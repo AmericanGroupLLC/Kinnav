@@ -18,7 +18,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   static const _slides = [
     _Slide(
       icon: Icons.shield_moon_outlined,
-      title: 'Welcome to Safer',
+      title: 'Welcome to Kinnav',
       body:
           'A new way of women safety and empowerment — help, anywhere, anytime.',
     ),

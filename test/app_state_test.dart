@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:safer/app_state.dart';
-import 'package:safer/models/call_record.dart';
-import 'package:safer/models/user_profile.dart';
-import 'package:safer/services/storage.dart';
+import 'package:kinnav/app_state.dart';
+import 'package:kinnav/models/call_record.dart';
+import 'package:kinnav/models/user_profile.dart';
+import 'package:kinnav/services/storage.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

@@ -45,17 +45,17 @@ Future<void> main() async {
     }
     appState = AppState(storage);
     analytics.logEvent('app_open');
-    runApp(const SaferApp());
+    runApp(const KinnavApp());
   }, (error, stack) => analytics.recordError(error, stack));
 }
 
-class SaferApp extends StatelessWidget {
-  const SaferApp({super.key});
+class KinnavApp extends StatelessWidget {
+  const KinnavApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Safer',
+      title: 'Kinnav',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       home: const RootRouter(),

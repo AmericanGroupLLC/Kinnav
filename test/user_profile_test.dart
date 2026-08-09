@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:safer/models/user_profile.dart';
+import 'package:kinnav/models/user_profile.dart';
 
 void main() {
   group('UserProfile', () {

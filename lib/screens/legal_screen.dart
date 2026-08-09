@@ -12,7 +12,7 @@ class LegalScreen extends StatelessWidget {
   factory LegalScreen.terms() => const LegalScreen._('Legal Terms', [
         (
           'Acceptance of Terms',
-          'By using Safer you agree to these Terms. Safer connects you with '
+          'By using Kinnav you agree to these Terms. Kinnav connects you with '
               'trained volunteer guardians and is not a replacement for emergency '
               'services. In a life-threatening emergency, always call your local '
               'emergency number (e.g. 911).'
@@ -20,12 +20,12 @@ class LegalScreen extends StatelessWidget {
         (
           'Nature of the Service',
           'Guardians are vetted volunteers, not licensed security, medical or '
-              'legal professionals. Safer does not guarantee response times or '
+              'legal professionals. Kinnav does not guarantee response times or '
               'outcomes.'
         ),
         (
           'Eligibility',
-          'You must be 18 or older to use Safer or to become a Guardian.'
+          'You must be 18 or older to use Kinnav or to become a Guardian.'
         ),
         (
           'Acceptable Use',
@@ -39,7 +39,7 @@ class LegalScreen extends StatelessWidget {
         ),
         (
           'Limitation of Liability',
-          'To the maximum extent permitted by law, Safer is provided "as is" '
+          'To the maximum extent permitted by law, Kinnav is provided "as is" '
               'without warranties. This is placeholder text pending legal review.'
         ),
       ]);

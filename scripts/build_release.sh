@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build Safer release artifacts locally.
+# Build Kinnav release artifacts locally.
 #   ./scripts/build_release.sh android   -> APK + AAB (needs android/key.properties)
 #   ./scripts/build_release.sh ios       -> signed IPA (needs Apple signing + ExportOptions.plist)
 #   ./scripts/build_release.sh all

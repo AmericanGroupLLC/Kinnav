@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Safer</string>
+	<string>Kinnav</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>safer</string>
+	<string>kinnav</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -45,13 +45,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Safer uses your location in the background to keep guardians updated during a Safe Call.</string>
+	<string>Kinnav uses your location in the background to keep guardians updated during a Safe Call.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Safer uses your location to show nearby guardians and share your live location during a Safe Call.</string>
+	<string>Kinnav uses your location to show nearby guardians and share your live location during a Safe Call.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Safer lets you choose a profile photo from your photo library.</string>
+	<string>Kinnav lets you choose a profile photo from your photo library.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Safer lets you take a profile photo with your camera.</string>
+	<string>Kinnav lets you take a profile photo with your camera.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchScreen</key>

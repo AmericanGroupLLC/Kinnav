@@ -123,7 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     color: Colors.white, size: 44),
               ),
               const SizedBox(height: 20),
-              const Text('Join Safer',
+              const Text('Join Kinnav',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
               const SizedBox(height: 8),

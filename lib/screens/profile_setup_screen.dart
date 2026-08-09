@@ -149,7 +149,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   borderRadius: BorderRadius.circular(30)),
             ),
             onPressed: _save,
-            child: const Text('Continue to Safer',
+            child: const Text('Continue to Kinnav',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
           ),
         ],

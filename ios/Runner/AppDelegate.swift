@@ -6,7 +6,7 @@ import GoogleMaps
 @objc class AppDelegate: FlutterAppDelegate {
   // Explicit engine so registered plugins share the same engine as the
   // FlutterViewController we create programmatically.
-  private let flutterEngine = FlutterEngine(name: "safer_engine")
+  private let flutterEngine = FlutterEngine(name: "kinnav_engine")
 
   override func application(
     _ application: UIApplication,

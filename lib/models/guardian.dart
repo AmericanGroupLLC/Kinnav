@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// A vetted woman on the Safer network who can respond to a Safe Call.
+/// A vetted woman on the Kinnav network who can respond to a Safe Call.
 class Guardian {
   final String name;
   final double distanceMiles;

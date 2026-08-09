@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Central brand palette for Safer, derived from the product's purple / lavender
+/// Central brand palette for Kinnav, derived from the product's purple / lavender
 /// identity in the design deck and reference screens.
 class AppColors {
   AppColors._();

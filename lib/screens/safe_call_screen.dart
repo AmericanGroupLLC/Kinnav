@@ -92,7 +92,7 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
       // Location unavailable — send the alert without a map link.
     }
     final body =
-        'Safer alert: I\'ve started a Safe Call and may need help.$locationLine '
+        'Kinnav alert: I\'ve started a Safe Call and may need help.$locationLine '
         'Please check on me.';
 
     if (!mounted) return;

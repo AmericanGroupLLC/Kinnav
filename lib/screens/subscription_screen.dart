@@ -54,7 +54,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Safer Membership')),
+      appBar: AppBar(title: const Text('Kinnav Membership')),
       body: ListenableBuilder(
         listenable: appState,
         builder: (context, _) {
@@ -64,7 +64,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             children: [
               const _DemoBanner(),
               const SizedBox(height: 12),
-              const Text('Join the Safer community',
+              const Text('Join the Kinnav community',
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
               const SizedBox(height: 6),
               const Text(

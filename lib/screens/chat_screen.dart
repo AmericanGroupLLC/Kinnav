@@ -108,7 +108,7 @@ class _Header extends StatelessWidget {
                   ),
                   const Expanded(
                     child: Text(
-                      'Safer Support',
+                      'Kinnav Support',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,

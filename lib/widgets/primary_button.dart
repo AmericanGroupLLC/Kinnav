@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
-/// The signature rounded gradient pill button used across Safer
+/// The signature rounded gradient pill button used across Kinnav
 /// (e.g. "CALL GUARDIANS").
 class PrimaryButton extends StatelessWidget {
   final String label;

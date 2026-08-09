@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
-/// A simple, swipeable "How to use Safer" walkthrough mirroring the reference
+/// A simple, swipeable "How to use Kinnav" walkthrough mirroring the reference
 /// tutorial ("1. Press a button", "2. Get a video call", …).
 class HowToUseScreen extends StatefulWidget {
   const HowToUseScreen({super.key});
@@ -52,7 +52,7 @@ class _HowToUseScreenState extends State<HowToUseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('How to use Safer')),
+      appBar: AppBar(title: const Text('How to use Kinnav')),
       body: Column(
         children: [
           Expanded(

@@ -52,7 +52,7 @@ class MenuDrawer extends StatelessWidget {
                                     ?.copyWith(fontWeight: FontWeight.w700)),
                             Text(
                               appState.isSubscribed
-                                  ? 'Safer member'
+                                  ? 'Kinnav member'
                                   : (p?.isGuardian == true
                                       ? 'Guardian'
                                       : 'Community Member'),
@@ -72,7 +72,7 @@ class MenuDrawer extends StatelessWidget {
                       _item(context, Icons.person_add_alt, 'Invite a Friend',
                           onTap: () => Links.sms('', context,
                               body:
-                                  'Join me on Safer — a women\'s safety app. https://getsaferapp.webflow.io')),
+                                  'Join me on Kinnav — a women\'s safety app. https://kinnav.com')),
                       _item(context, Icons.shield_outlined, 'Become a Guardian',
                           page: const GuardiansScreen()),
                       const Divider(),
@@ -91,12 +91,12 @@ class MenuDrawer extends StatelessWidget {
                           'Membership',
                           page: const SubscriptionScreen()),
                       const Divider(),
-                      _item(context, Icons.help_outline, 'How to use Safer',
+                      _item(context, Icons.help_outline, 'How to use Kinnav',
                           page: const HowToUseScreen()),
                       _item(context, Icons.mail_outline, 'Contact Us',
                           onTap: () => Links.email('saferapp3@gmail.com',
                               context,
-                              subject: 'Safer app enquiry')),
+                              subject: 'Kinnav app enquiry')),
                       _item(context, Icons.edit_outlined, 'Feedback',
                           page: const FeedbackScreen()),
                       _item(context, Icons.info_outline, 'About Us',

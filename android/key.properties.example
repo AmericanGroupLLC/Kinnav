@@ -1,8 +1,8 @@
 # Copy to android/key.properties and fill in — DO NOT COMMIT the real file.
 # Create a keystore once:
-#   keytool -genkey -v -keystore ~/safer-upload.jks -keyalg RSA -keysize 2048 \
-#     -validity 10000 -alias safer
+#   keytool -genkey -v -keystore ~/kinnav-upload.jks -keyalg RSA -keysize 2048 \
+#     -validity 10000 -alias kinnav
 storePassword=CHANGE_ME
 keyPassword=CHANGE_ME
-keyAlias=safer
-storeFile=/absolute/path/to/safer-upload.jks
+keyAlias=kinnav
+storeFile=/absolute/path/to/kinnav-upload.jks

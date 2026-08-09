@@ -24,7 +24,7 @@ class AboutScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           const Text(
-            'Safer helps women in unsafe situations, anywhere, anytime — '
+            'Kinnav helps women in unsafe situations, anywhere, anytime — '
             'connecting them to vetted guardians within a 10-mile radius, '
             'and building a community where all women feel free to flourish.',
             style: TextStyle(fontSize: 15, height: 1.5),
@@ -41,14 +41,14 @@ class AboutScreen extends StatelessWidget {
           const _Section(
             title: 'Becoming a Campus Ambassador',
             body:
-                'Bring Safer to your university and create a space where all '
+                'Bring Kinnav to your university and create a space where all '
                 'women feel free and confident to flourish and pursue their '
                 'dreams. Plan and execute creative, strategic events.',
           ),
           const _Section(
             title: 'Becoming a Rewards Provider',
             body:
-                'Partner with Safer to offer exclusive wellness, lifestyle and '
+                'Partner with Kinnav to offer exclusive wellness, lifestyle and '
                 'empowerment deals to a values-driven community of women.',
           ),
           const _Section(
@@ -76,7 +76,7 @@ class AboutScreen extends StatelessWidget {
           _social(context, Icons.alternate_email, 'Twitter / X',
               '@getsaferapp', 'https://twitter.com'),
           _social(context, Icons.language, 'Website',
-              'getsaferapp.webflow.io', 'https://getsaferapp.webflow.io'),
+              'kinnav.com', 'https://kinnav.com'),
           _social(context, Icons.mail_outline, 'Email', 'saferapp3@gmail.com',
               'mailto:saferapp3@gmail.com'),
           const SizedBox(height: 20),

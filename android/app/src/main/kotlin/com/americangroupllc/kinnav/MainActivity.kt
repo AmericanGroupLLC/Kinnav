@@ -1,4 +1,4 @@
-package com.americangroupllc.safer
+package com.americangroupllc.kinnav
 
 import io.flutter.embedding.android.FlutterActivity
 
