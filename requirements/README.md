@@ -1,6 +1,6 @@
-# Safer — Requirements & Source Material
+# Kinnav — Requirements & Source Material
 
-Single home for everything that defines the Safer app: written specs, the pitch
+Single home for everything that defines the Kinnav app: written specs, the pitch
 decks, the backend integration guide, and the annotated app-flow screens.
 
 ```

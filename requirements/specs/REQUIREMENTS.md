@@ -1,10 +1,10 @@
-# Safer — Requirements Document
+# Kinnav — Requirements Document
 
 _Source material: `Final Safer Slide Deck.pptx`, `Safer Slide Deck 2023.pptx`, and 26 reference UI screenshots._
 
 ## 1. Product Vision
 
-**Safer** is an all-in-one **Women's Safety + Empowerment + Rewards** app.
+**Kinnav** is an all-in-one **Women's Safety + Empowerment + Rewards** app.
 
 > _"A new way of women safety and empowerment — an app that helps women in unsafe
 > situations, anywhere, anytime."_

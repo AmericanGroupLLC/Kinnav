@@ -1,13 +1,13 @@
-# Safer — Design Document
+# Kinnav — Design Document
 
-The technical & product **design** for Safer — the "how it's built" companion to
+The technical & product **design** for Kinnav — the "how it's built" companion to
 `REQUIREMENTS.md` (what) and `PLAN.md` (when). Reflects the current codebase.
 
 ---
 
 ## 1. Overview
 
-Safer is a cross-platform (iOS + Android) **Flutter** app: an all-in-one women's
+Kinnav is a cross-platform (iOS + Android) **Flutter** app: an all-in-one women's
 **safety + empowerment + rewards** product. Users reach vetted **guardians** via a
 map + a one-tap **Safe Call**; the same app carries self-care modules, rewards, and
 community. The client is architected as a thin, backend-ready UI over a swappable
@@ -142,7 +142,7 @@ All persisted models implement `toJson`/`fromJson`.
   - `LiveMap` — real `GoogleMap` when `MAPS_API_KEY` is set, else `MapView`.
   - `CoachBubble` — purple-outlined tooltip for onboarding/coach marks.
 - **Logo/identity**: shield + crescent moon (night-safety), in `assets/logo/`
-  (`safer_icon.svg`, `safer_logo.svg`); applied as the iOS/Android app icon.
+  (`kinnav_icon.svg`, `kinnav_logo.svg`); applied as the iOS/Android app icon.
 
 ## 9. Maps & location
 
@@ -172,9 +172,9 @@ presence: `hasMaps`, `hasVideo`, `hasBackend`, `isProd`.
 - **iOS**: programmatic `UIWindow` + explicit `FlutterEngine` in `AppDelegate`
   (no storyboard — the build host can't run `ibtool`); deployment target 15.0 for
   the Google Maps SDK; location usage strings in `Info.plist`.
-- **Android**: `com.americangroupllc.safer`, location + internet permissions, Maps
+- **Android**: `com.americangroupllc.kinnav`, location + internet permissions, Maps
   key via `manifestPlaceholders`, launcher icons generated from the logo master.
-- **Bundle/app id**: `com.americangroupllc.safer` (matches org convention).
+- **Bundle/app id**: `com.americangroupllc.kinnav` (matches org convention).
 
 ## 13. Security & privacy design
 

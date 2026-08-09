@@ -1,4 +1,4 @@
-# Safer 💜
+# Kinnav 💜
 
 An all-in-one **women's safety, empowerment and rewards** app, built with Flutter
 for **iOS and Android**.
@@ -56,7 +56,7 @@ offline in any simulator without API keys.
 
 ## Run
 
-Native **iOS** and **Android** projects are included (bundle id `com.aglabs.safer`).
+Native **iOS** and **Android** projects are included (bundle id `com.americangroupllc.kinnav`).
 
 ```bash
 flutter pub get

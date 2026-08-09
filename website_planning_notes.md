@@ -1,8 +1,21 @@
-# Safer-Women Website Planning Notes
+# Kinnav Website Planning Notes
+
+> **SUPERSEDED IN PART — 2026-08-08.** This file records the original brief and is
+> kept as history. Two things in it no longer hold:
+>
+> 1. **The product is now "Kinnav"**, not "Safer" (domain `kinnav.com`).
+> 2. **The fundraising/nonprofit direction is cancelled.** Kinnav is a product of
+>    American Group LLC, a private company — no EmbeddedOS Foundation
+>    attribution, no 501(c)(3) status, no donation solicitation. The
+>    `/grant-funding` page was removed and replaced by `/waitlist`. Any
+>    donation, grant, tax-deductibility, or EmbeddedOS reference below is
+>    historical only and must not be reimplemented.
+>
+> Current state: `PRODUCTION_DEPLOYMENT_GUIDE.md` and `website/README.md`.
 
 ## Repository findings
 
-- Repository: `AmericanGroupLLC/Safer-Women`
+- Repository: `AmericanGroupLLC/Kinnav`
 - Current product is a Flutter mobile app for iOS and Android.
 - Core positioning from README: an all-in-one women's safety, empowerment, and rewards app.
 - Existing app includes live guardian map, guardian call flow, safe call, support chat, empowerment modules, rewards, profile/about/legal areas.
@@ -21,7 +34,7 @@
 ## Visual findings from viewed assets
 
 ### Logo
-Source: `assets/logo/safer_icon.png`
+Source: `assets/logo/kinnav_icon.png`
 - Rounded purple app icon.
 - White shield centered in the icon.
 - Purple crescent moon inside the shield.
@@ -73,7 +86,7 @@ Source: `requirements/design-flow/21-about-community-manager.jpeg`
 
 ## Constraints and special requests from user
 
-- Domain: `mysaferapp.com`
+- Domain: `kinnav.com`
 - Website code should be pushed into the same GitHub repository as a separate folder.
 - User wants review of all pages/images and expectation/design-flow analysis.
 - User wants pitch/niche approach for grants and fundraising.

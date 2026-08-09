@@ -1,12 +1,12 @@
-# AGENTS.md — Safer (AI orientation)
+# AGENTS.md — Kinnav (AI orientation)
 
 > Read this first. It's the fast, token-cheap map of the app so you can act without
 > scanning the whole tree. Deep detail: `requirements/specs/DESIGN.md`.
 
 ## What
-**Safer** — Flutter (iOS + Android) women's **safety + empowerment + rewards** app.
+**Kinnav** — Flutter (iOS + Android) women's **safety + empowerment + rewards** app.
 Users reach vetted **guardians** via a map + one-tap **Safe Call**; plus self-care
-modules, rewards, community. Bundle id `com.americangroupllc.safer`. Brand: purple
+modules, rewards, community. Bundle id `com.americangroupllc.kinnav`. Brand: purple
 (`#9B59D0`), shield + crescent-moon logo.
 
 ## Run
@@ -109,7 +109,7 @@ Mutate → persist → `notifyListeners()`. Read in UI via `ListenableBuilder(li
 - **Maps/backend/video are gated** — default is offline mock (painted map, mock auth).
   They light up only when the matching key/flag is set.
 - **JWTs only in `SecureStore`** (never shared_preferences).
-- **Android** id `com.americangroupllc.safer`; needs JDK 17+; Maps key via
+- **Android** id `com.americangroupllc.kinnav`; needs JDK 17+; Maps key via
   `manifestPlaceholders[MAPS_API_KEY]`.
 - This sandbox can't build Android (Gradle daemon) — builds fine on a normal machine.
 

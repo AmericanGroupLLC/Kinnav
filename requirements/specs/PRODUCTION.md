@@ -1,13 +1,13 @@
-# Safer — Production / Field-Pilot Runbook
+# Kinnav — Production / Field-Pilot Runbook
 
-This is the exact, ordered checklist to take Safer from the current
+This is the exact, ordered checklist to take Kinnav from the current
 **field-pilot-ready build** to a live pilot (TestFlight + Play internal testing)
 and then production. Items you must supply are marked **[YOU]** (accounts, keys,
 legal). Everything in the app is already wired to accept them.
 
 > ⚠️ **Life-safety product.** Do not run a public launch without the legal &
 > safety gate in §9 completed. A field pilot must use a small, **vetted** guardian
-> group and clearly disclose that Safer is **not a replacement for 911**.
+> group and clearly disclose that Kinnav is **not a replacement for 911**.
 
 ---
 
@@ -86,8 +86,8 @@ Tip: use `--dart-define-from-file=config/prod.json` to avoid long commands.
 
 ## 7. Payments / subscription  **[YOU + code]**
 
-1. Create products in App Store Connect & Play Console: `safer_monthly` ($3.99),
-   `safer_annual` ($39.99).
+1. Create products in App Store Connect & Play Console: `kinnav_monthly` ($3.99),
+   `kinnav_annual` ($39.99).
 2. `flutter pub add in_app_purchase`; implement `StoreKitPurchaseService`
    against the existing `PurchaseService` interface; enable in `services.dart`.
 

@@ -1,4 +1,4 @@
-# Safer — Implementation Plan
+# Kinnav — Implementation Plan
 
 Maps requirements (`REQUIREMENTS.md`) to phases. Legend: ✅ done · 🟡 in progress · ⬜ todo · 🔒 gated on external setup (account/API key/legal).
 

@@ -1,10 +1,9 @@
-# mysaferapp.com — Production Deployment Guide
+# kinnav.com — Production Deployment Guide
 
-**Domain:** mysaferapp.com  
-**App:** Safer — Women's Safety, Empowerment & Rewards  
-**Developer:** EmbeddedOS Foundation (501c3 · EIN 41-4821627)  
-**Owner:** American Group LLC  
-**GitHub:** https://github.com/Safer-Women (GitHub)  
+**Domain:** kinnav.com  
+**App:** Kinnav — Women's Safety, Empowerment & Rewards  
+**Owner / Developer:** American Group LLC (private company)  
+**GitHub:** https://github.com/AmericanGroupLLC/Kinnav  
 
 ---
 
@@ -12,9 +11,9 @@
 
 | Page | Route | Purpose |
 |---|---|---|
-| Home | `/` | Hero, features, how-it-works, competitive table, app screenshots, donate CTA |
+| Home | `/` | Hero, features, how-it-works, competitive table, app screenshots, early-access CTA |
 | How It Works | `/how-it-works` | Full app walkthrough, guardian program, empowerment, rewards |
-| Grant & Funding | `/grant-funding` | **Zeffy donation embed**, funding roadmap, grant table, waitlist form |
+| Waitlist | `/waitlist` | Early-access waitlist form, pitch deck request |
 | About | `/about` | Mission, team, values, community roles |
 | Contact | `/contact` | Categorized contact form (6 inquiry types) |
 | Privacy Policy | `/privacy` | Full GDPR/CCPA privacy policy |
@@ -23,74 +22,93 @@
 
 ---
 
-## Donation System
+## No donations or charitable solicitation
 
-### How Donations Work
+Kinnav is a product of **American Group LLC**, a private company. It is **not** a
+nonprofit, has no 501(c)(3) status, and must not solicit tax-deductible
+donations.
 
-The donation system uses **Zeffy** — a 0% platform fee nonprofit payment processor.
+Removed from the site — do not reintroduce without legal review:
 
-| Item | Value |
-|---|---|
-| Zeffy Form URL | `https://www.zeffy.com/en-US/embed/donation-form/donate-to-change-lives-17596` |
-| Recipient | EmbeddedOS (EoS) Research Foundation |
-| EIN | 41-4821627 |
-| Tax Status | 501(c)(3) — fully tax-deductible |
-| Platform Fees | 0% (Zeffy charges nothing) |
-| Tax Receipt | Automatically emailed by Zeffy |
+- the Zeffy donation embed and all donation tiers
+- "Donate Now" / "Support Our Mission" calls to action
+- EmbeddedOS (EoS) Research Foundation attribution, EIN, and 501(c)(3) claims
+- the `/grant-funding` page and route (replaced by `/waitlist`)
 
-### Donation Flow
-
-1. User clicks **"Donate Now 💜"** in Navbar or any CTA button
-2. Page scrolls to `#donate` section on `/grant-funding`
-3. Zeffy iframe loads the donation form (one-time, monthly, quarterly, yearly)
-4. User completes payment on Zeffy (credit card, Apple Pay, Google Pay)
-5. Tax receipt emailed automatically
-6. Funds deposited to EmbeddedOS Foundation bank account
-
-### Other Donation Channels
-
-- **Wire/Check:** foundation@embeddedos.org
-- **GitHub Sponsors:** https://github.com/sponsors/embeddedos-org
-- **Grant Partnerships:** saferapp3@gmail.com
+Soliciting donations, or describing them as tax-deductible, while operating as a
+private LLC creates real legal exposure — most US states regulate charitable
+solicitation, and a tax-deductibility claim without 501(c)(3) status is a
+misrepresentation to donors. Commercial funding routes (investment, revenue,
+partnerships) are unaffected; route those through `/contact` → *Investor
+Relations*.
 
 ---
 
-## Deploying to mysaferapp.com
+## Deploying to kinnav.com
 
-### Option 1: Netlify (Recommended — Free)
+### Option 0: GitHub Pages — **this is the configured path**
+
+Already wired up: `.github/workflows/deploy-website.yml` builds `website/` and
+deploys to GitHub Pages on every push to `master` that touches `website/**`.
+Nothing to set up in the repo.
+
+DNS records, the HostGator specifics, and the records you must *not* delete:
+**[`docs/DNS_KINNAV_COM.md`](docs/DNS_KINNAV_COM.md)**.
+
+The options below are alternatives. Choosing one means retiring the GitHub Pages
+workflow — don't run two deploy targets at the same domain.
+
+### Option 1: Netlify (Free)
 
 1. Go to [netlify.com](https://netlify.com) → New site from Git
-2. Connect to `Safer-Women (GitHub)` repository
+2. Connect to `AmericanGroupLLC/Kinnav` repository
 3. Set **Base directory:** `website`
 4. Set **Build command:** `pnpm build`
 5. Set **Publish directory:** `website/dist`
 6. Deploy — Netlify automatically uses `website/public/_redirects` for SPA routing
-7. In Netlify → Domain Settings → Add custom domain: `mysaferapp.com`
+7. In Netlify → Domain Settings → Add custom domain: `kinnav.com`
 8. Enable HTTPS (auto via Let's Encrypt)
 
 ### Option 2: Vercel (Recommended — Free)
 
 1. Go to [vercel.com](https://vercel.com) → New Project
-2. Import `Safer-Women (GitHub)`
+2. Import `AmericanGroupLLC/Kinnav`
 3. Set **Root Directory:** `website`
 4. Build command: `pnpm build` · Output directory: `dist`
 5. Deploy — Vercel uses `website/vercel.json` for SPA routing
-6. Settings → Domains → Add `mysaferapp.com`
+6. Settings → Domains → Add `kinnav.com`
 
 ### Option 3: cPanel / Traditional Web Hosting
 
 1. Run `pnpm build` in `website/` directory
 2. Upload contents of `website/dist/` to your `public_html/` folder
-3. The `.htaccess` file is already in `dist/` (from `public/`) — it handles SPA routing
-4. Point `mysaferapp.com` DNS to your hosting IP
+3. **You must create an `.htaccess` yourself** — there is none in `website/public/`,
+   so none is emitted into `dist/`. Without it, every client-side route
+   (`/about`, `/contact`, …) returns a 404 from Apache. Minimum:
+   ```apache
+   <IfModule mod_rewrite.c>
+     RewriteEngine On
+     RewriteBase /
+     RewriteCond %{REQUEST_FILENAME} !-f
+     RewriteCond %{REQUEST_FILENAME} !-d
+     RewriteRule . /index.html [L]
+   </IfModule>
+   ```
+4. Point `kinnav.com` DNS to your hosting IP
 
-### DNS Configuration (for any host)
+### DNS Configuration
+
+For the configured GitHub Pages path, use the exact records in
+**[`docs/DNS_KINNAV_COM.md`](docs/DNS_KINNAV_COM.md)** — it lists GitHub's four
+apex `A` records, the `www` CNAME target, and the conflicting HostGator records
+that must be removed first.
+
+For a self-hosted alternative (Option 3), the generic shape is:
 
 ```
 Type    Name    Value
 A       @       [your host IP]
-A       www     [your host IP]
-CNAME   www     mysaferapp.com
+CNAME   www     kinnav.com
 ```
 
 ---
@@ -99,30 +117,22 @@ CNAME   www     mysaferapp.com
 
 Before going live, confirm the following:
 
-### Zeffy Donation Form
-- [ ] Log into Zeffy account and verify the form `donate-to-change-lives-17596` is active
-- [ ] Confirm bank account is connected to receive funds
-- [ ] Test a $1 donation end-to-end
-- [ ] Verify tax receipt email is working
-
 ### Domain & SSL
-- [ ] Domain `mysaferapp.com` is registered and DNS is configured
+- [ ] Domain `kinnav.com` is registered and DNS is configured
 - [ ] SSL certificate is active (HTTPS)
-- [ ] `www.mysaferapp.com` redirects to `mysaferapp.com`
+- [ ] `www.kinnav.com` redirects to `kinnav.com`
 
 ### Email Addresses (Verify these work)
-- [ ] `saferapp3@gmail.com` — app support inbox
-- [ ] `saferapp3@gmail.com` — team inbox
-- [ ] `foundation@embeddedos.org` — EmbeddedOS Foundation grants
+- [ ] `saferapp3@gmail.com` — app support / team / investor inbox
 
 ### SEO & Analytics
-- [ ] Submit `https://mysaferapp.com/sitemap.xml` to Google Search Console
+- [ ] Submit `https://kinnav.com/sitemap.xml` to Google Search Console
 - [ ] Add Google Analytics or Plausible tracking code to `index.html`
-- [ ] Verify `robots.txt` is accessible at `https://mysaferapp.com/robots.txt`
+- [ ] Verify `robots.txt` is accessible at `https://kinnav.com/robots.txt`
 
 ### Social Media (Optional but recommended)
-- [ ] Create Instagram: `@mysaferapp`
-- [ ] Create Twitter/X: `@mysaferapp`
+- [ ] Create Instagram: `@kinnav`
+- [ ] Create Twitter/X: `@kinnav`
 - [ ] Update Footer social links in `src/components/Footer.jsx`
 
 ---
@@ -133,25 +143,7 @@ Before going live, confirm the following:
 |---|---|
 | App Support | saferapp3@gmail.com |
 | Team / General | saferapp3@gmail.com |
-| EmbeddedOS Foundation | foundation@embeddedos.org |
-| Grant Partnerships | saferapp3@gmail.com |
-
----
-
-## Grant Opportunities
-
-The following grant programs are aligned with Safer's mission:
-
-| Grant Program | Organization | Fit |
-|---|---|---|
-| Violence Against Women Act (VAWA) Grants | U.S. Department of Justice | High |
-| Safety and Justice Challenge | MacArthur Foundation | High |
-| Women's Safety & Empowerment Fund | Various Foundations | High |
-| Tech for Social Good | Google.org / Microsoft Philanthropies | Medium-High |
-| Campus Safety Innovation Grants | U.S. Department of Education | Medium-High |
-| Open Source Foundation Grants | Mozilla / Linux Foundation | Medium |
-
-**To apply for grants:** Contact saferapp3@gmail.com with subject "Grant Partnership Inquiry — Safer Women"
+| Investor Relations | saferapp3@gmail.com |
 
 ---
 
@@ -177,22 +169,15 @@ pnpm preview        # Preview production build locally
 | Animations | Framer Motion |
 | Routing | React Router DOM v7 |
 | Icons | Lucide React |
-| Payments | Zeffy (iframe embed) |
-| Deployment | Netlify / Vercel / cPanel |
+| Payments | None on the website (app subscriptions ship via App Store / Play billing) |
+| Deployment | GitHub Pages (configured) |
 
 ---
 
-## EmbeddedOS Foundation
+## Ownership
 
-The Safer app is developed by **EmbeddedOS (EoS) Research Foundation** — a 501(c)(3) nonprofit.
-
-- Website: https://www.embeddedos.org/
-- EIN: 41-4821627
-- GitHub: https://github.com/embeddedos-org
-- Safer is listed on: https://www.embeddedos.org/eapps
-
-All donations to Safer go through EmbeddedOS Foundation and are fully tax-deductible.
+Kinnav is owned and developed by **American Group LLC**, a private company.
 
 ---
 
-*Last updated: July 2025 · mysaferapp.com Production Guide*
+*Last updated: 2026-08-08 · kinnav.com Production Guide*

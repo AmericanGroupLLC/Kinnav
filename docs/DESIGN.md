@@ -1,4 +1,4 @@
-# Safer — Architecture & Design
+# Kinnav — Architecture & Design
 
 _All-in-one women's safety, empowerment and rewards app (Flutter, iOS + Android)._
 
@@ -10,7 +10,7 @@ map in `AGENTS.md`.
 
 ## 1. Overview
 
-Safer is a single Flutter application built with Material 3. It combines:
+Kinnav is a single Flutter application built with Material 3. It combines:
 
 - **Safety** — a home map of nearby guardians, "Safe Call" flow, safety
   contacts, and one-tap emergency dialing.
