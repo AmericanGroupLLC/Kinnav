@@ -20,7 +20,7 @@ export default function Terms() {
             Terms of Service
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16 }}>
-            Last updated: July 2025 · Safer — mysaferapp.com
+            Last updated: July 2025 · Kinnav — kinnav.com
           </motion.p>
         </div>
       </section>
@@ -30,21 +30,21 @@ export default function Terms() {
           <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.08 } } }}>
             <motion.div variants={fadeUp}>
               <Section title="1. Acceptance of Terms">
-                <P>By accessing or using the Safer application ("App") or website at mysaferapp.com ("Site"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the App or Site. These Terms apply to all users, including visitors, registered users, and guardians.</P>
+                <P>By accessing or using the Kinnav application ("App") or website at kinnav.com ("Site"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the App or Site. These Terms apply to all users, including visitors, registered users, and guardians.</P>
 
               </Section>
 
               <Section title="2. Eligibility">
-                <P>You must be at least 18 years of age to use Safer. By using the App, you represent and warrant that you are 18 or older. The App includes an age verification step during onboarding. We do not knowingly permit minors to use the App.</P>
+                <P>You must be at least 18 years of age to use Kinnav. By using the App, you represent and warrant that you are 18 or older. The App includes an age verification step during onboarding. We do not knowingly permit minors to use the App.</P>
               </Section>
 
               <Section title="3. Description of Service">
-                <P>Safer is a women's safety, empowerment, and rewards platform that connects users with vetted guardians via voice call, video call, text message, or emergency escalation. The App also provides self-care and empowerment modules, a rewards program, and community features.</P>
-                <P><strong>IMPORTANT — LIFE SAFETY NOTICE:</strong> Safer is a supplementary safety tool and is NOT a substitute for emergency services. In any life-threatening emergency, call 911 (or your local emergency number) immediately. Safer does not guarantee response times, guardian availability, or call quality. The App is provided as-is and should not be relied upon as your sole means of safety.</P>
+                <P>Kinnav is a women's safety, empowerment, and rewards platform that connects users with vetted guardians via voice call, video call, text message, or emergency escalation. The App also provides self-care and empowerment modules, a rewards program, and community features.</P>
+                <P><strong>IMPORTANT — LIFE SAFETY NOTICE:</strong> Kinnav is a supplementary safety tool and is NOT a substitute for emergency services. In any life-threatening emergency, call 911 (or your local emergency number) immediately. Kinnav does not guarantee response times, guardian availability, or call quality. The App is provided as-is and should not be relied upon as your sole means of safety.</P>
               </Section>
 
               <Section title="4. Guardian Program">
-                <P>Guardians are independent volunteers and contractors who have completed a 40-hour advocacy training course and passed a vetting process. Guardians are not employees of Safer. Safer does not guarantee the conduct, qualifications, or availability of any guardian.</P>
+                <P>Guardians are independent volunteers and contractors who have completed a 40-hour advocacy training course and passed a vetting process. Guardians are not employees of Kinnav. Kinnav does not guarantee the conduct, qualifications, or availability of any guardian.</P>
                 <P>By becoming a guardian, you agree to: complete the required training, maintain accurate availability status, treat all users with dignity and respect, and comply with all applicable laws and our Guardian Code of Conduct.</P>
               </Section>
 
@@ -53,11 +53,11 @@ export default function Terms() {
               </Section>
 
               <Section title="6. Subscription and Payments">
-                <P>Safer offers subscription plans at $3.99/month or $39.99/year, processed through Apple App Store or Google Play Store. All payments are subject to the terms of the respective app store. Subscriptions auto-renew unless cancelled at least 24 hours before the renewal date. Refunds are handled per the applicable app store policy.</P>
+                <P>Kinnav offers subscription plans at $3.99/month or $39.99/year, processed through Apple App Store or Google Play Store. All payments are subject to the terms of the respective app store. Subscriptions auto-renew unless cancelled at least 24 hours before the renewal date. Refunds are handled per the applicable app store policy.</P>
               </Section>
 
               <Section title="7. Intellectual Property">
-                <P>The Safer name, logo, app design, and content are the property of Safer. The underlying App code is open-source under the MIT License. User-generated content (profile information, feedback) remains your property, but you grant us a license to use it to operate the service.</P>
+                <P>The Kinnav name, logo, app design, and content are the property of Kinnav. The underlying App code is open-source under the MIT License. User-generated content (profile information, feedback) remains your property, but you grant us a license to use it to operate the service.</P>
               </Section>
 
               <Section title="8. Disclaimer of Warranties">
@@ -65,7 +65,7 @@ export default function Terms() {
               </Section>
 
               <Section title="9. Limitation of Liability">
-                <P>TO THE MAXIMUM EXTENT PERMITTED BY LAW, SAFER SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF THE APP, INCLUDING ANY FAILURE OF THE SAFETY FEATURES TO PREVENT HARM. OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU PAID FOR THE SERVICE IN THE PAST 12 MONTHS.</P>
+                <P>TO THE MAXIMUM EXTENT PERMITTED BY LAW, KINNAV SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF THE APP, INCLUDING ANY FAILURE OF THE SAFETY FEATURES TO PREVENT HARM. OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU PAID FOR THE SERVICE IN THE PAST 12 MONTHS.</P>
               </Section>
 
               <Section title="10. Governing Law">
@@ -78,9 +78,9 @@ export default function Terms() {
 
               <Section title="12. Contact">
                 <div style={{ background: '#F9F5FF', borderRadius: 16, padding: '1.5rem 2rem', border: '1px solid rgba(155,89,208,0.15)', marginTop: 16 }}>
-                  <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Safer</div>
+                  <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Kinnav</div>
                   <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}><Link to="/contact" style={{ color: '#9B59D0' }}>Contact Us</Link></div>
-                  <div style={{ color: '#6B7280', fontSize: 15 }}>Website: <a href="https://mysaferapp.com" style={{ color: '#9B59D0' }}>mysaferapp.com</a></div>
+                  <div style={{ color: '#6B7280', fontSize: 15 }}>Website: <a href="https://kinnav.com" style={{ color: '#9B59D0' }}>kinnav.com</a></div>
                 </div>
               </Section>
 

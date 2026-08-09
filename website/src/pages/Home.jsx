@@ -72,7 +72,7 @@ export default function Home() {
               </motion.h1>
 
               <motion.p variants={fadeUp} style={{ fontSize: 18, color: 'rgba(255,255,255,0.8)', lineHeight: 1.7, marginBottom: 36, maxWidth: 520 }}>
-                Safer connects you to vetted guardians nearby — via voice or video — the moment you need them. No time limit. No judgment.
+                Kinnav connects you to vetted guardians nearby — via voice or video — the moment you need them. No time limit. No judgment.
               </motion.p>
 
               <motion.div variants={fadeUp} style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
@@ -85,14 +85,14 @@ export default function Home() {
                 }}>
                   See How It Works <ArrowRight size={17} />
                 </Link>
-                <Link to="/grant-funding" style={{
+                <Link to="/waitlist" style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                   padding: '13px 30px', borderRadius: 50,
                   background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.3)',
                   color: '#fff', fontWeight: 700, fontSize: 16, textDecoration: 'none',
                   backdropFilter: 'blur(8px)',
                 }}>
-                  Support Our Mission 💜
+                  Join the Waitlist 💜
                 </Link>
               </motion.div>
 
@@ -186,12 +186,12 @@ export default function Home() {
             <motion.h2 variants={fadeUp} style={{ fontSize: 'clamp(1.7rem, 3vw, 2.5rem)', fontWeight: 900, color: '#1a1a2e', marginBottom: 12 }}>
               See the app in action
             </motion.h2>
-            <motion.p variants={fadeUp} style={{ color: '#6B7280', fontSize: 16 }}>Real screens from the Safer app</motion.p>
+            <motion.p variants={fadeUp} style={{ color: '#6B7280', fontSize: 16 }}>Real screens from the Kinnav app</motion.p>
           </motion.div>
 
           <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             {[
-              { src: '/images/screen-login.jpg', label: 'Join Safer' },
+              { src: '/images/screen-login.jpg', label: 'Join Kinnav' },
               { src: '/images/screen-map-guardians.jpg', label: 'Guardian Map' },
               { src: '/images/screen-reach-guardian.jpg', label: 'Reach a Guardian' },
               { src: '/images/screen-rewards.jpg', label: 'Rewards' },
@@ -244,7 +244,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── WHY SAFER ── */}
+      {/* ── WHY KINNAV ── */}
       <section style={{ padding: '5rem 1.5rem', background: 'linear-gradient(135deg, #1a0533, #3d1278)' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
@@ -252,7 +252,7 @@ export default function Home() {
               The only app that does all three
             </motion.h2>
             <motion.p variants={fadeUp} style={{ color: 'rgba(255,255,255,0.65)', fontSize: 16, marginBottom: '2.5rem' }}>
-              Other apps do one thing. Safer does everything.
+              Other apps do one thing. Kinnav does everything.
             </motion.p>
 
             <motion.div variants={fadeUp} style={{ overflowX: 'auto' }}>
@@ -269,7 +269,7 @@ export default function Home() {
                     { name: 'bSafe / Noonlight', s: true, e: false, r: false },
                     { name: 'InnerHour', s: false, e: true, r: false },
                     { name: 'Unidays / Drop', s: false, e: false, r: true },
-                    { name: 'Safer 💜', s: true, e: true, r: true, highlight: true },
+                    { name: 'Kinnav 💜', s: true, e: true, r: true, highlight: true },
                   ].map(row => (
                     <tr key={row.name} style={{ background: row.highlight ? 'rgba(155,89,208,0.2)' : 'transparent', borderRadius: 12 }}>
                       <td style={{ padding: '14px 16px', fontWeight: row.highlight ? 800 : 500, color: row.highlight ? '#D8C4F0' : 'rgba(255,255,255,0.7)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>{row.name}</td>
@@ -287,33 +287,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── DONATE CTA ── */}
+      {/* ── EARLY ACCESS CTA ── */}
       <section style={{ padding: '5rem 1.5rem', background: '#F9F5FF', textAlign: 'center' }}>
         <div style={{ maxWidth: 640, margin: '0 auto' }}>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             <motion.div variants={fadeUp} style={{ fontSize: 48, marginBottom: 16 }}>💜</motion.div>
             <motion.h2 variants={fadeUp} style={{ fontSize: 'clamp(1.7rem, 3vw, 2.4rem)', fontWeight: 900, color: '#1a1a2e', marginBottom: 14 }}>
-              Help us build Safer
+              Be first to use Kinnav
             </motion.h2>
             <motion.p variants={fadeUp} style={{ color: '#6B7280', fontSize: 16, lineHeight: 1.7, marginBottom: 32 }}>
-              The prototype is ready. We need grant funding to launch the full app for women everywhere.
+              The prototype is ready. Join the waitlist and we'll let you know the moment the full app launches.
             </motion.p>
             <motion.div variants={fadeUp} style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/grant-funding#donate" style={{
+              <Link to="/waitlist" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '14px 36px', borderRadius: 50,
                 background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
                 color: '#fff', fontWeight: 700, fontSize: 16, textDecoration: 'none',
                 boxShadow: '0 8px 30px rgba(155,89,208,0.35)',
               }}>
-                Donate Now 💜
+                Join the Waitlist 💜
               </Link>
-              <Link to="/grant-funding" style={{
+              <Link to="/contact" style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '14px 36px', borderRadius: 50,
                 border: '2px solid #9B59D0', color: '#9B59D0', fontWeight: 700, fontSize: 16, textDecoration: 'none',
               }}>
-                View Grant Details
+                Contact Us
               </Link>
             </motion.div>
           </motion.div>

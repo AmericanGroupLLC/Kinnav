@@ -40,7 +40,7 @@ export default function PrivacyPolicy() {
             transition={{ delay: 0.2 }}
             style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16 }}
           >
-            Last updated: July 2025 · Safer — mysaferapp.com
+            Last updated: July 2025 · Kinnav — kinnav.com
           </motion.p>
         </div>
       </section>
@@ -52,7 +52,7 @@ export default function PrivacyPolicy() {
             <motion.div variants={fadeUp}>
               <Section title="1. Introduction">
                 <P>
-                  Safer ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use the Safer mobile application and website (mysaferapp.com). Please read this policy carefully. If you disagree with its terms, please discontinue use of the app.
+                  Kinnav ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use the Kinnav mobile application and website (kinnav.com). Please read this policy carefully. If you disagree with its terms, please discontinue use of the app.
                 </P>
 
               </Section>
@@ -66,7 +66,7 @@ export default function PrivacyPolicy() {
               </Section>
 
               <Section title="3. How We Use Your Information">
-                <P>We use your information to: provide and improve the Safer service; connect you with nearby guardians; notify your safety contacts during emergencies; personalize your empowerment module experience; process subscription payments; send push notifications relevant to your safety; and comply with legal obligations.</P>
+                <P>We use your information to: provide and improve the Kinnav service; connect you with nearby guardians; notify your safety contacts during emergencies; personalize your empowerment module experience; process subscription payments; send push notifications relevant to your safety; and comply with legal obligations.</P>
                 <P>We do not sell your personal information to third parties. We do not use your precise location for advertising purposes.</P>
               </Section>
 
@@ -88,7 +88,7 @@ export default function PrivacyPolicy() {
               </Section>
 
               <Section title="7. Children's Privacy">
-                <P>Safer is intended for users 18 years of age and older. We do not knowingly collect personal information from minors. If you believe a minor has provided us with personal information, please contact us immediately.</P>
+                <P>Kinnav is intended for users 18 years of age and older. We do not knowingly collect personal information from minors. If you believe a minor has provided us with personal information, please contact us immediately.</P>
               </Section>
 
               <Section title="8. Data Retention">
@@ -96,7 +96,7 @@ export default function PrivacyPolicy() {
               </Section>
 
               <Section title="9. Changes to This Policy">
-                <P>We may update this Privacy Policy from time to time. We will notify you of significant changes via the app or email. Continued use of Safer after changes constitutes acceptance of the updated policy.</P>
+                <P>We may update this Privacy Policy from time to time. We will notify you of significant changes via the app or email. Continued use of Kinnav after changes constitutes acceptance of the updated policy.</P>
               </Section>
 
               <Section title="10. Contact Us">
@@ -108,12 +108,12 @@ export default function PrivacyPolicy() {
                   border: '1px solid rgba(155,89,208,0.15)',
                   marginTop: 16,
                 }}>
-                  <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Safer</div>
+                  <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Kinnav</div>
                   <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>
                     <Link to="/contact" style={{ color: '#9B59D0' }}>Contact Us</Link>
                   </div>
                   <div style={{ color: '#6B7280', fontSize: 15 }}>
-                    Website: <a href="https://mysaferapp.com" style={{ color: '#9B59D0' }}>mysaferapp.com</a>
+                    Website: <a href="https://kinnav.com" style={{ color: '#9B59D0' }}>kinnav.com</a>
                   </div>
                 </div>
               </Section>

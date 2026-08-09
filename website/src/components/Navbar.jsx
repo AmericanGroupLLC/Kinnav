@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Menu, X, Shield } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
+import { Menu, X } from 'lucide-react'
 
 const navLinks = [
   { to: '/', label: 'Home' },
   { to: '/how-it-works', label: 'How It Works' },
-  { to: '/grant-funding', label: 'Grant & Funding' },
   { to: '/about', label: 'About' },
 ]
 
@@ -13,7 +12,6 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
-  const navigate = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -22,23 +20,6 @@ export default function Navbar() {
   }, [])
 
   useEffect(() => setOpen(false), [location])
-
-  // Handle donate button — navigate to grant-funding then scroll to #donate
-  const handleDonate = (e) => {
-    e.preventDefault()
-    setOpen(false)
-    if (location.pathname === '/grant-funding') {
-      const el = document.getElementById('donate')
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    } else {
-      navigate('/grant-funding')
-      // After navigation, scroll to donate section
-      setTimeout(() => {
-        const el = document.getElementById('donate')
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 400)
-    }
-  }
 
   const isHome = location.pathname === '/'
   const navBg = scrolled || !isHome
@@ -63,9 +44,9 @@ export default function Navbar() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72 }}>
           {/* Logo */}
           <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <img src="/images/safer_icon.png" alt="Safer" style={{ width: 40, height: 40, borderRadius: 10 }} />
+            <img src="/images/kinnav_icon.png" alt="Kinnav" style={{ width: 40, height: 40, borderRadius: 10 }} />
             <div>
-              <div style={{ fontWeight: 800, fontSize: 20, color: logoColor, lineHeight: 1 }}>Safer</div>
+              <div style={{ fontWeight: 800, fontSize: 20, color: logoColor, lineHeight: 1 }}>Kinnav</div>
               <div style={{ fontSize: 10, color: logoSubColor, letterSpacing: 1.5, textTransform: 'uppercase', fontWeight: 600 }}>Women's Safety App</div>
             </div>
           </Link>
@@ -93,24 +74,23 @@ export default function Navbar() {
                 </Link>
               )
             })}
-            <button
-              onClick={handleDonate}
+            <Link
+              to="/waitlist"
               style={{
                 marginLeft: 8,
                 padding: '10px 24px',
                 borderRadius: 50,
                 fontWeight: 700,
                 fontSize: 15,
-                cursor: 'pointer',
+                textDecoration: 'none',
                 color: '#fff',
                 background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
                 boxShadow: '0 4px 15px rgba(155,89,208,0.4)',
                 transition: 'all 0.2s',
-                border: 'none',
               }}
             >
-              Donate Now 💜
-            </button>
+              Join Waitlist 💜
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -159,8 +139,8 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <button
-            onClick={handleDonate}
+          <Link
+            to="/waitlist"
             style={{
               display: 'block',
               width: '100%',
@@ -169,15 +149,14 @@ export default function Navbar() {
               borderRadius: 50,
               fontWeight: 700,
               fontSize: 16,
-              cursor: 'pointer',
+              textDecoration: 'none',
               color: '#fff',
               background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
               textAlign: 'center',
-              border: 'none',
             }}
           >
-            Donate Now 💜
-          </button>
+            Join Waitlist 💜
+          </Link>
         </div>
       )}
 

@@ -1,4 +1,4 @@
-# GitHub Actions: Build & Deploy mysaferapp.com to GitHub Pages
+# GitHub Actions: Build & Deploy kinnav.com to GitHub Pages
 # Triggers on every push to master branch (website/ folder changes)
 # Also supports manual trigger via workflow_dispatch
 

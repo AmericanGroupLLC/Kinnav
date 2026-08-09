@@ -4,7 +4,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import HowItWorks from './pages/HowItWorks'
-import GrantFunding from './pages/GrantFunding'
+import Waitlist from './pages/Waitlist'
 import About from './pages/About'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import Terms from './pages/Terms'
@@ -32,7 +32,7 @@ function Layout() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
-          <Route path="/grant-funding" element={<GrantFunding />} />
+          <Route path="/waitlist" element={<Waitlist />} />
           <Route path="/about" element={<About />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<Terms />} />

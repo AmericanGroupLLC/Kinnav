@@ -1,17 +1,17 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Send, RefreshCw, MessageSquare, Shield, Users, Briefcase, Newspaper } from 'lucide-react'
+import { Send, RefreshCw, MessageSquare, Shield, Users, Briefcase, Newspaper } from 'lucide-react'
 
 const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } }
 
 const contactTypes = [
-  { value: 'general', label: '💬 General Inquiry', email: 'saferapp3@gmail.com', subject: 'General Inquiry — Safer' },
-  { value: 'support', label: '🛠️ App Support', email: 'saferapp3@gmail.com', subject: 'App Support — Safer' },
-  { value: 'guardian', label: '🛡️ Become a Guardian', email: 'saferapp3@gmail.com', subject: 'Guardian Application — Safer' },
-  { value: 'partner', label: '🤝 Partnership / NGO', email: 'saferapp3@gmail.com', subject: 'Partnership Inquiry — Safer' },
-  { value: 'grant', label: '💼 Grant / Funding', email: 'foundation@embeddedos.org', subject: 'Grant Inquiry — Safer' },
-  { value: 'press', label: '📰 Press / Media', email: 'saferapp3@gmail.com', subject: 'Press Inquiry — Safer' },
+  { value: 'general', label: '💬 General Inquiry', email: 'saferapp3@gmail.com', subject: 'General Inquiry — Kinnav' },
+  { value: 'support', label: '🛠️ App Support', email: 'saferapp3@gmail.com', subject: 'App Support — Kinnav' },
+  { value: 'guardian', label: '🛡️ Become a Guardian', email: 'saferapp3@gmail.com', subject: 'Guardian Application — Kinnav' },
+  { value: 'partner', label: '🤝 Partnership / NGO', email: 'saferapp3@gmail.com', subject: 'Partnership Inquiry — Kinnav' },
+  { value: 'investor', label: '💼 Investor Relations', email: 'saferapp3@gmail.com', subject: 'Investor Inquiry — Kinnav' },
+  { value: 'press', label: '📰 Press / Media', email: 'saferapp3@gmail.com', subject: 'Press Inquiry — Kinnav' },
 ]
 
 function ContactForm() {
@@ -25,7 +25,7 @@ function ContactForm() {
     if (!form.name || !form.email || !form.message) return
     setStatus('submitting')
     const subject = encodeURIComponent(`${selectedType.subject} — from ${form.name}`)
-    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\nType: ${selectedType.label}\n\nMessage:\n${form.message}\n\n[Sent from mysaferapp.com contact form]`)
+    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\nType: ${selectedType.label}\n\nMessage:\n${form.message}\n\n[Sent from kinnav.com contact form]`)
     window.location.href = `mailto:${selectedType.email}?subject=${subject}&body=${body}`
     setTimeout(() => setStatus('success'), 500)
   }
@@ -112,8 +112,8 @@ export default function Contact() {
   const contactCards = [
     { icon: <MessageSquare size={24} />, title: 'General & App Support', desc: 'Technical issues, account help, feedback, and general questions.', color: '#9B59D0' },
     { icon: <Users size={24} />, title: 'Become a Guardian', desc: 'Join our vetted guardian network and help protect women in your community.', color: '#7B3FBE' },
-    { icon: <Briefcase size={24} />, title: 'Partnerships & NGOs', desc: 'Collaborate with Safer to expand our reach and impact.', color: '#B57BE0' },
-    { icon: <Shield size={24} />, title: 'Grant & Funding', desc: 'Foundation, government, and corporate grant partnership inquiries.', color: '#6A1B9A' },
+    { icon: <Briefcase size={24} />, title: 'Partnerships & NGOs', desc: 'Collaborate with Kinnav to expand our reach and impact.', color: '#B57BE0' },
+    { icon: <Shield size={24} />, title: 'Investor Relations', desc: 'Investment enquiries, pitch deck requests, and commercial partnerships.', color: '#6A1B9A' },
     { icon: <Newspaper size={24} />, title: 'Press & Media', desc: 'Media inquiries, press kits, and interview requests.', color: '#E91E8C' },
 
   ]
@@ -147,13 +147,7 @@ export default function Contact() {
                   {card.icon}
                 </div>
                 <h3 style={{ fontWeight: 800, fontSize: 16, color: '#1a1a2e', marginBottom: 8 }}>{card.title}</h3>
-                <p style={{ color: '#6B7280', fontSize: 14, lineHeight: 1.7, marginBottom: card.link ? 12 : 0 }}>{card.desc}</p>
-                {card.link && (
-                  <a href={card.link} target="_blank" rel="noopener noreferrer"
-                    style={{ color: card.color, fontWeight: 600, fontSize: 13, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
-                    Visit Website <ExternalLink size={12} />
-                  </a>
-                )}
+                <p style={{ color: '#6B7280', fontSize: 14, lineHeight: 1.7 }}>{card.desc}</p>
               </motion.div>
             ))}
           </div>

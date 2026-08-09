@@ -40,7 +40,7 @@ export default function HowItWorks() {
               App Walkthrough
             </motion.div>
             <motion.h1 variants={fadeUp} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#fff', lineHeight: 1.15, marginBottom: 16 }}>
-              How Safer Works
+              How Kinnav Works
             </motion.h1>
             <motion.p variants={fadeUp} style={{ fontSize: 17, color: 'rgba(255,255,255,0.7)', lineHeight: 1.7 }}>
               From opening the app to feeling safe — here's exactly what happens.
@@ -124,7 +124,7 @@ export default function HowItWorks() {
               <div style={{ fontWeight: 800, fontSize: 20, color: '#fff', marginBottom: 6 }}>Ready to become a Guardian?</div>
               <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: 15 }}>Available when the app launches. Join the waitlist now.</div>
             </div>
-            <Link to="/grant-funding" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px', borderRadius: 50, background: '#fff', color: '#9B59D0', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+            <Link to="/waitlist" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '12px 28px', borderRadius: 50, background: '#fff', color: '#9B59D0', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
               Join Waitlist <ArrowRight size={16} />
             </Link>
           </motion.div>

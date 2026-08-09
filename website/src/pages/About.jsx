@@ -9,21 +9,14 @@ const team = [
   {
     name: 'Shivani',
     role: 'Founder & Survivor',
-    bio: 'A survivor herself, Shivani built Safer to ensure no woman ever faces an unsafe situation alone.',
+    bio: 'A survivor herself, Shivani built Kinnav to ensure no woman ever faces an unsafe situation alone.',
     emoji: '💜',
     color: '#9B59D0',
   },
   {
-    name: 'Srikanth',
-    role: 'Embedded Platform Engineer',
-    bio: 'Srikanth leads the embedded platform and infrastructure powering the Safer app at scale.',
-    emoji: '⚡',
-    color: '#7B3FBE',
-  },
-  {
     name: 'Vanshika',
     role: 'Marketing & Community',
-    bio: 'Vanshika connects the Safer mission with the women who need it most through community and storytelling.',
+    bio: 'Vanshika connects the Kinnav mission with the women who need it most through community and storytelling.',
     emoji: '🌟',
     color: '#B57BE0',
   },
@@ -32,10 +25,10 @@ const team = [
 const roles = [
   { title: 'Guardian', icon: <Shield size={24} />, desc: 'Vetted women 18+ who complete a 40-hour course and get paid to support others.', color: '#9B59D0' },
   { title: 'Community Manager', icon: <Users size={24} />, desc: 'Lead your local community — bring women together and champion safety.', color: '#7B3FBE' },
-  { title: 'Campus Ambassador', icon: <Star size={24} />, desc: 'Bring Safer to your university and make campus safer for everyone.', color: '#B57BE0' },
-  { title: 'Reward Partner', icon: <Heart size={24} />, desc: 'Wellness brands offering yoga, counseling, and coaching to Safer members.', color: '#6A1B9A' },
+  { title: 'Campus Ambassador', icon: <Star size={24} />, desc: 'Bring Kinnav to your university and make campus safer for everyone.', color: '#B57BE0' },
+  { title: 'Reward Partner', icon: <Heart size={24} />, desc: 'Wellness brands offering yoga, counseling, and coaching to Kinnav members.', color: '#6A1B9A' },
   { title: 'NGO Partner', icon: <Globe size={24} />, desc: 'Advocacy orgs creating empowerment content and earning per engagement.', color: '#E91E8C' },
-  { title: 'Institutional Partner', icon: <Star size={24} />, desc: 'Universities and corporations adopting Safer for their communities.', color: '#43A047' },
+  { title: 'Institutional Partner', icon: <Star size={24} />, desc: 'Universities and corporations adopting Kinnav for their communities.', color: '#43A047' },
 ]
 
 const values = [
@@ -44,7 +37,7 @@ const values = [
   { icon: '🤝', title: 'Community', desc: 'Safety is collective. We build communities that protect each other.' },
   { icon: '⚡', title: 'Empowerment', desc: 'Safety is about protection and building confidence.' },
   { icon: '🌍', title: 'Accessible', desc: 'At $3.99/month — designed for every woman who needs it.' },
-  { icon: '🔓', title: 'Transparent', desc: 'Open-source foundations — auditable and community-driven.' },
+  { icon: '🔓', title: 'Transparent', desc: 'Clear policies, plain-language terms, and no hidden use of your data.' },
 ]
 
 export default function About() {
@@ -55,13 +48,13 @@ export default function About() {
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
           <motion.div initial="hidden" animate="visible" variants={stagger}>
             <motion.div variants={fadeUp} style={{ display: 'inline-block', background: 'rgba(181,123,224,0.2)', color: '#D8C4F0', borderRadius: 50, padding: '5px 16px', fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 16 }}>
-              About Safer
+              About Kinnav
             </motion.div>
             <motion.h1 variants={fadeUp} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#fff', lineHeight: 1.15, marginBottom: 16 }}>
               Built by women, for women
             </motion.h1>
             <motion.p variants={fadeUp} style={{ fontSize: 17, color: 'rgba(255,255,255,0.7)', lineHeight: 1.7 }}>
-              Safer exists so no woman ever has to face an unsafe situation alone.
+              Kinnav exists so no woman ever has to face an unsafe situation alone.
             </motion.p>
           </motion.div>
         </div>
@@ -79,7 +72,7 @@ export default function About() {
                 Safety + Empowerment + Rewards
               </motion.h2>
               <motion.p variants={fadeUp} style={{ color: '#6B7280', fontSize: 16, lineHeight: 1.8, marginBottom: 16 }}>
-                Every woman deserves to feel safe — walking home, on campus, at work, anywhere. Safer bridges that gap with vetted guardians, real-time connection, and empowerment resources.
+                Every woman deserves to feel safe — walking home, on campus, at work, anywhere. Kinnav bridges that gap with vetted guardians, real-time connection, and empowerment resources.
               </motion.p>
               <motion.p variants={fadeUp} style={{ color: '#6B7280', fontSize: 16, lineHeight: 1.8, fontStyle: 'italic' }}>
                 "It's easier to look forward when you don't have to watch your back."
@@ -101,7 +94,7 @@ export default function About() {
               The Team
             </motion.div>
             <motion.h2 variants={fadeUp} style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 900, color: '#1a1a2e' }}>
-              Who's building Safer
+              Who's building Kinnav
             </motion.h2>
           </motion.div>
 
@@ -176,7 +169,7 @@ export default function About() {
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
             <motion.h2 variants={fadeUp} style={{ fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)', fontWeight: 900, color: '#fff', marginBottom: 14 }}>
-              Join the Safer community
+              Join the Kinnav community
             </motion.h2>
             <motion.p variants={fadeUp} style={{ color: 'rgba(255,255,255,0.65)', fontSize: 16, marginBottom: 28 }}>
               Be part of the movement to make women safer everywhere.
@@ -185,8 +178,8 @@ export default function About() {
               <Link to="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 30px', borderRadius: 50, background: 'linear-gradient(135deg, #B57BE0, #9B59D0)', color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
                 Get in Touch <ArrowRight size={16} />
               </Link>
-              <Link to="/grant-funding" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 30px', borderRadius: 50, border: '1px solid rgba(255,255,255,0.3)', color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
-                Support the Mission
+              <Link to="/waitlist" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '13px 30px', borderRadius: 50, border: '1px solid rgba(255,255,255,0.3)', color: '#fff', fontWeight: 700, fontSize: 15, textDecoration: 'none' }}>
+                Join the Waitlist
               </Link>
             </motion.div>
           </motion.div>

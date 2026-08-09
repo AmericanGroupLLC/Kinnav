@@ -56,7 +56,7 @@ export default function NotFound() {
         <div style={{ marginTop: 48, display: 'flex', gap: 24, justifyContent: 'center', flexWrap: 'wrap' }}>
           {[
             { to: '/how-it-works', label: 'How It Works' },
-            { to: '/grant-funding', label: 'Donate' },
+            { to: '/waitlist', label: 'Join Waitlist' },
             { to: '/about', label: 'About Us' },
           ].map(l => (
             <Link key={l.to} to={l.to} style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: 14, fontWeight: 600, transition: 'color 0.2s' }}>

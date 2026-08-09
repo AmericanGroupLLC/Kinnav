@@ -21,9 +21,9 @@ export default function Footer() {
           {/* Brand column */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-              <img src="/images/safer_icon.png" alt="Safer" style={{ width: 44, height: 44, borderRadius: 10 }} />
+              <img src="/images/kinnav_icon.png" alt="Kinnav" style={{ width: 44, height: 44, borderRadius: 10 }} />
               <div>
-                <div style={{ fontWeight: 800, fontSize: 22, lineHeight: 1 }}>Safer</div>
+                <div style={{ fontWeight: 800, fontSize: 22, lineHeight: 1 }}>Kinnav</div>
                 <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.6)', letterSpacing: 1.5, textTransform: 'uppercase' }}>Women's Safety App</div>
               </div>
             </div>
@@ -32,8 +32,8 @@ export default function Footer() {
             </p>
             <div style={{ display: 'flex', gap: 12 }}>
               {[
-                { icon: <Share2 size={18} />, href: 'https://instagram.com/mysaferapp', label: 'Instagram' },
-                { icon: <Globe size={18} />, href: 'https://x.com/mysaferapp', label: 'Twitter/X' },
+                { icon: <Share2 size={18} />, href: 'https://instagram.com/kinnav', label: 'Instagram' },
+                { icon: <Globe size={18} />, href: 'https://x.com/kinnav', label: 'Twitter/X' },
               ].map(s => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
                   aria-label={s.label}
@@ -57,7 +57,7 @@ export default function Footer() {
             {[
               { to: '/', label: 'Home' },
               { to: '/how-it-works', label: 'How It Works' },
-              { to: '/grant-funding', label: 'Grant & Funding' },
+              { to: '/waitlist', label: 'Join Waitlist' },
               { to: '/about', label: 'About Us' },
               { to: '/contact', label: 'Contact' },
             ].map(l => (
@@ -115,7 +115,7 @@ export default function Footer() {
             🤖 Android App — Coming Soon
           </div>
           <div style={{ background: 'rgba(155,89,208,0.15)', border: '1px solid rgba(181,123,224,0.3)', borderRadius: 10, padding: '8px 18px', color: '#B57BE0', fontSize: 13, fontWeight: 700 }}>
-            <Link to="/grant-funding#waitlist" style={{ color: 'inherit', textDecoration: 'none' }}>💜 Join Waitlist — Get Early Access</Link>
+            <Link to="/waitlist" style={{ color: 'inherit', textDecoration: 'none' }}>💜 Join Waitlist — Get Early Access</Link>
           </div>
         </div>
 
@@ -130,7 +130,7 @@ export default function Footer() {
           gap: 12,
         }}>
           <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
-            © {year} Safer. All rights reserved.
+            © {year} Kinnav. All rights reserved.
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
             Made with <Heart size={13} style={{ color: '#B57BE0', fill: '#B57BE0' }} /> for women's safety worldwide

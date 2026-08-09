@@ -1,8 +1,8 @@
-# Safer — Marketing Website
+# Kinnav — Marketing Website
 
-**Domain:** [mysaferapp.com](https://mysaferapp.com)
+**Domain:** [kinnav.com](https://kinnav.com)
 
-This is the official marketing website for the **Safer** women's safety, empowerment, and rewards app.
+This is the official marketing website for the **Kinnav** women's safety, empowerment, and rewards app.
 
 ## Tech Stack
 
@@ -16,11 +16,13 @@ This is the official marketing website for the **Safer** women's safety, empower
 
 | Route | Description |
 |---|---|
-| `/` | Home — hero, features, how it works, competitive advantage, app screenshots, donation CTA |
+| `/` | Home — hero, features, how it works, competitive advantage, app screenshots, early-access CTA |
 | `/how-it-works` | Full app walkthrough — safe call flow, guardian program, empowerment modules, rewards |
-| `/grant-funding` | Grant & fundraising — EmbeddedOS partnership, funding goals, grant opportunities, donation tiers |
+| `/waitlist` | Early access — waitlist signup, pitch deck request |
 | `/about` | About — mission, team, values, community roles, contact |
 | `/privacy` | Privacy Policy |
+| `/terms` | Terms of Service |
+| `/contact` | Contact — general, guardian, partnership, investor, press |
 
 ## Development
 
@@ -33,6 +35,7 @@ pnpm preview    # Preview production build
 
 ## About
 
-The Safer app is developed by [EmbeddedOS Foundation](https://www.embeddedos.org/) — a 501(c)(3) nonprofit — on behalf of American Group LLC.
+Kinnav is developed by **American Group LLC**, a private company. Kinnav is not a
+nonprofit and does not solicit charitable donations.
 
-Contact: [saferapp3@gmail.com](mailto:saferapp3@gmail.com) · [foundation@embeddedos.org](mailto:foundation@embeddedos.org)
+Contact: [saferapp3@gmail.com](mailto:saferapp3@gmail.com)

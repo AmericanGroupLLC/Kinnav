@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  // base: '/' is correct for custom domain (mysaferapp.com)
+  // base: '/' is correct for custom domain (kinnav.com)
   // GitHub Pages serves from root when a custom domain CNAME is set
   base: '/',
   plugins: [
