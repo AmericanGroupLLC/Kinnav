@@ -11,6 +11,22 @@ before.
 
 ---
 
+## Current state (verified 2026-08-10)
+
+| Thing | State |
+|---|---|
+| Registry status | `client transfer prohibited` only — the earlier `client hold` is lifted |
+| Nameservers | `HGNS1/HGNS2.HOSTGATOR.COM` — correct, delegated |
+| Apex `A` | `208.91.197.15` (HostGator parking) — **wrong, delete** |
+| `www` | `A` → `208.91.197.15` — **wrong, delete and replace with CNAME** |
+| GitHub `A` records | **absent** — must be re-added |
+| Site status | serves HostGator's "Page cannot be displayed" error |
+
+The Kinnav build is deployed and verified on GitHub's servers; only these DNS
+records stand between it and a working `https://kinnav.com`.
+
+---
+
 ## Step 0 — Nameservers: already correct, no action needed
 
 The domain's nameservers are already HostGator's defaults:
@@ -69,26 +85,34 @@ Not required; add them if you want IPv6 visitors served directly.
 
 ---
 
-## Step 2 — Two things you must delete or the site will not load
+## Step 2 — Two records you must delete or the site will not load
 
-These are the usual cause of a "HostGator parking page instead of my site"
-report:
+Verified present in the zone on 2026-08-10, both pointing at HostGator's
+parking/error page. These are the cause of a "HostGator page instead of my
+site" report:
 
-1. **The pre-existing apex `A` record pointing at your HostGator server.**
-   A HostGator-hosted domain ships with an `A` record for `@` aimed at the
-   shared-hosting IP. If you add GitHub's four and leave that one, DNS will
-   round-robin — roughly one visitor in five lands on HostGator's page. Delete it.
-2. **Any `CNAME` or `A` record already on `www`** that points at HostGator,
-   for the same reason.
+1. **`A` on `@` → `208.91.197.15`.** If you add GitHub's four and leave this
+   one, DNS round-robins across all five and roughly one visitor in five lands
+   on HostGator's page. Delete it.
+2. **`A` on `www` → `208.91.197.15`.** Delete it, then add the `www` CNAME
+   from Step 1 in its place — a host cannot have both an `A` and a `CNAME`.
 
-### Do NOT delete these
+### Nothing else needs protecting right now
 
-- **`MX` records**, and any `TXT` records for SPF/DKIM/DMARC. Your HostGator
-  account has **Email & Office** enabled; mail routing is entirely independent
-  of website hosting. Removing `MX` records silently breaks inbound email to
-  the domain — including `saferapp3@gmail.com` forwarding if it is wired
-  through the domain.
-- Any `TXT` verification records for services you already use.
+Checked 2026-08-10: the zone has **no `MX`, `TXT`, `AAAA` or `CAA` records**,
+so there is no mail routing or domain verification to preserve. If you later
+set up email on this domain (HostGator Email & Office, Google Workspace), its
+`MX` and SPF/DKIM/DMARC `TXT` records are independent of the website — do not
+remove them when touching the records above.
+
+### If the records disappear again
+
+The four GitHub `A` records and the `www` CNAME were entered once and were
+later gone from the zone, replaced by the parking records above. The likely
+cause is HostGator re-provisioning the zone with hosting defaults when the
+domain went active. If it happens a second time, ask HostGator support
+whether a hosting or parking product is attached to kinnav.com and resetting
+its DNS — re-entering the records will not stick until that is disabled.
 
 ---
 
