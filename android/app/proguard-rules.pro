@@ -3,7 +3,7 @@
 -keep class io.flutter.plugins.** { *; }
 -dontwarn io.flutter.embedding.**
 
-# Plugins used by Safer
+# Plugins used by Kinnav
 -keep class com.google.android.gms.maps.** { *; }        # google_maps_flutter
 -keep class com.baseflow.geolocator.** { *; }            # geolocator
 -keep class androidx.security.crypto.** { *; }            # flutter_secure_storage

@@ -32,7 +32,7 @@ against the org's **Supabase** backend. It degrades gracefully offline (see
                         │  Storage.init()            │
                         │  Supabase.initialize(...)  │
                         │  AppState(storage)         │
-                        │  runApp(SaferApp)          │
+                        │  runApp(KinnavApp)          │
                         └────────────┬──────────────┘
                                      │
                         ┌────────────▼──────────────┐
