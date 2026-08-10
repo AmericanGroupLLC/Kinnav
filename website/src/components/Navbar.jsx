@@ -27,10 +27,10 @@ export default function Navbar() {
     : 'bg-transparent'
 
   const textColor = (scrolled || !isHome) ? '#374151' : 'rgba(255,255,255,0.9)'
-  const activeColor = '#9B59D0'
-  const logoColor = (scrolled || !isHome) ? '#6A1B9A' : '#fff'
-  const logoSubColor = (scrolled || !isHome) ? '#9B59D0' : 'rgba(255,255,255,0.8)'
-  const mobileIconColor = (scrolled || !isHome) ? '#6A1B9A' : '#fff'
+  const activeColor = '#BF6EEE'
+  const logoColor = (scrolled || !isHome) ? '#7B2FB8' : '#fff'
+  const logoSubColor = (scrolled || !isHome) ? '#BF6EEE' : 'rgba(255,255,255,0.8)'
+  const mobileIconColor = (scrolled || !isHome) ? '#7B2FB8' : '#fff'
 
   return (
     <nav
@@ -66,7 +66,7 @@ export default function Navbar() {
                     fontSize: 15,
                     textDecoration: 'none',
                     color: active ? activeColor : textColor,
-                    background: active ? 'rgba(155,89,208,0.1)' : 'transparent',
+                    background: active ? 'rgba(191,110,238,0.1)' : 'transparent',
                     transition: 'all 0.2s',
                   }}
                 >
@@ -84,8 +84,8 @@ export default function Navbar() {
                 fontSize: 15,
                 textDecoration: 'none',
                 color: '#fff',
-                background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
-                boxShadow: '0 4px 15px rgba(155,89,208,0.4)',
+                background: 'linear-gradient(135deg, #D4A5F5, #BF6EEE)',
+                boxShadow: '0 4px 15px rgba(191,110,238,0.4)',
                 transition: 'all 0.2s',
               }}
             >
@@ -116,9 +116,9 @@ export default function Navbar() {
       {open && (
         <div style={{
           background: '#fff',
-          borderTop: '1px solid #EDE3F6',
+          borderTop: '1px solid #EFE0FB',
           padding: '1rem 1.5rem',
-          boxShadow: '0 8px 30px rgba(155,89,208,0.15)',
+          boxShadow: '0 8px 30px rgba(191,110,238,0.15)',
         }}>
           {navLinks.map(link => (
             <Link
@@ -131,8 +131,8 @@ export default function Navbar() {
                 fontWeight: 600,
                 fontSize: 16,
                 textDecoration: 'none',
-                color: location.pathname === link.to ? '#9B59D0' : '#374151',
-                background: location.pathname === link.to ? 'rgba(155,89,208,0.08)' : 'transparent',
+                color: location.pathname === link.to ? '#BF6EEE' : '#374151',
+                background: location.pathname === link.to ? 'rgba(191,110,238,0.08)' : 'transparent',
                 marginBottom: 4,
               }}
             >
@@ -151,7 +151,7 @@ export default function Navbar() {
               fontSize: 16,
               textDecoration: 'none',
               color: '#fff',
-              background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
+              background: 'linear-gradient(135deg, #D4A5F5, #BF6EEE)',
               textAlign: 'center',
             }}
           >

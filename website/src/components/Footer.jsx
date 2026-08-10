@@ -6,7 +6,7 @@ export default function Footer() {
 
   return (
     <footer style={{
-      background: 'linear-gradient(135deg, #1a0533 0%, #3d1278 100%)',
+      background: 'linear-gradient(135deg, #1E0838 0%, #4A1690 100%)',
       color: '#fff',
       paddingTop: '4rem',
       paddingBottom: '2rem',
@@ -53,7 +53,7 @@ export default function Footer() {
 
           {/* Quick links */}
           <div>
-            <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#B57BE0', marginBottom: 16 }}>Quick Links</h4>
+            <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#DDA146', marginBottom: 16 }}>Quick Links</h4>
             {[
               { to: '/', label: 'Home' },
               { to: '/how-it-works', label: 'How It Works' },
@@ -72,7 +72,7 @@ export default function Footer() {
 
           {/* App features */}
           <div>
-            <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#B57BE0', marginBottom: 16 }}>App Features</h4>
+            <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#DDA146', marginBottom: 16 }}>App Features</h4>
             {[
               'Live Guardian Map',
               'Safe Call System',
@@ -82,16 +82,16 @@ export default function Footer() {
               'Guardian Network',
             ].map(f => (
               <div key={f} style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, marginBottom: 10 }}>
-                <span style={{ color: '#B57BE0', marginRight: 8 }}>›</span>{f}
+                <span style={{ color: '#DDA146', marginRight: 8 }}>›</span>{f}
               </div>
             ))}
           </div>
 
           {/* Contact & Legal */}
           <div>
-            <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#B57BE0', marginBottom: 16 }}>Contact & Legal</h4>
+            <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#DDA146', marginBottom: 16 }}>Contact & Legal</h4>
             <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 20 }}>
-              <Mail size={14} style={{ color: '#B57BE0' }} /> Contact Us
+              <Mail size={14} style={{ color: '#D4A5F5' }} /> Contact Us
             </Link>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
               {[
@@ -114,7 +114,7 @@ export default function Footer() {
           <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, padding: '8px 18px', color: 'rgba(255,255,255,0.5)', fontSize: 13, fontWeight: 600 }}>
             🤖 Android App — Coming Soon
           </div>
-          <div style={{ background: 'rgba(155,89,208,0.15)', border: '1px solid rgba(181,123,224,0.3)', borderRadius: 10, padding: '8px 18px', color: '#B57BE0', fontSize: 13, fontWeight: 700 }}>
+          <div style={{ background: 'rgba(191,110,238,0.15)', border: '1px solid rgba(212,165,245,0.3)', borderRadius: 10, padding: '8px 18px', color: '#D4A5F5', fontSize: 13, fontWeight: 700 }}>
             <Link to="/waitlist" style={{ color: 'inherit', textDecoration: 'none' }}>💜 Join Waitlist — Get Early Access</Link>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function Footer() {
             © {year} Kinnav. All rights reserved.
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
-            Made with <Heart size={13} style={{ color: '#B57BE0', fill: '#B57BE0' }} /> for women's safety worldwide
+            Made with <Heart size={13} style={{ color: '#D4A5F5', fill: '#D4A5F5' }} /> for women's safety worldwide
           </div>
         </div>
       </div>

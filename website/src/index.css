@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #9B59D0;
-  --color-primary-light: #B57BE0;
-  --color-primary-dark: #6A1B9A;
-  --color-lavender: #F4ECFA;
-  --color-lavender-mid: #EDE3F6;
-  --color-lavender-deep: #D8C4F0;
-  --color-accent: #E91E8C;
+  --color-primary: #BF6EEE;
+  --color-primary-light: #D4A5F5;
+  --color-primary-dark: #7B2FB8;
+  --color-lavender: #F7EDFD;
+  --color-lavender-mid: #EFE0FB;
+  --color-lavender-deep: #E3CCFA;
+  --color-accent: #FD62D8;
   --color-danger: #E53935;
   --color-online: #43A047;
 }
@@ -26,13 +26,13 @@
 
 @layer utilities {
   .gradient-primary {
-    background: linear-gradient(135deg, #B57BE0 0%, #9B59D0 50%, #6A1B9A 100%);
+    background: linear-gradient(135deg, #D4A5F5 0%, #BF6EEE 50%, #7B2FB8 100%);
   }
   .gradient-hero {
-    background: linear-gradient(135deg, #1a0533 0%, #3d1278 40%, #6A1B9A 70%, #9B59D0 100%);
+    background: linear-gradient(135deg, #1E0838 0%, #4A1690 40%, #7B2FB8 70%, #BF6EEE 100%);
   }
   .text-gradient {
-    background: linear-gradient(135deg, #B57BE0 0%, #9B59D0 100%);
+    background: linear-gradient(135deg, #D4A5F5 0%, #BF6EEE 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

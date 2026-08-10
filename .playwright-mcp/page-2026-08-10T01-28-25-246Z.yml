@@ -1,0 +1,208 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e6]:
+      - link "Kinnav Kinnav Women's Safety App" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img "Kinnav" [ref=e8]
+        - generic [ref=e9]:
+          - generic [ref=e10]: Kinnav
+          - generic [ref=e11]: Women's Safety App
+      - generic [ref=e12]:
+        - link "Home" [ref=e13] [cursor=pointer]:
+          - /url: /
+        - link "How It Works" [ref=e14] [cursor=pointer]:
+          - /url: /how-it-works
+        - link "About" [ref=e15] [cursor=pointer]:
+          - /url: /about
+        - link "Join Waitlist 💜" [ref=e16] [cursor=pointer]:
+          - /url: /waitlist
+  - main [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: Safety · Empowerment · Rewards
+          - heading "It's easier to look forward when you don't have to watch your back." [level=1] [ref=e28]: It's easier to look forwardwhen you don't have towatch your back.
+          - paragraph [ref=e29]: Kinnav connects you to vetted guardians nearby — via voice or video — the moment you need them. No time limit. No judgment.
+          - generic [ref=e30]:
+            - link "See How It Works" [ref=e31] [cursor=pointer]:
+              - /url: /how-it-works
+            - link "Join the Waitlist 💜" [ref=e34] [cursor=pointer]:
+              - /url: /waitlist
+          - generic [ref=e35]:
+            - generic [ref=e36]: 📱 iOS — Coming Soon
+            - generic [ref=e37]: 🤖 Android — Coming Soon
+        - generic [ref=e38]:
+          - img "Guardian map" [ref=e40]
+          - img "Reach a guardian" [ref=e42]
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - generic [ref=e46]: 1 in 3
+          - generic [ref=e47]: Women experience violence
+        - generic [ref=e48]:
+          - generic [ref=e49]: 81%
+          - generic [ref=e50]: Face harassment
+        - generic [ref=e51]:
+          - generic [ref=e52]: 24/7
+          - generic [ref=e53]: Guardian support
+        - generic [ref=e54]:
+          - generic [ref=e55]: $3.99
+          - generic [ref=e56]: Per month
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e60]: How It Works
+          - heading "Safety in 4 simple steps" [level=2] [ref=e61]
+          - paragraph [ref=e62]: From opening the app to feeling safe — it takes seconds.
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - generic [ref=e65]: "1"
+            - generic [ref=e66]: Open the app
+            - generic [ref=e67]: See guardians near you on the map.
+          - generic [ref=e68]:
+            - generic [ref=e69]: "2"
+            - generic [ref=e70]: Tap Call Guardians
+            - generic [ref=e71]: Choose voice, video, or text.
+          - generic [ref=e72]:
+            - generic [ref=e73]: "3"
+            - generic [ref=e74]: Stay connected
+            - generic [ref=e75]: Guardian stays until you feel safe.
+          - generic [ref=e76]:
+            - generic [ref=e77]: "4"
+            - generic [ref=e78]: You're safe
+            - generic [ref=e79]: End the call. That's it.
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - heading "See the app in action" [level=2] [ref=e83]
+          - paragraph [ref=e84]: Real screens from the Kinnav app
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - img "Join Kinnav" [ref=e88]
+            - generic [ref=e89]: Join Kinnav
+          - generic [ref=e90]:
+            - img "Guardian Map" [ref=e92]
+            - generic [ref=e93]: Guardian Map
+          - generic [ref=e94]:
+            - img "Reach a Guardian" [ref=e96]
+            - generic [ref=e97]: Reach a Guardian
+          - generic [ref=e98]:
+            - img "Rewards" [ref=e100]
+            - generic [ref=e101]: Rewards
+          - generic [ref=e102]:
+            - img "Membership" [ref=e104]
+            - generic [ref=e105]: Membership
+      - generic [ref=e107]:
+        - generic [ref=e108]:
+          - generic [ref=e109]: Features
+          - heading "Everything in one app" [level=2] [ref=e110]
+        - generic [ref=e111]:
+          - generic [ref=e116]:
+            - generic [ref=e117]: Guardian Map
+            - generic [ref=e118]: See vetted guardians near you on a live map. Real people, always nearby.
+          - generic [ref=e123]:
+            - generic [ref=e124]: Safe Call
+            - generic [ref=e125]: One tap — voice, video, or text with a guardian. No time limit.
+          - generic [ref=e130]:
+            - generic [ref=e131]: Emergency
+            - generic [ref=e132]: Instantly alert emergency services and notify your safety contacts.
+          - generic [ref=e137]:
+            - generic [ref=e138]: Empowerment
+            - generic [ref=e139]: Self-defense, safety planning, wellness modules — all in the app.
+          - generic [ref=e147]:
+            - generic [ref=e148]: Be a Guardian
+            - generic [ref=e149]: Complete a 40-hour course, get verified, and earn while helping others.
+          - generic [ref=e156]:
+            - generic [ref=e157]: Rewards
+            - generic [ref=e158]: Earn wellness rewards — yoga, counseling, career coaching, and more.
+      - generic [ref=e161]:
+        - heading "The only app that does all three" [level=2] [ref=e162]
+        - paragraph [ref=e163]: Other apps do one thing. Kinnav does everything.
+        - table [ref=e165]:
+          - rowgroup [ref=e166]:
+            - row [ref=e167]:
+              - columnheader "App" [ref=e168]
+              - columnheader "Safety" [ref=e169]
+              - columnheader "Empowerment" [ref=e170]
+              - columnheader "Rewards" [ref=e171]
+          - rowgroup [ref=e172]:
+            - row [ref=e173]:
+              - cell "bSafe / Noonlight" [ref=e174]
+              - cell "✓" [ref=e175]
+              - cell "—" [ref=e176]
+              - cell "—" [ref=e177]
+            - row [ref=e178]:
+              - cell "InnerHour" [ref=e179]
+              - cell "—" [ref=e180]
+              - cell "✓" [ref=e181]
+              - cell "—" [ref=e182]
+            - row [ref=e183]:
+              - cell "Unidays / Drop" [ref=e184]
+              - cell "—" [ref=e185]
+              - cell "—" [ref=e186]
+              - cell "✓" [ref=e187]
+            - row [ref=e188]:
+              - cell "Kinnav 💜" [ref=e189]
+              - cell "✓" [ref=e190]
+              - cell "✓" [ref=e191]
+              - cell "✓" [ref=e192]
+      - generic [ref=e195]:
+        - generic [ref=e196]: 💜
+        - heading "Be first to use Kinnav" [level=2] [ref=e197]
+        - paragraph [ref=e198]: The prototype is ready. Join the waitlist and we'll let you know the moment the full app launches.
+        - generic [ref=e199]:
+          - link "Join the Waitlist 💜" [ref=e200] [cursor=pointer]:
+            - /url: /waitlist
+          - link "Contact Us" [ref=e201] [cursor=pointer]:
+            - /url: /contact
+  - contentinfo [ref=e202]:
+    - generic [ref=e203]:
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - generic [ref=e206]:
+            - img "Kinnav" [ref=e207]
+            - generic [ref=e208]:
+              - generic [ref=e209]: Kinnav
+              - generic [ref=e210]: Women's Safety App
+          - paragraph [ref=e211]: An all-in-one women's safety, empowerment, and rewards platform — built to help women feel safe, anywhere, anytime.
+          - generic [ref=e212]:
+            - link "Instagram" [ref=e213] [cursor=pointer]:
+              - /url: https://instagram.com/kinnav
+            - link "Twitter/X" [ref=e220] [cursor=pointer]:
+              - /url: https://x.com/kinnav
+        - generic [ref=e224]:
+          - heading "Quick Links" [level=4] [ref=e225]
+          - link "Home" [ref=e226] [cursor=pointer]:
+            - /url: /
+          - link "How It Works" [ref=e227] [cursor=pointer]:
+            - /url: /how-it-works
+          - link "Join Waitlist" [ref=e228] [cursor=pointer]:
+            - /url: /waitlist
+          - link "About Us" [ref=e229] [cursor=pointer]:
+            - /url: /about
+          - link "Contact" [ref=e230] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e231]:
+          - heading "App Features" [level=4] [ref=e232]
+          - generic [ref=e233]: ›Live Guardian Map
+          - generic [ref=e234]: ›Safe Call System
+          - generic [ref=e235]: ›Support Chat
+          - generic [ref=e236]: ›Empowerment Modules
+          - generic [ref=e237]: ›Rewards Program
+          - generic [ref=e238]: ›Guardian Network
+        - generic [ref=e239]:
+          - heading "Contact & Legal" [level=4] [ref=e240]
+          - link "Contact Us" [ref=e241] [cursor=pointer]:
+            - /url: /contact
+          - generic [ref=e245]:
+            - link "Privacy Policy" [ref=e246] [cursor=pointer]:
+              - /url: /privacy
+            - link "Terms of Service" [ref=e247] [cursor=pointer]:
+              - /url: /terms
+            - link "Contact Us" [ref=e248] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=e249]:
+        - generic [ref=e250]: 📱 iOS App — Coming Soon
+        - generic [ref=e251]: 🤖 Android App — Coming Soon
+        - link "💜 Join Waitlist — Get Early Access" [ref=e253] [cursor=pointer]:
+          - /url: /waitlist
+      - generic [ref=e254]:
+        - generic [ref=e255]: © 2026 Kinnav. All rights reserved.
+        - generic [ref=e256]: Made with for women's safety worldwide

@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #1a0533 0%, #3d1278 50%, #6A1B9A 100%)',
+      background: 'linear-gradient(135deg, #1E0838 0%, #4A1690 50%, #7B2FB8 100%)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '2rem 1.5rem', textAlign: 'center',
     }}>
@@ -32,10 +32,10 @@ export default function NotFound() {
           <Link to="/" style={{
             display: 'inline-flex', alignItems: 'center', gap: 8,
             padding: '14px 32px', borderRadius: 50,
-            background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
+            background: 'linear-gradient(135deg, #D4A5F5, #BF6EEE)',
             color: '#fff', fontWeight: 700, fontSize: 16,
             textDecoration: 'none',
-            boxShadow: '0 8px 30px rgba(155,89,208,0.5)',
+            boxShadow: '0 8px 30px rgba(191,110,238,0.5)',
           }}>
             <Home size={18} /> Go Home
           </Link>

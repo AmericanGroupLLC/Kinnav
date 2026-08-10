@@ -5,7 +5,7 @@ const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, tra
 
 const Section = ({ title, children }) => (
   <div style={{ marginBottom: '2.5rem' }}>
-    <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a2e', marginBottom: 16, paddingBottom: 10, borderBottom: '2px solid #EDE3F6' }}>{title}</h2>
+    <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a2e', marginBottom: 16, paddingBottom: 10, borderBottom: '2px solid #EFE0FB' }}>{title}</h2>
     {children}
   </div>
 )
@@ -14,7 +14,7 @@ const P = ({ children }) => <p style={{ color: '#4B5563', fontSize: 16, lineHeig
 export default function Terms() {
   return (
     <div style={{ paddingTop: 72 }}>
-      <section style={{ background: 'linear-gradient(135deg, #1a0533, #3d1278)', padding: '4rem 1.5rem', textAlign: 'center' }}>
+      <section style={{ background: 'linear-gradient(135deg, #1E0838, #4A1690)', padding: '4rem 1.5rem', textAlign: 'center' }}>
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#fff', marginBottom: 16 }}>
             Terms of Service
@@ -77,16 +77,16 @@ export default function Terms() {
               </Section>
 
               <Section title="12. Contact">
-                <div style={{ background: '#F9F5FF', borderRadius: 16, padding: '1.5rem 2rem', border: '1px solid rgba(155,89,208,0.15)', marginTop: 16 }}>
+                <div style={{ background: '#FAF5FF', borderRadius: 16, padding: '1.5rem 2rem', border: '1px solid rgba(191,110,238,0.15)', marginTop: 16 }}>
                   <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Kinnav</div>
-                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}><Link to="/contact" style={{ color: '#9B59D0' }}>Contact Us</Link></div>
-                  <div style={{ color: '#6B7280', fontSize: 15 }}>Website: <a href="https://kinnav.com" style={{ color: '#9B59D0' }}>kinnav.com</a></div>
+                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}><Link to="/contact" style={{ color: '#BF6EEE' }}>Contact Us</Link></div>
+                  <div style={{ color: '#6B7280', fontSize: 15 }}>Website: <a href="https://kinnav.com" style={{ color: '#BF6EEE' }}>kinnav.com</a></div>
                 </div>
               </Section>
 
-              <div style={{ marginTop: 32, padding: '1.5rem', background: '#F9F5FF', borderRadius: 16, border: '1px solid rgba(155,89,208,0.1)' }}>
+              <div style={{ marginTop: 32, padding: '1.5rem', background: '#FAF5FF', borderRadius: 16, border: '1px solid rgba(191,110,238,0.1)' }}>
                 <p style={{ color: '#6B7280', fontSize: 14, lineHeight: 1.7 }}>
-                  Also see our <Link to="/privacy" style={{ color: '#9B59D0' }}>Privacy Policy</Link> for information about how we collect and use your data.
+                  Also see our <Link to="/privacy" style={{ color: '#BF6EEE' }}>Privacy Policy</Link> for information about how we collect and use your data.
                 </p>
               </div>
             </motion.div>

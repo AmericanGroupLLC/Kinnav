@@ -8,7 +8,7 @@ const fadeUp = {
 
 const Section = ({ title, children }) => (
   <div style={{ marginBottom: '2.5rem' }}>
-    <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a2e', marginBottom: 16, paddingBottom: 10, borderBottom: '2px solid #EDE3F6' }}>{title}</h2>
+    <h2 style={{ fontSize: 22, fontWeight: 800, color: '#1a1a2e', marginBottom: 16, paddingBottom: 10, borderBottom: '2px solid #EFE0FB' }}>{title}</h2>
     {children}
   </div>
 )
@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
     <div style={{ paddingTop: 72 }}>
       {/* Header */}
       <section style={{
-        background: 'linear-gradient(135deg, #1a0533, #3d1278)',
+        background: 'linear-gradient(135deg, #1E0838, #4A1690)',
         padding: '4rem 1.5rem',
         textAlign: 'center',
       }}>
@@ -84,7 +84,7 @@ export default function PrivacyPolicy() {
 
               <Section title="6. Your Rights (GDPR / CCPA)">
                 <P>Depending on your jurisdiction, you may have the right to: access your personal data; correct inaccurate data; request deletion of your account and data; opt out of certain data processing; and data portability.</P>
-                <P>To exercise these rights, visit our <Link to="/contact" style={{ color: '#9B59D0' }}>Contact page</Link>. We will respond within 30 days.</P>
+                <P>To exercise these rights, visit our <Link to="/contact" style={{ color: '#BF6EEE' }}>Contact page</Link>. We will respond within 30 days.</P>
               </Section>
 
               <Section title="7. Children's Privacy">
@@ -102,18 +102,18 @@ export default function PrivacyPolicy() {
               <Section title="10. Contact Us">
                 <P>If you have questions about this Privacy Policy or our data practices, please contact:</P>
                 <div style={{
-                  background: '#F9F5FF',
+                  background: '#FAF5FF',
                   borderRadius: 16,
                   padding: '1.5rem 2rem',
-                  border: '1px solid rgba(155,89,208,0.15)',
+                  border: '1px solid rgba(191,110,238,0.15)',
                   marginTop: 16,
                 }}>
                   <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Kinnav</div>
                   <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>
-                    <Link to="/contact" style={{ color: '#9B59D0' }}>Contact Us</Link>
+                    <Link to="/contact" style={{ color: '#BF6EEE' }}>Contact Us</Link>
                   </div>
                   <div style={{ color: '#6B7280', fontSize: 15 }}>
-                    Website: <a href="https://kinnav.com" style={{ color: '#9B59D0' }}>kinnav.com</a>
+                    Website: <a href="https://kinnav.com" style={{ color: '#BF6EEE' }}>kinnav.com</a>
                   </div>
                 </div>
               </Section>

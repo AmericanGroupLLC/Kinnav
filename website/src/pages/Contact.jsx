@@ -36,14 +36,14 @@ function ContactForm() {
         <div style={{ fontSize: 56, marginBottom: 16 }}>💜</div>
         <h3 style={{ fontWeight: 900, fontSize: 22, color: '#1a1a2e', marginBottom: 12 }}>Message sent!</h3>
         <p style={{ color: '#6B7280', fontSize: 16, lineHeight: 1.7 }}>Your email client should have opened. We'll get back to you at <strong>{form.email}</strong> as soon as possible.</p>
-        <button onClick={() => setStatus('idle')} style={{ marginTop: 20, color: '#9B59D0', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 15 }}>Send another →</button>
+        <button onClick={() => setStatus('idle')} style={{ marginTop: 20, color: '#BF6EEE', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 15 }}>Send another →</button>
       </div>
     )
   }
 
   const inputStyle = {
     width: '100%', padding: '12px 16px', borderRadius: 12,
-    border: '1.5px solid #EDE3F6', fontSize: 15, outline: 'none',
+    border: '1.5px solid #EFE0FB', fontSize: 15, outline: 'none',
     background: '#FAFAFA', color: '#1a1a2e', fontFamily: 'inherit',
     transition: 'border-color 0.2s',
   }
@@ -58,9 +58,9 @@ function ContactForm() {
               style={{
                 padding: '10px 14px', borderRadius: 10, fontSize: 13, fontWeight: 600,
                 cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s',
-                background: form.type === ct.value ? 'linear-gradient(135deg, #B57BE0, #9B59D0)' : '#F9F5FF',
+                background: form.type === ct.value ? 'linear-gradient(135deg, #D4A5F5, #BF6EEE)' : '#FAF5FF',
                 color: form.type === ct.value ? '#fff' : '#6B7280',
-                border: form.type === ct.value ? 'none' : '1.5px solid #EDE3F6',
+                border: form.type === ct.value ? 'none' : '1.5px solid #EFE0FB',
               }}>
               {ct.label}
             </button>
@@ -73,13 +73,13 @@ function ContactForm() {
           <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 6 }}>Full Name *</label>
           <input type="text" required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
             placeholder="Your name" style={inputStyle}
-            onFocus={e => e.target.style.borderColor = '#9B59D0'} onBlur={e => e.target.style.borderColor = '#EDE3F6'} />
+            onFocus={e => e.target.style.borderColor = '#BF6EEE'} onBlur={e => e.target.style.borderColor = '#EFE0FB'} />
         </div>
         <div>
           <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 6 }}>Email Address *</label>
           <input type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
             placeholder="you@example.com" style={inputStyle}
-            onFocus={e => e.target.style.borderColor = '#9B59D0'} onBlur={e => e.target.style.borderColor = '#EDE3F6'} />
+            onFocus={e => e.target.style.borderColor = '#BF6EEE'} onBlur={e => e.target.style.borderColor = '#EFE0FB'} />
         </div>
       </div>
 
@@ -88,17 +88,17 @@ function ContactForm() {
         <textarea required value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
           placeholder="Tell us how we can help..."
           rows={5} style={{ ...inputStyle, resize: 'vertical' }}
-          onFocus={e => e.target.style.borderColor = '#9B59D0'} onBlur={e => e.target.style.borderColor = '#EDE3F6'} />
+          onFocus={e => e.target.style.borderColor = '#BF6EEE'} onBlur={e => e.target.style.borderColor = '#EFE0FB'} />
       </div>
 
       <button type="submit" disabled={status === 'submitting'}
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
           padding: '14px 32px', borderRadius: 50,
-          background: 'linear-gradient(135deg, #B57BE0, #9B59D0)',
+          background: 'linear-gradient(135deg, #D4A5F5, #BF6EEE)',
           color: '#fff', fontWeight: 700, fontSize: 16,
           border: 'none', cursor: 'pointer',
-          boxShadow: '0 8px 30px rgba(155,89,208,0.4)',
+          boxShadow: '0 8px 30px rgba(191,110,238,0.4)',
           opacity: status === 'submitting' ? 0.7 : 1,
         }}>
         {status === 'submitting' ? <><RefreshCw size={18} style={{ animation: 'spin 1s linear infinite' }} /> Sending...</> : <><Send size={18} /> Send Message</>}
@@ -110,20 +110,20 @@ function ContactForm() {
 
 export default function Contact() {
   const contactCards = [
-    { icon: <MessageSquare size={24} />, title: 'General & App Support', desc: 'Technical issues, account help, feedback, and general questions.', color: '#9B59D0' },
-    { icon: <Users size={24} />, title: 'Become a Guardian', desc: 'Join our vetted guardian network and help protect women in your community.', color: '#7B3FBE' },
-    { icon: <Briefcase size={24} />, title: 'Partnerships & NGOs', desc: 'Collaborate with Kinnav to expand our reach and impact.', color: '#B57BE0' },
-    { icon: <Shield size={24} />, title: 'Investor Relations', desc: 'Investment enquiries, pitch deck requests, and commercial partnerships.', color: '#6A1B9A' },
-    { icon: <Newspaper size={24} />, title: 'Press & Media', desc: 'Media inquiries, press kits, and interview requests.', color: '#E91E8C' },
+    { icon: <MessageSquare size={24} />, title: 'General & App Support', desc: 'Technical issues, account help, feedback, and general questions.', color: '#BF6EEE' },
+    { icon: <Users size={24} />, title: 'Become a Guardian', desc: 'Join our vetted guardian network and help protect women in your community.', color: '#9A4FD8' },
+    { icon: <Briefcase size={24} />, title: 'Partnerships & NGOs', desc: 'Collaborate with Kinnav to expand our reach and impact.', color: '#D4A5F5' },
+    { icon: <Shield size={24} />, title: 'Investor Relations', desc: 'Investment enquiries, pitch deck requests, and commercial partnerships.', color: '#7B2FB8' },
+    { icon: <Newspaper size={24} />, title: 'Press & Media', desc: 'Media inquiries, press kits, and interview requests.', color: '#FD62D8' },
 
   ]
 
   return (
     <div style={{ paddingTop: 72 }}>
-      <section style={{ background: 'linear-gradient(135deg, #1a0533 0%, #3d1278 50%, #6A1B9A 100%)', padding: '5rem 1.5rem', textAlign: 'center' }}>
+      <section style={{ background: 'linear-gradient(135deg, #1E0838 0%, #4A1690 50%, #7B2FB8 100%)', padding: '5rem 1.5rem', textAlign: 'center' }}>
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
           <motion.div initial="hidden" animate="visible" variants={stagger}>
-            <motion.div variants={fadeUp} style={{ display: 'inline-block', background: 'rgba(181,123,224,0.2)', color: '#D8C4F0', borderRadius: 50, padding: '6px 16px', fontSize: 13, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 20 }}>Contact</motion.div>
+            <motion.div variants={fadeUp} style={{ display: 'inline-block', background: 'rgba(212,165,245,0.2)', color: '#E3CCFA', borderRadius: 50, padding: '6px 16px', fontSize: 13, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 20 }}>Contact</motion.div>
             <motion.h1 variants={fadeUp} style={{ fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 900, color: '#fff', lineHeight: 1.15, marginBottom: 20 }}>Get in Touch</motion.h1>
             <motion.p variants={fadeUp} style={{ fontSize: 18, color: 'rgba(255,255,255,0.8)', lineHeight: 1.7 }}>
               Whether you're a future user, guardian, partner, investor, or press — we'd love to hear from you.
@@ -133,7 +133,7 @@ export default function Contact() {
       </section>
 
       {/* Contact topic cards */}
-      <section style={{ padding: '5rem 1.5rem', background: '#F9F5FF' }}>
+      <section style={{ padding: '5rem 1.5rem', background: '#FAF5FF' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <h2 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 900, color: '#1a1a2e', marginBottom: 12 }}>How can we help?</h2>
@@ -142,7 +142,7 @@ export default function Contact() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '4rem' }}>
             {contactCards.map((card, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                style={{ background: '#fff', borderRadius: 18, padding: '1.75rem', border: '1px solid rgba(155,89,208,0.1)', boxShadow: '0 4px 20px rgba(155,89,208,0.06)' }}>
+                style={{ background: '#fff', borderRadius: 18, padding: '1.75rem', border: '1px solid rgba(191,110,238,0.1)', boxShadow: '0 4px 20px rgba(191,110,238,0.06)' }}>
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: `${card.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: card.color, marginBottom: 14 }}>
                   {card.icon}
                 </div>
@@ -155,10 +155,10 @@ export default function Contact() {
       </section>
 
       {/* Contact form */}
-      <section style={{ padding: '0 1.5rem 6rem', background: '#F9F5FF' }}>
+      <section style={{ padding: '0 1.5rem 6rem', background: '#FAF5FF' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            style={{ background: '#fff', borderRadius: 24, padding: '2.5rem', boxShadow: '0 8px 40px rgba(155,89,208,0.1)', border: '1px solid rgba(155,89,208,0.1)' }}>
+            style={{ background: '#fff', borderRadius: 24, padding: '2.5rem', boxShadow: '0 8px 40px rgba(191,110,238,0.1)', border: '1px solid rgba(191,110,238,0.1)' }}>
             <h2 style={{ fontWeight: 900, fontSize: 24, color: '#1a1a2e', marginBottom: 8 }}>Send us a message</h2>
             <p style={{ color: '#6B7280', fontSize: 15, marginBottom: 28 }}>We typically respond within 1–2 business days.</p>
             <ContactForm />
