@@ -4,3 +4,7 @@
 [    3674ms] [WARNING] [.WebGL-0x7ec02cd7000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels @ http://localhost:3000/:0
 [    3726ms] [WARNING] [.WebGL-0x7ec02cd7000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels @ http://localhost:3000/:0
 [    3769ms] [WARNING] [.WebGL-0x7ec02cd7000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat) @ http://localhost:3000/:0
+[ 4821829ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/assets/react-three-fiber.esm-C5rvnaw-.js:0
+[ 4832613ms] [LOG] THREE.WebGLRenderer: Context Lost. @ http://localhost:3000/assets/react-three-fiber.esm-C5rvnaw-.js:0
+[ 4934000ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/assets/react-three-fiber.esm-C5rvnaw-.js:0
+[ 5866275ms] [WARNING] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead. @ http://localhost:3000/assets/react-three-fiber.esm-C5rvnaw-.js:0

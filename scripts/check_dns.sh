@@ -19,7 +19,17 @@ ok()   { printf '  \033[32m✓\033[0m %s\n' "$1"; pass=$((pass+1)); }
 bad()  { printf '  \033[31m✗\033[0m %s\n' "$1"; fail=$((fail+1)); }
 info() { printf '    %s\n' "$1"; }
 
-resolve() {  # resolve <name> -> IPv4 lines, works with dig or getent
+resolve() {  # resolve <name> -> IPv4 lines
+  # Query a public resolver first. The local/system resolver caches aggressively
+  # and will happily report a deleted record for hours, which makes this whole
+  # script lie. Fall back to dig/getent only if the network call fails.
+  local out
+  out=$(curl -sS --max-time 15 "https://dns.google/resolve?name=$1&type=A" 2>/dev/null \
+        | python3 -c 'import sys,json
+try: d=json.load(sys.stdin)
+except Exception: raise SystemExit
+[print(a["data"]) for a in d.get("Answer",[]) if a.get("type")==1]' 2>/dev/null | sort -u)
+  if [ -n "$out" ]; then printf '%s\n' "$out"; return; fi
   if command -v dig >/dev/null 2>&1; then
     dig +short "$1" A 2>/dev/null | grep -E '^[0-9]+\.' | sort -u
   else
@@ -57,6 +67,42 @@ print(",".join(d.get("status",[])))' 2>/dev/null)"
 fi
 
 echo
+# DNSSEC: a zone whose DS is published at the parent but whose records are not
+# correctly signed fails on validating resolvers (Cloudflare 1.1.1.1, Quad9).
+# Symptom is intermittent SERVFAIL, which looks like a flaky network rather
+# than a DNS misconfiguration — so test it explicitly, several times.
+echo "0b. DNSSEC (published DS + does validation actually succeed?)"
+ds_n=$(curl -sS --max-time 15 "https://dns.google/resolve?name=$APEX&type=DS" 2>/dev/null \
+       | python3 -c 'import sys,json
+try: d=json.load(sys.stdin)
+except Exception: print(0); raise SystemExit
+print(len([a for a in d.get("Answer",[]) if a.get("type")==43]))' 2>/dev/null || echo 0)
+if [ "${ds_n:-0}" -eq 0 ]; then
+  ok "DNSSEC not enabled (no DS at parent) — nothing to validate, safest default"
+else
+  servfail=0; total=5
+  for _ in $(seq $total); do
+    st=$(curl -sS --max-time 15 -H 'accept: application/dns-json' \
+         "https://cloudflare-dns.com/dns-query?name=$APEX&type=A" 2>/dev/null \
+         | python3 -c 'import sys,json
+try: print(json.load(sys.stdin).get("Status"))
+except Exception: print("err")' 2>/dev/null)
+    [ "$st" = "2" ] && servfail=$((servfail+1))
+  done
+  if [ "$servfail" -gt 0 ]; then
+    bad "DNSSEC is enabled but BROKEN — $servfail/$total queries to a validating resolver returned SERVFAIL"
+    info "The DS record at .com says 'this zone is signed', but the zone's"
+    info "answers do not validate. Validating resolvers (Cloudflare 1.1.1.1,"
+    info "Quad9, many ISPs) therefore refuse to resolve the domain, so a share"
+    info "of visitors get no site at all — intermittently."
+    info "Fix: turn OFF 'Enable DNSSEC' in HostGator's DNS tab. It is optional"
+    info "and not needed for GitHub Pages. Allow time for the DS to clear."
+  else
+    ok "DNSSEC enabled and validating cleanly ($total/$total queries OK)"
+  fi
+fi
+
+echo
 echo "1. Apex domain ($APEX)"
 apex_ips="$(resolve "$APEX")"
 if [ -z "$apex_ips" ]; then
@@ -81,18 +127,28 @@ fi
 
 echo
 echo "2. www subdomain ($WWW)"
+# Check for the CNAME explicitly. Comparing resolved IPs is not good enough:
+# a www A record pointing at a parking server can coincidentally intersect
+# whatever the Pages host resolves to during a flap, which produces a false pass.
+www_cname="$(curl -sS --max-time 15 "https://dns.google/resolve?name=$WWW&type=CNAME" 2>/dev/null \
+  | python3 -c 'import sys,json
+try: d=json.load(sys.stdin)
+except Exception: raise SystemExit
+[print(a["data"].rstrip(".")) for a in d.get("Answer",[]) if a.get("type")==5]' 2>/dev/null)"
 www_ips="$(resolve "$WWW")"
-if [ -z "$www_ips" ]; then
-  bad "$WWW does not resolve — no CNAME record exists yet"
-  info "Add a CNAME record: host 'www'  ->  $PAGES_HOST"
-else
-  pages_ips="$(resolve "$PAGES_HOST")"
-  if [ -n "$pages_ips" ] && [ "$(comm -12 <(echo "$www_ips") <(echo "$pages_ips") | wc -l)" -gt 0 ]; then
-    ok "$WWW resolves to the GitHub Pages host"
+if [ -n "$www_cname" ]; then
+  if [ "$www_cname" = "$PAGES_HOST" ]; then
+    ok "$WWW is a CNAME to $PAGES_HOST"
   else
-    ok "$WWW resolves"
-    info "note: resolves to $(tr '\n' ' ' <<<"$www_ips")— verify this is the CNAME to $PAGES_HOST"
+    bad "$WWW is a CNAME to '$www_cname' — expected $PAGES_HOST"
   fi
+elif [ -n "$www_ips" ]; then
+  bad "$WWW has an A record ($(tr '\n' ' ' <<<"$www_ips")) instead of a CNAME"
+  info "Delete that A record, then add: CNAME  www  ->  $PAGES_HOST"
+  info "A host cannot have both an A and a CNAME, so the A must go first."
+else
+  bad "$WWW does not resolve — no record exists yet"
+  info "Add a CNAME record: host 'www'  ->  $PAGES_HOST"
 fi
 
 echo
