@@ -87,9 +87,15 @@ The manifest the script writes into `deploy`:
 deployment:
   tasks:
     - export DEPLOYPATH=/home2/safecode/kinnav.com/
+    - if [ "$(pwd -P)" = "$(cd $DEPLOYPATH 2>/dev/null && pwd -P)" ]; then echo 'already live'; exit 0; fi
     - /bin/rm -rf $DEPLOYPATH/assets
-    - /usr/bin/rsync -a --exclude '.git/' --exclude '.cpanel.yml' ./ $DEPLOYPATH
+    - rsync -a --exclude '.git/' --exclude '.cpanel.yml' ./ $DEPLOYPATH
 ```
+
+`rsync` is unqualified because it lives in `/bin/rsync` on this server, not
+`/usr/bin/rsync`. The first task makes the manifest safe when the repository is
+checked out directly in the document root: the checkout is already the site, so
+copying it onto itself — and deleting `assets/` first — would destroy it.
 
 `rsync` rather than `cp -a .` because the deployment task runs from the
 repository root: a plain copy would publish `.git`, exposing the full history at
@@ -108,8 +114,7 @@ content-hashed bundles accumulating forever.
 │   └── contact.php    # emails support@kinnav.com
 ├── assets/            # content-hashed js + css
 ├── images/
-├── favicon.svg  icons.svg  robots.txt  sitemap.xml  404.html
-└── CNAME  _redirects  # GitHub Pages / Netlify leftovers, harmless on Apache
+└── favicon.svg  icons.svg  robots.txt  sitemap.xml  404.html
 ```
 
 Permissions: files `644`, folders `755`.

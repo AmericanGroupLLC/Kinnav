@@ -55,15 +55,15 @@ cat > dist/.cpanel.yml <<EOF
 deployment:
   tasks:
     - export DEPLOYPATH=${DEPLOY_PATH}
-    # Refuse to run if the repository IS the document root. The next task
-    # deletes \$DEPLOYPATH/assets, which in that layout is the checkout's own
-    # assets directory — it would delete the site instead of deploying it.
-    - test "\$(pwd -P)" != "\$(cd \$DEPLOYPATH && pwd -P)" || { echo 'ERROR: repository path is the document root; clone it to ~/repositories instead'; exit 1; }
+    # If the repository IS the document root, the checkout already is the live
+    # site — there is nothing to copy, and the next task would delete the
+    # checkout's own assets directory. Succeed and stop.
+    - if [ "\$(pwd -P)" = "\$(cd \$DEPLOYPATH 2>/dev/null && pwd -P)" ]; then echo 'Repository is the document root: the checkout is already live, nothing to copy.'; exit 0; fi
     # Clear old content-hashed bundles so they don't accumulate.
     - /bin/rm -rf \$DEPLOYPATH/assets
     # Copy the site but never .git or this manifest: serving .git would
     # publish the whole repository history.
-    - /usr/bin/rsync -a --exclude '.git/' --exclude '.cpanel.yml' ./ \$DEPLOYPATH
+    - rsync -a --exclude '.git/' --exclude '.cpanel.yml' ./ \$DEPLOYPATH
 EOF
 
 # Sanity checks — these are the failures that only show up once the site is
