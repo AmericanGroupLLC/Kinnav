@@ -37,3 +37,8 @@ android/key.properties
 # Local Flutter SDK copy (workdir-writable, ~3.9GB)
 .flutter-sdk/
 _sim_*.png
+
+# Test artefacts
+coverage/
+website/test-results/
+website/playwright-report/

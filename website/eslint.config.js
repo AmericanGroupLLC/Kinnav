@@ -18,4 +18,11 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    // Tests and tooling run in Node and use the Vitest/Playwright globals.
+    files: ['src/**/*.test.{js,jsx}', 'e2e/**/*.spec.js', '*.config.js'],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node, ...globals.vitest },
+    },
+  },
 ])

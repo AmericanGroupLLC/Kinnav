@@ -19,6 +19,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // Close the mobile menu on navigation. The state update belongs in an
+  // effect body rather than a callback here, so the rule is silenced
+  // deliberately: there is nothing to react to but the route change itself.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setOpen(false), [location])
 
   const isHome = location.pathname === '/'

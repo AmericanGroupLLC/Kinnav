@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Shield, Phone, Map, Star, Users, BookOpen, Gift, ArrowRight, CheckCircle } from 'lucide-react'
+import { Shield, Phone, Map, Users, BookOpen, Gift, ArrowRight } from 'lucide-react'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },

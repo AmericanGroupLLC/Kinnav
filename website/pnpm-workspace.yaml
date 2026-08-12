@@ -1,0 +1,12 @@
+# pnpm 11 reads build-script approvals from here, not package.json.
+# esbuild ships the Vite/Vitest transform binary; fs-ext-extra-prebuilt is the
+# native module the php-wasm CLI needs to run the PHP handler tests.
+allowBuilds:
+  esbuild: true
+  fs-ext-extra-prebuilt: true
+
+# Transitive advisories pulled in through vite; both are patch-level bumps.
+# GHSA-fxqj-rqcc-2cmp (postcss) and the nanoid infinite-loop advisory.
+overrides:
+  postcss: '>=8.5.23'
+  nanoid: '>=3.3.17'

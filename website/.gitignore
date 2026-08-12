@@ -1,5 +1,8 @@
 node_modules/
-dist/
+# dist/ is intentionally committed: cPanel Git deployment (.cpanel.yml at the
+# repo root) copies website/dist into the live document root, so the built site
+# has to be in the repository. Rebuild with `pnpm build` before pushing.
 kinnav-site.zip
 .DS_Store
 *.local
+public/api/.state/
