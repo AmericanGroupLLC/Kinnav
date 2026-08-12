@@ -55,6 +55,10 @@ cat > dist/.cpanel.yml <<EOF
 deployment:
   tasks:
     - export DEPLOYPATH=${DEPLOY_PATH}
+    # Refuse to run if the repository IS the document root. The next task
+    # deletes \$DEPLOYPATH/assets, which in that layout is the checkout's own
+    # assets directory — it would delete the site instead of deploying it.
+    - test "\$(pwd -P)" != "\$(cd \$DEPLOYPATH && pwd -P)" || { echo 'ERROR: repository path is the document root; clone it to ~/repositories instead'; exit 1; }
     # Clear old content-hashed bundles so they don't accumulate.
     - /bin/rm -rf \$DEPLOYPATH/assets
     # Copy the site but never .git or this manifest: serving .git would
