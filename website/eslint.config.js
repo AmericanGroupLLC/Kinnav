@@ -20,7 +20,7 @@ export default defineConfig([
   },
   {
     // Tests and tooling run in Node and use the Vitest/Playwright globals.
-    files: ['src/**/*.test.{js,jsx}', 'e2e/**/*.spec.js', '*.config.js'],
+    files: ['src/**/*.test.{js,jsx}', 'src/test/**/*.{js,jsx}', 'e2e/**/*.spec.js', '*.config.js'],
     languageOptions: {
       globals: { ...globals.browser, ...globals.node, ...globals.vitest },
     },
