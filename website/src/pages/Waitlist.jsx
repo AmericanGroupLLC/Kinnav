@@ -21,7 +21,11 @@ const ROLE_LABELS = {
 
 // Waitlist form component
 //
-// Signups are emailed to SITE_EMAIL by /api/contact.php. If that handler is
+// Signups are emailed to SITE_EMAIL by /api/contact.php — the same inbox the
+// contact form uses, which is why they are tagged [Waitlist] and carry an
+// X-Kinnav-Form header, so webmail can file them separately.
+//
+// If that handler is
 // unreachable the form falls back to opening the visitor's mail client, in
 // which case the signup only reaches us once they actually press send — the
 // confirmation copy below states which of the two happened rather than
@@ -37,6 +41,7 @@ function WaitlistForm() {
     setStatus('submitting')
     const roleLabel = ROLE_LABELS[form.role] || form.role
     const result = await submitForm({
+      form: 'waitlist',
       subject: `Kinnav waitlist — ${form.name} (${roleLabel})`,
       fields: { name: form.name, email: form.email, 'joining as': roleLabel },
       message: form.message,
@@ -63,7 +68,7 @@ function WaitlistForm() {
         {status === 'mailto' && (
           <p style={{ color: '#A98BC4', fontSize: 14, lineHeight: 1.7, marginTop: 14 }}>
             Nothing opened? Email us directly at{' '}
-            <a href={mailtoLink('Kinnav waitlist')} style={{ color: '#BF6EEE', fontWeight: 600 }}>{SITE_EMAIL}</a>.
+            <a href={mailtoLink('Kinnav waitlist', 'waitlist')} style={{ color: '#BF6EEE', fontWeight: 600 }}>{SITE_EMAIL}</a>.
           </p>
         )}
         <button

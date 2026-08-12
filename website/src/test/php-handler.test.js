@@ -191,6 +191,67 @@ describe('contact.php — abuse resistance', () => {
   }, 120_000)
 })
 
+describe('contact.php — form tagging', () => {
+  // Both forms share one mailbox, so the tag is what a cPanel filter sorts on.
+  // mail() cannot succeed under php-wasm, so the assertions are on the source
+  // and on the fact that a tagged submission still reaches the send stage.
+  const source = readFileSync('public/api/contact.php', 'utf8')
+
+  it('knows the same two forms the front end sends', () => {
+    expect(source).toMatch(/'contact'\s*=>\s*'\[Contact\]'/)
+    expect(source).toMatch(/'waitlist'\s*=>\s*'\[Waitlist\]'/)
+  })
+
+  it('stamps the form onto a header for filtering', () => {
+    expect(source).toMatch(/'X-Kinnav-Form: '\s*\.\s*\$form/)
+  })
+
+  it('builds that header from the whitelist, not from submitted text', () => {
+    // $form only ever comes out of form_kind(), which returns a whitelisted key.
+    expect(source).toMatch(/\$form\s*=\s*form_kind\(/)
+    expect(source).toMatch(/array_key_exists\(\$form, FORM_PREFIXES\)\s*\?\s*\$form\s*:\s*DEFAULT_FORM/)
+  })
+
+  it('tags each form distinctly and refuses anything off the whitelist', async () => {
+    // Driven in-process; see the comment in php-form-tag.php for why the tag
+    // cannot be observed over HTTP under php-wasm.
+    const output = await runPhp('src/test/php-form-tag.php')
+
+    expect(output).toContain('contact kind=contact subject=[Contact] General Inquiry — Kinnav')
+    expect(output).toContain('waitlist kind=waitlist subject=[Waitlist] Kinnav waitlist — Ada (Guardian)')
+    // Unrecognised, missing, or header-injecting values fall back to the
+    // default instead of reaching the header.
+    expect(output).toContain('unknown kind=contact')
+    expect(output).toContain('missing kind=contact')
+    expect(output).toContain('injected kind=contact')
+    expect(output).not.toMatch(/kind=.*Bcc/)
+    // Case-insensitive, and it never tags a subject twice.
+    expect(output).toContain('uppercase kind=waitlist')
+    expect(output).toContain('pretagged kind=waitlist subject=[Waitlist] Kinnav waitlist — Ada')
+    expect(output).not.toContain('[Waitlist] [Waitlist]')
+  }, 120_000)
+
+  it.each([
+    ['waitlist', 'Kinnav waitlist — Ada'],
+    ['contact', 'General Inquiry — Kinnav'],
+    ['nonsense', 'General Inquiry — Kinnav'],
+    ['', 'General Inquiry — Kinnav'],
+  ])('accepts a %s submission and gets as far as sending', async (form, subject) => {
+    const res = await post(base, { ...valid, form, subject })
+    expect(res.status).toBe(502)
+  })
+
+  it('does not reject a submission that arrives already tagged', async () => {
+    const res = await post(base, { ...valid, form: 'waitlist', subject: '[Waitlist] Kinnav waitlist' })
+    expect(res.status).toBe(502)
+  })
+
+  it('refuses to be talked into an injected header via the form name', async () => {
+    const res = await post(base, { ...valid, form: "contact\r\nBcc: attacker@evil.example" })
+    expect(res.status).toBe(502)
+  })
+})
+
 describe('contact.php — configuration', () => {
   it('sends to the support mailbox, never a personal address', () => {
     const source = readFileSync('public/api/contact.php', 'utf8')

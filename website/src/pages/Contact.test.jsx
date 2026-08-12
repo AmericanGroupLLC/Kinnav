@@ -47,7 +47,7 @@ describe('Contact page', () => {
     expect(screen.getByText(/ada@example.com/)).toBeInTheDocument()
 
     const payload = JSON.parse(fetchMock.mock.calls[0][1].body)
-    expect(payload.subject).toBe('General Inquiry — Kinnav — from Ada Lovelace')
+    expect(payload.subject).toBe('[Contact] General Inquiry — Kinnav — from Ada Lovelace')
     expect(payload.body).toContain('I need help with the app.')
     // No mail client was opened — the server accepted it.
     expect(window.location.href).toBe('')
@@ -66,6 +66,21 @@ describe('Contact page', () => {
     const payload = JSON.parse(fetchMock.mock.calls[0][1].body)
     expect(payload.subject).toContain('Guardian Application — Kinnav')
     expect(payload.type).toContain('Become a Guardian')
+  })
+
+  it('tags the enquiry as a contact one so it files apart from waitlist signups', async () => {
+    const user = userEvent.setup()
+    const fetchMock = okFetch()
+    renderPage()
+
+    await fillIn(user)
+    await user.click(screen.getByRole('button', { name: /Send Message/i }))
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled())
+    const payload = JSON.parse(fetchMock.mock.calls[0][1].body)
+    expect(payload.form).toBe('contact')
+    expect(payload.subject).toMatch(/^\[Contact\] /)
+    expect(payload.subject).not.toContain('[Waitlist]')
   })
 
   it('tells the visitor to press send when the server is unreachable', async () => {

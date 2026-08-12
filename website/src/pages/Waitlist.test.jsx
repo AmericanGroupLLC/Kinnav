@@ -47,9 +47,24 @@ describe('Waitlist page', () => {
     expect(screen.getByText(/grace@example.com/)).toBeInTheDocument()
 
     const payload = JSON.parse(fetchMock.mock.calls[0][1].body)
-    expect(payload.subject).toBe('Kinnav waitlist — Grace (App User)')
+    expect(payload.subject).toBe('[Waitlist] Kinnav waitlist — Grace (App User)')
     expect(payload.body).toContain('Grace')
     expect(payload.body).toContain('grace@example.com')
+  })
+
+  it('tags the signup as a waitlist one so it files apart from support mail', async () => {
+    const user = userEvent.setup()
+    const fetchMock = okFetch()
+    renderPage()
+
+    await fillIn(user)
+    await user.click(screen.getByRole('button', { name: /Join the Waitlist/i }))
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled())
+    const payload = JSON.parse(fetchMock.mock.calls[0][1].body)
+    expect(payload.form).toBe('waitlist')
+    expect(payload.subject).toMatch(/^\[Waitlist\] /)
+    expect(payload.subject).not.toContain('[Contact]')
   })
 
   it('records the chosen role in the subject', async () => {

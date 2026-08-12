@@ -8,6 +8,10 @@
  * the outgoing message is signed with the domain's DKIM key and passes SPF
  * because it originates from the host listed in the SPF record.
  *
+ * Because the two forms share the inbox, each message is tagged with the one
+ * it came from — a subject prefix and an X-Kinnav-Form header — so a cPanel
+ * email filter can sort them into folders.
+ *
  * Replies go to the visitor via Reply-To, so hitting Reply in webmail works.
  */
 
@@ -17,6 +21,15 @@ const INBOX      = 'support@kinnav.com';
 const FROM       = 'support@kinnav.com'; // must be a local mailbox for SPF/DKIM
 const MAX_PER_IP = 5;                    // submissions per hour
 const MAX_LEN    = 5000;
+
+// Which form the submission came from. Mirrors FORM_PREFIXES in src/config.js.
+// The submitted value is looked up here rather than used, so nothing a visitor
+// types can reach a mail header through this path.
+const FORM_PREFIXES = [
+    'contact'  => '[Contact]',
+    'waitlist' => '[Waitlist]',
+];
+const DEFAULT_FORM = 'contact';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -42,6 +55,8 @@ $name    = clean($payload['name'] ?? '');
 $email   = clean($payload['email'] ?? '');
 $subject = clean($payload['subject'] ?? 'Kinnav website enquiry');
 $body    = (string) ($payload['body'] ?? '');
+$form    = form_kind($payload['form'] ?? '');
+$subject = tag_subject($subject, $form);
 
 if ($name === '' || $email === '' || trim($body) === '') {
     fail(422, 'Please fill in your name, email, and message.');
@@ -66,6 +81,7 @@ $headers = [
     'MIME-Version: 1.0',
     'Content-Type: text/plain; charset=UTF-8',
     'X-Mailer: kinnav-web',
+    'X-Kinnav-Form: ' . $form,
 ];
 
 // Warnings are suppressed deliberately: a warning printed before the JSON body
@@ -92,6 +108,33 @@ echo json_encode(['ok' => true]);
 function clean($value): string
 {
     return trim(str_replace(["\r", "\n", "\0"], ' ', (string) $value));
+}
+
+/**
+ * Resolves the submitted form name against the whitelist. Anything unknown,
+ * missing, or hand-crafted becomes the default rather than an error: a tag is
+ * a filing convenience, not a reason to lose someone's message.
+ */
+function form_kind($value): string
+{
+    $form = strtolower(clean($value));
+
+    return array_key_exists($form, FORM_PREFIXES) ? $form : DEFAULT_FORM;
+}
+
+/**
+ * Prefixes the subject with the form's tag. The client already does this, so
+ * the prefix is only added when missing — a direct POST (or an older cached
+ * bundle) still gets tagged, and neither path double-tags.
+ */
+function tag_subject(string $subject, string $form): string
+{
+    $prefix = FORM_PREFIXES[$form];
+    if (str_starts_with($subject, $prefix)) {
+        return $subject;
+    }
+
+    return trim($prefix . ' ' . $subject);
 }
 
 /**

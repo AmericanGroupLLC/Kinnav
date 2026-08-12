@@ -9,7 +9,8 @@ const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, tra
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } }
 
 // Every topic lands in the same inbox (SITE_EMAIL); the subject line is what
-// tells them apart, so it can be filtered in webmail.
+// tells them apart, so it can be filtered in webmail. submitForm() prefixes
+// all of them with [Contact], which separates them from waitlist signups.
 const contactTypes = [
   { value: 'general', label: '💬 General Inquiry', subject: 'General Inquiry — Kinnav' },
   { value: 'support', label: '🛠️ App Support', subject: 'App Support — Kinnav' },
@@ -31,6 +32,7 @@ function ContactForm() {
     if (!form.name || !form.email || !form.message) return
     setStatus('submitting')
     const result = await submitForm({
+      form: 'contact',
       subject: `${selectedType.subject} — from ${form.name}`,
       fields: { name: form.name, email: form.email, type: selectedType.label },
       message: form.message,
@@ -57,7 +59,7 @@ function ContactForm() {
         {status === 'mailto' && (
           <p style={{ color: '#A98BC4', fontSize: 14, lineHeight: 1.7, marginTop: 14 }}>
             Nothing opened? Email us directly at{' '}
-            <a href={mailtoLink(selectedType.subject)} style={{ color: '#BF6EEE', fontWeight: 600 }}>{SITE_EMAIL}</a>.
+            <a href={mailtoLink(selectedType.subject, 'contact')} style={{ color: '#BF6EEE', fontWeight: 600 }}>{SITE_EMAIL}</a>.
           </p>
         )}
         <button onClick={() => setStatus('idle')} style={{ marginTop: 20, color: '#BF6EEE', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 15 }}>Send another →</button>

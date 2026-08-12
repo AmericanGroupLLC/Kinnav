@@ -130,8 +130,14 @@ curl -I https://kinnav.com/.git/config   # 403 or 404, never 200
 
 curl -s -X POST https://kinnav.com/api/contact.php \
   -H 'Content-Type: application/json' \
-  -d '{"name":"Test","email":"you@example.com","subject":"Test — Kinnav","body":"Hello"}'
-# expect {"ok":true}, then check the support@kinnav.com inbox
+  -d '{"form":"contact","name":"Test","email":"you@example.com","subject":"Test — Kinnav","body":"Hello"}'
+# expect {"ok":true}, then check the support@kinnav.com inbox for "[Contact] Test — Kinnav"
+
+curl -s -X POST https://kinnav.com/api/contact.php \
+  -H 'Content-Type: application/json' \
+  -d '{"form":"waitlist","name":"Test","email":"you@example.com","subject":"Signup","body":"Hello"}'
+# expect {"ok":true}, then "[Waitlist] Signup" — a different subject tag proves
+# the two forms are distinguishable in the shared inbox
 ```
 
 Then click through `/how-it-works`, `/waitlist`, `/about`, `/privacy`, `/terms`,
@@ -143,7 +149,8 @@ exists for.
 Both forms POST to `/api/contact.php`, which emails **support@kinnav.com** using
 the server's local mail transport. No SMTP password is stored anywhere; the
 IMAP/SMTP settings cPanel shows (993/995/465) are for mail clients, not for the
-site. The address is set in `src/config.js` (`SITE_EMAIL`) and in the handler
+site — they are recorded under [Mailbox: support@kinnav.com](#mailbox-supportkinnavcom).
+The address is set in `src/config.js` (`SITE_EMAIL`) and in the handler
 (`INBOX`/`FROM`) — both must agree.
 
 Requirements and behaviour:
@@ -159,6 +166,71 @@ Requirements and behaviour:
 HTML instead of JSON from the `curl` test above means PHP is not running for the
 domain. Mail accepted but not arriving: check cPanel → **Track Delivery** and the
 mailbox quota.
+
+### Telling the two forms apart
+
+Contact enquiries and waitlist signups share the one mailbox, so every message
+is tagged twice — once where any mail client can see it, once in a header:
+
+| Form | Subject | Header |
+|---|---|---|
+| Contact → *Send us a message* | `[Contact] General Inquiry — Kinnav — from …` | `X-Kinnav-Form: contact` |
+| Waitlist → *Join the Waitlist* | `[Waitlist] Kinnav waitlist — … (Guardian)` | `X-Kinnav-Form: waitlist` |
+
+The subject prefix exists because the mailto: fallback cannot set headers — a
+signup that arrives from the visitor's own mail client is still tagged.
+
+The list of forms is in **two places that must agree**: `FORM_PREFIXES` in
+`src/config.js` and the const of the same name in `public/api/contact.php`. The
+handler treats anything not on that whitelist as `contact` rather than
+rejecting it, so an unrecognised tag mis-files a message but never loses one.
+
+To sort them into folders — cPanel → **Email Filters** → *support@kinnav.com* →
+Create a New Filter:
+
+| Field | Value |
+|---|---|
+| Rules | `Subject` · `begins with` · `[Waitlist]` |
+| Actions | `Deliver to folder` · `INBOX.Waitlist` |
+
+Filtering on the header instead (`X-Kinnav-Form` · `is` · `waitlist`) is the
+stricter option: a visitor can type `[Waitlist]` into a contact message, but
+they cannot set a header. Create the folder first in Webmail → Roundcube →
+Settings → Folders, or the filter has nowhere to deliver.
+
+## Mailbox: support@kinnav.com
+
+The mailbox the forms deliver to, as cPanel → **Email Accounts** → *Connect
+Devices* reports it. None of this is used by the website — `contact.php` hands
+mail to the local MTA and stores no credentials — it is here so the account can
+be re-added to a mail client without digging through cPanel.
+
+| | Setting |
+|---|---|
+| Username | `support@kinnav.com` |
+| Password | the mailbox password (not stored in this repo) |
+| Incoming | `kinnav.com` — IMAP `993`, POP3 `995` (SSL/TLS) |
+| Outgoing | `kinnav.com` — SMTP `465` (SSL/TLS) |
+| Auth | required for IMAP, POP3 and SMTP |
+
+Use **IMAP**, not POP3: the same inbox is read from more than one device, and
+POP3 pulls mail off the server.
+
+Calendar and contacts on the same account, over SSL/TLS at `https://kinnav.com:2080`:
+
+| | URL |
+|---|---|
+| CalDAV | `https://kinnav.com:2080/calendars/support@kinnav.com/calendar` |
+| CardDAV | `https://kinnav.com:2080/addressbooks/support@kinnav.com/addressbook` |
+
+cPanel also publishes non-SSL equivalents on `mail.kinnav.com:2079`. Do not use
+them — they send the mailbox password in the clear.
+
+cPanel can generate `.mobileconfig` profiles (Email Accounts → Connect Devices →
+Apple device) that configure mail, calendar and contacts in one tap on
+iOS/macOS. They are not committed here: a profile embeds the account details and
+prompts for the password, so it belongs in a password manager, not in a public
+repository.
 
 ## SSL and DNS
 
