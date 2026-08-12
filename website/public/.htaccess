@@ -12,6 +12,12 @@ Options -Indexes
   # Never touch AutoSSL / Let's Encrypt validation requests
   RewriteRule ^\.well-known/ - [L]
 
+  # Belt and braces: if a deploy ever copies repository metadata into the
+  # document root, refuse to serve it rather than publishing the source
+  # history. The deploy manifest excludes these, this is the second line.
+  RewriteRule (^|/)\.(git|svn|hg)(/|$) - [F,L]
+  RewriteRule (^|/)\.cpanel\.yml$ - [F,L]
+
   # Force HTTPS. AutoSSL validation still works (see .well-known rule above),
   # but until a certificate is actually issued for kinnav.com the browser will
   # show a warning — comment out the next two lines if you need plain HTTP

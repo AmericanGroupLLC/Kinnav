@@ -1,7 +1,7 @@
 node_modules/
-# dist/ is intentionally committed: cPanel Git deployment (.cpanel.yml at the
-# repo root) copies website/dist into the live document root, so the built site
-# has to be in the repository. Rebuild with `pnpm build` before pushing.
+# Build output stays out of master. GitHub Actions builds it and force-pushes
+# the result to the `deploy` branch, which is what cPanel checks out.
+dist/
 kinnav-site.zip
 .DS_Store
 *.local

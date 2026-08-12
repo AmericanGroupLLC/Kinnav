@@ -31,3 +31,25 @@ jobs:
           channel: stable
       - run: flutter pub get
       - run: flutter build apk --debug
+
+  website:
+    name: Website lint, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: website/pnpm-lock.yaml
+      - working-directory: website
+        run: pnpm install --frozen-lockfile
+      - working-directory: website
+        run: pnpm lint
+      - working-directory: website
+        run: pnpm test
+      - working-directory: website
+        run: pnpm build

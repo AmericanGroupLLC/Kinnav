@@ -36,9 +36,11 @@ pnpm package    # Build + zip dist/ into kinnav-site.zip for cPanel upload
 
 ## Deployment
 
-Hosted on HostGator cPanel. Upload the **contents of `dist/`** (including the hidden
-`.htaccess`) to `/home2/safecode/kinnav.com/` — see [`DEPLOY.md`](DEPLOY.md) for the
-full procedure, SSL, and DNS notes.
+Pushing to `master` triggers `.github/workflows/deploy-website.yml`, which lints,
+tests and builds the site, then force-pushes the result to the **`deploy`** branch.
+cPanel checks that branch out and deploys it to `/home2/safecode/kinnav.com/`, so
+HostGator never runs Node. `dist/` is not committed. See [`DEPLOY.md`](DEPLOY.md)
+for the cPanel setup, SSL and DNS notes.
 
 ## About
 
