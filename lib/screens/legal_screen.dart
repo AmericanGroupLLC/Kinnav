@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/app_config.dart';
 import '../theme/app_theme.dart';
 
 /// Renders Legal Terms or Privacy Policy. Content here is a plain-language
@@ -74,8 +75,8 @@ class LegalScreen extends StatelessWidget {
         ),
         (
           'Contact',
-          'Questions? Email saferapp3@gmail.com. This is placeholder text '
-              'pending legal review.'
+          'Questions? Email ${AppConfig.supportEmail}. This is placeholder '
+              'text pending legal review.'
         ),
       ]);
 

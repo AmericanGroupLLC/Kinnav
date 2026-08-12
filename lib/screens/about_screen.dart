@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/app_config.dart';
 import '../services/links.dart';
 import '../theme/app_theme.dart';
 import 'legal_screen.dart';
@@ -77,8 +78,8 @@ class AboutScreen extends StatelessWidget {
               '@getsaferapp', 'https://twitter.com'),
           _social(context, Icons.language, 'Website',
               'kinnav.com', 'https://kinnav.com'),
-          _social(context, Icons.mail_outline, 'Email', 'saferapp3@gmail.com',
-              'mailto:saferapp3@gmail.com'),
+          _social(context, Icons.mail_outline, 'Email', AppConfig.supportEmail,
+              'mailto:${AppConfig.supportEmail}'),
           const SizedBox(height: 20),
           const Text('Legal',
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),

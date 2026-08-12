@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
+import '../config/app_config.dart';
 import '../services/links.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
@@ -94,7 +95,7 @@ class MenuDrawer extends StatelessWidget {
                       _item(context, Icons.help_outline, 'How to use Kinnav',
                           page: const HowToUseScreen()),
                       _item(context, Icons.mail_outline, 'Contact Us',
-                          onTap: () => Links.email('saferapp3@gmail.com',
+                          onTap: () => Links.email(AppConfig.supportEmail,
                               context,
                               subject: 'Kinnav app enquiry')),
                       _item(context, Icons.edit_outlined, 'Feedback',

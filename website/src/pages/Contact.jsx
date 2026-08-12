@@ -187,7 +187,11 @@ export default function Contact() {
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             style={{ background: '#fff', borderRadius: 24, padding: '2.5rem', boxShadow: '0 8px 40px rgba(191,110,238,0.1)', border: '1px solid rgba(191,110,238,0.1)' }}>
             <h2 style={{ fontWeight: 900, fontSize: 24, color: '#1a1a2e', marginBottom: 8 }}>Send us a message</h2>
-            <p style={{ color: '#6B7280', fontSize: 15, marginBottom: 28 }}>We typically respond within 1–2 business days.</p>
+            <p style={{ color: '#6B7280', fontSize: 15, marginBottom: 28 }}>
+              We typically respond within 1–2 business days. Prefer your own mail client?
+              Write to{' '}
+              <a href={`mailto:${SITE_EMAIL}`} style={{ color: '#BF6EEE', fontWeight: 600 }}>{SITE_EMAIL}</a>.
+            </p>
             <ContactForm />
           </motion.div>
         </div>

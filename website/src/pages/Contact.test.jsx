@@ -92,7 +92,10 @@ describe('Contact page', () => {
     await user.click(screen.getByRole('button', { name: /Send Message/i }))
 
     await waitFor(() => expect(screen.getByText(/Almost there — press send/i)).toBeInTheDocument())
-    expect(screen.getByRole('link', { name: 'support@kinnav.com' })).toBeInTheDocument()
+    // The page always offers the plain address; the fallback adds one with the
+    // topic already in the subject, so both are on screen at this point.
+    const mailtos = screen.getAllByRole('link', { name: 'support@kinnav.com' })
+    expect(mailtos.some(a => a.getAttribute('href').includes('subject='))).toBe(true)
     expect(window.location.href).toContain('mailto:support@kinnav.com')
     // It must not claim delivery it cannot vouch for.
     expect(screen.queryByText(/Message sent!/i)).not.toBeInTheDocument()
@@ -141,5 +144,13 @@ describe('Contact page', () => {
   it('publishes no personal gmail address anywhere on the page', () => {
     const { container } = renderPage()
     expect(container.textContent).not.toMatch(/gmail/i)
+  })
+
+  it('shows the support address without needing the form to fail first', () => {
+    // Someone who would rather use their own mail client should not have to
+    // submit a form, or hit a server error, to discover where to write.
+    renderPage()
+    const link = screen.getByRole('link', { name: 'support@kinnav.com' })
+    expect(link).toHaveAttribute('href', 'mailto:support@kinnav.com')
   })
 })

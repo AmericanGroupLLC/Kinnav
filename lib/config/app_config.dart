@@ -41,7 +41,9 @@ class AppConfig {
           '146431650883-blpfddrf32ureu4ucqlp3oku9jo07luq.apps.googleusercontent.com');
   static const String appleClientId = String.fromEnvironment('APPLE_CLIENT_ID',
       defaultValue: 'TLH7Z3G27A.com.americangroupllc.app');
-  static const String supportEmail = 'support@safecodeg.com';
+  /// The single place the app names a contact address. Mirrors SITE_EMAIL in
+  /// website/src/config.js, so the app and kinnav.com point at one inbox.
+  static const String supportEmail = 'support@kinnav.com';
 
   // ── Native OAuth client identifiers ────────────────────────────────────────
   // These are PUBLIC OAuth client IDs (safe to ship in the client binary — they

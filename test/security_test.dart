@@ -54,6 +54,46 @@ void main() {
       expect(offenders, isEmpty);
     });
 
+    test('the app publishes no personal or off-brand contact address', () {
+      // Three screens once shipped a personal gmail address, and the support
+      // constant pointed at a different company's domain. Anything a user is
+      // invited to write to must be the kinnav.com inbox — the same one
+      // website/src/config.js names. The Supabase test logins on
+      // @safecodeg.com are credentials, not contact addresses, so a bare
+      // domain mention is not what this looks for.
+      final offenders = <String>[];
+      for (final file in libFiles) {
+        final source = file.readAsStringSync();
+        for (final match
+            in RegExp(r'[\w.+-]+@[\w.-]+\.\w+').allMatches(source)) {
+          final address = match.group(0)!;
+          if (address.endsWith('@safecodeg.com') &&
+              file.path.endsWith('auth_service.dart')) {
+            continue; // seeded test accounts, never shown as a contact
+          }
+          if (address.endsWith('@kinnav.com')) continue;
+          offenders.add('${file.path}: $address');
+        }
+      }
+      expect(offenders, isEmpty,
+          reason: 'contact addresses must be @kinnav.com');
+    });
+
+    test('the support address matches the one the website publishes', () {
+      expect(read('lib/config/app_config.dart'),
+          contains("supportEmail = 'support@kinnav.com'"));
+      // Screens link the constant rather than repeating the address, so
+      // changing the inbox stays a one-line edit as it is on the site.
+      for (final path in [
+        'lib/screens/menu_drawer.dart',
+        'lib/screens/about_screen.dart',
+        'lib/screens/legal_screen.dart',
+      ]) {
+        expect(read(path), contains('AppConfig.supportEmail'),
+            reason: '$path should use the shared constant');
+      }
+    });
+
     test('SecureStore is backed by encrypted platform storage', () {
       final source = read('lib/services/secure_store.dart');
       expect(source, contains('encryptedSharedPreferences: true'));

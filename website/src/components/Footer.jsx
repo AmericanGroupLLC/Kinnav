@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Heart, Mail, Globe, Share2 } from 'lucide-react'
+import { SITE_EMAIL } from '../config'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -90,9 +91,15 @@ export default function Footer() {
           {/* Contact & Legal */}
           <div>
             <h4 style={{ fontWeight: 700, fontSize: 14, letterSpacing: 1.5, textTransform: 'uppercase', color: '#DDA146', marginBottom: 16 }}>Contact & Legal</h4>
-            <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 20 }}>
+            <Link to="/contact" style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 10 }}>
               <Mail size={14} style={{ color: '#D4A5F5' }} /> Contact Us
             </Link>
+            {/* The address itself, not just a link to the form: someone who
+                wants to write from their own mail client should not have to
+                submit a form to find out where to write. */}
+            <a href={`mailto:${SITE_EMAIL}`} style={{ display: 'block', color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: 14, marginBottom: 20, wordBreak: 'break-all' }}>
+              {SITE_EMAIL}
+            </a>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
               {[
                 { to: '/privacy', label: 'Privacy Policy' },
