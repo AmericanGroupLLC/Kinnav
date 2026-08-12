@@ -34,6 +34,8 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
+          # packageManager lives in website/package.json, not the repo root.
+          package_json_file: website/package.json
           run_install: false
 
       - name: Setup Node.js

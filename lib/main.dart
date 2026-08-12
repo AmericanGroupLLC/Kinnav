@@ -27,7 +27,7 @@ Future<void> main() async {
     try {
       await Supabase.initialize(
         url: AppConfig.supabaseUrl,
-        anonKey: AppConfig.supabaseAnonKey,
+        publishableKey: AppConfig.supabaseAnonKey,
         // AUTO-LOGIN: keep the default persistent, auto-refreshing session so a
         // returning user is signed in on launch with no login screen. The
         // session is stored in the platform-secure local store
