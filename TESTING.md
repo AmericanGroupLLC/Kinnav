@@ -73,7 +73,23 @@ flutter build apk --debug
 | `test/app_state_test.dart` | Persistence of profile, rewards, guardian course and call history |
 | `test/config_test.dart` | With no `--dart-define`, every optional integration reports unavailable, the build is not "prod", and an emergency number still exists |
 | `test/app_flow_test.dart` | The RootRouter gate: onboarding → sign-up → profile → map, demo mode, restart behaviour, and that the map's primary actions open |
+| `test/security_test.dart` | No committed keys; JWTs never written through the prefs wrapper; every endpoint https; no cleartext traffic or relaxed ATS; the Android permission set is the reviewed one and every iOS permission explains itself; emergency dialling is only ever reachable through the confirmation dialog |
+| `test/performance_test.dart` | Cold start and call-options open within budget, no animation that never settles, asset weight capped, collection screens build lazily |
+| `test/accessibility_test.dart` | Android and iOS tap-target guidelines, every tappable labelled for screen readers, no layout overflow at 320pt, 834pt or 150% text |
 | `test/widget_test.dart` | First run shows onboarding |
+
+### Known environment limits
+
+Two things cannot run inside a sandboxed shell and need a normal machine:
+
+- **Browser end-to-end** (`pnpm test:e2e`). Chromium aborts at launch with
+  `bootstrap_check_in ... Permission denied` and Firefox cannot create a page.
+- **`flutter build apk`.** The Gradle daemon binds `127.0.0.1` and the client
+  cannot connect to IPv4 loopback, so the build fails with "Could not connect to
+  the Gradle daemon". `./gradlew --version` and `flutter build ios` both work,
+  so this is the sandbox rather than the project.
+
+### A pinned behaviour
 
 `test/app_flow_test.dart` pins one behaviour worth knowing about: `AppState`'s
 constructor reconciles the local `signedIn` flag against Supabase, so when

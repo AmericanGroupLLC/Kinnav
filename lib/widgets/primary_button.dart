@@ -46,13 +46,23 @@ class PrimaryButton extends StatelessWidget {
                   Icon(icon, color: Colors.white, size: 24),
                   const SizedBox(width: 12),
                 ],
-                Text(
-                  label,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.5,
+                // On a 320pt-wide phone (iPhone SE) a long label plus the icon
+                // is wider than the button. Scale the text down rather than
+                // truncating it — this is the primary action and it has to stay
+                // readable in full.
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
                   ),
                 ),
               ],

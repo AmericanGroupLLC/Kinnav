@@ -239,7 +239,9 @@ class _CircleIconButton extends StatelessWidget {
           customBorder: const CircleBorder(),
           onTap: onTap,
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            // 24pt icon + 12pt each side = a 48x48 target, the Android
+            // accessibility minimum (iOS asks for 44).
+            padding: const EdgeInsets.all(12),
             child: Icon(icon, color: AppColors.textDark, size: 24),
           ),
         ),

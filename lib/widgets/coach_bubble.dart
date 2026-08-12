@@ -37,10 +37,21 @@ class CoachBubble extends StatelessWidget {
           ),
           if (onDismiss != null) ...[
             const SizedBox(width: 10),
-            GestureDetector(
-              onTap: onDismiss,
-              child: const Icon(Icons.close,
-                  size: 18, color: AppColors.textMuted),
+            // The glyph stays small, but the tappable area is padded out to
+            // 48x48 and labelled so it can be reached by touch and announced
+            // by a screen reader.
+            Semantics(
+              button: true,
+              label: 'Dismiss tip',
+              child: InkWell(
+                onTap: onDismiss,
+                customBorder: const CircleBorder(),
+                child: const Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Icon(Icons.close,
+                      size: 18, color: AppColors.textMuted),
+                ),
+              ),
             ),
           ],
         ],

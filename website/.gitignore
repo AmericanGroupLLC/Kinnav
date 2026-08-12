@@ -6,3 +6,4 @@ kinnav-site.zip
 .DS_Store
 *.local
 public/api/.state/
+src/test/.state/

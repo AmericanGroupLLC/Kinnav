@@ -42,8 +42,12 @@ echo 'cap=' . MAX_PER_IP . ' ' . implode(',', $results) . "\n";
 // Clean up the counter directory. php-wasm has no writable system temp dir, so
 // the handler falls back to public/api/.state — which must never be left behind
 // for `vite build` to copy into the deployable output.
-$state = dirname(__DIR__, 2) . '/public/api/.state';
-if (is_dir($state)) {
+// __DIR__ inside the eval'd function is this harness's directory, so the
+// fallback dir can land here as well as under public/api.
+foreach ([dirname(__DIR__, 2) . '/public/api/.state', __DIR__ . '/.state'] as $state) {
+    if (!is_dir($state)) {
+        continue;
+    }
     foreach (glob($state . '/*') ?: [] as $file) {
         @unlink($file);
     }

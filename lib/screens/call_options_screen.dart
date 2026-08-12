@@ -46,6 +46,7 @@ class _CallOptionsScreenState extends State<CallOptionsScreen> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.close, color: Colors.white),
+                    tooltip: 'Close',
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
                   const Text('Reach a Guardian',
