@@ -3,7 +3,7 @@
 //
 // These need `pnpm build` to have run; the suite builds if dist is missing.
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { spawn, execSync } from 'node:child_process'
+import { spawn } from 'node:child_process'
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { gzipSync } from 'node:zlib'
 import { join } from 'node:path'
@@ -15,9 +15,7 @@ const ROUTES = ['/', '/how-it-works', '/waitlist', '/about', '/privacy', '/terms
 let server
 
 beforeAll(async () => {
-  if (!existsSync('dist/index.html')) {
-    execSync('npx vite build', { stdio: 'ignore' })
-  }
+  // dist/ is guaranteed by the global setup.
   server = spawn('npx', ['vite', 'preview', '--port', String(PORT), '--strictPort'], { stdio: 'ignore' })
 
   const deadline = Date.now() + 60_000
