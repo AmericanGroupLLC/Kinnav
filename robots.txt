@@ -1,0 +1,6 @@
+# robots.txt — kinnav.com
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kinnav.com/sitemap.xml

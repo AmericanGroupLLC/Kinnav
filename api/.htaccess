@@ -1,0 +1,10 @@
+# Only the form handler is reachable here. If the host ever stops executing
+# PHP, this also stops contact.php being served as readable source.
+Options -Indexes
+
+<FilesMatch "\.(txt|json|log|yml|yaml|md)$">
+  Require all denied
+</FilesMatch>
+
+# Rate-limit counters, used only when the system temp dir is unreachable.
+RedirectMatch 404 ^/api/\.state(/.*)?$
