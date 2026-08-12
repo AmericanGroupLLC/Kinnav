@@ -219,7 +219,7 @@ class _PlanCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: selected ? AppColors.primary : const Color(0xFFE4DAEF),
+            color: selected ? AppColors.primary : AppColors.lavenderCard,
             width: selected ? 2 : 1,
           ),
         ),

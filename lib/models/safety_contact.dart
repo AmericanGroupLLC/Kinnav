@@ -30,6 +30,8 @@ class SafetyContact {
         name: j['name'] as String? ?? '',
         phone: j['phone'] as String? ?? '',
         relation: j['relation'] as String? ?? 'Contact',
-        colorValue: j['colorValue'] as int? ?? 0xFF9B59D0,
+        // Mirrors AppColors.primary; the models layer stays free of theme
+        // imports, so the brand purple is repeated as a literal here.
+        colorValue: j['colorValue'] as int? ?? 0xFFBF6EEE,
       );
 }

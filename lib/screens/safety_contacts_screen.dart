@@ -58,7 +58,7 @@ class SafetyContactsScreen extends StatelessWidget {
                         ? 'No number'
                         : phoneCtrl.text.trim(),
                     relation: 'Contact',
-                    colorValue: 0xFF9B59D0,
+                    colorValue: AppColors.primary.toARGB32(),
                   ));
                   Navigator.of(ctx).pop();
                 },

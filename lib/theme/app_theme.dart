@@ -1,31 +1,50 @@
 import 'package:flutter/material.dart';
 
-/// Central brand palette for Kinnav, derived from the product's purple / lavender
-/// identity in the design deck and reference screens.
+/// Central brand palette for Kinnav.
+///
+/// These are the kinnav.com values, so the app and the site read as one brand.
+/// The site has no token file — the source of truth is what it actually paints
+/// (`website/src`), and each colour below notes where it comes from.
+///
+/// Contrast note: `primary` is a light purple, so white on a solid fill of it
+/// clears WCAG AA for large text only. That is how the site uses it too (bold
+/// 16px+ on the gradient). Use `primaryDark` behind small white text.
 class AppColors {
   AppColors._();
 
-  // Core brand purples.
-  static const Color primary = Color(0xFF9B59D0); // buttons, accents
-  static const Color primaryDark = Color(0xFF6A1B9A); // headers, safe-call alert
-  static const Color primaryLight = Color(0xFFB57BE0); // gradient top / highlights
+  // Core brand purples. primary is also the site's <meta name="theme-color">.
+  static const Color primary = Color(0xFFBF6EEE); // buttons, accents
+  static const Color primaryDark = Color(0xFF7B2FB8); // headers, safe-call alert
+  static const Color primaryLight = Color(0xFFD4A5F5); // gradient top / highlights
+
+  // Deep end of the site's hero gradient, for dark brand surfaces.
+  static const Color heroDeep = Color(0xFF4A1690);
+  static const Color heroDarkest = Color(0xFF1E0838);
 
   // Backgrounds.
-  static const Color lavenderBg = Color(0xFFF4ECFA); // app scaffold tint
-  static const Color lavenderCard = Color(0xFFEDE3F6); // subtle card fill
+  static const Color lavenderBg = Color(0xFFFAF5FF); // app scaffold tint
+  static const Color lavenderCard = Color(0xFFEFE0FB); // subtle card fill, borders
   static const Color surface = Colors.white;
 
   // Text.
-  static const Color textDark = Color(0xFF3A3A3A);
-  static const Color textMuted = Color(0xFF8A8A8A);
+  static const Color textDark = Color(0xFF1A1A2E);
+  static const Color textMuted = Color(0xFF6B7280);
 
   // Semantic.
   static const Color danger = Color(0xFFE53935); // hang-up / delete
-  static const Color online = Color(0xFF34C759); // guardian available
-  static const Color pin = Color(0xFF9C27B0); // map pins
+  static const Color online = Color(0xFF43A047); // guardian available
+  static const Color pin = Color(0xFF9A4FD8); // map pins
 
+  /// The site's CTA fill: `linear-gradient(135deg, #D4A5F5, #BF6EEE)`.
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [primaryLight, primary],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  /// The site's hero band, darkest to brand purple.
+  static const LinearGradient heroGradient = LinearGradient(
+    colors: [heroDarkest, heroDeep, primaryDark],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -60,7 +79,7 @@ class AppTheme {
         displayColor: AppColors.textDark,
       ),
       dividerTheme: const DividerThemeData(
-        color: Color(0xFFE4DAEF),
+        color: AppColors.lavenderCard,
         thickness: 1,
         space: 1,
       ),
