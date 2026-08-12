@@ -2,19 +2,28 @@
 //
 // PHP runs for real here (php-wasm, PHP 8.5) behind the built-in web server,
 // so these are true HTTP requests against the handler. The one thing wasm has
-// no answer for is an MTA: mail() always fails, which surfaces as the 502
-// "mail server rejected" branch. That is exactly the branch a request must
-// reach to prove it passed every validation and abuse check, so it is used as
-// the "accepted" signal below. Actual delivery is verified against the live
-// server with the curl command in DEPLOY.md.
+// no reliable answer for is an MTA, so the last thing a submission does is not
+// under this suite's control — see expectReachedSend(). Actual delivery is
+// verified against the live server with the curl command in DEPLOY.md.
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { spawn } from 'node:child_process'
-import { mkdtempSync, readFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 const PHP = 'node_modules/.bin/php-wasm-cli'
 const servers = []
+
+// Where rate_limit_dir() falls back to when it cannot write to a temp dir.
+// Unlike the in-memory filesystem the handler's comments assume, this is the
+// real project directory, so counters survive between requests and between
+// runs — and `vite build` would copy them into dist/. Cleared around the suite
+// so neither a stale counter nor a published counter can happen.
+const STATE_DIRS = ['public/api/.state', 'src/test/.state']
+
+function clearState() {
+  for (const dir of STATE_DIRS) rmSync(dir, { recursive: true, force: true })
+}
 
 // Distinct source addresses keep rate-limit counters from bleeding between runs.
 let port = 20
@@ -66,14 +75,41 @@ const valid = {
   body: 'Name: Ada Lovelace\nEmail: ada@example.com\n\nMessage:\nHello',
 }
 
+/**
+ * Asserts a submission cleared every validation and abuse check and got as far
+ * as handing the message to mail().
+ *
+ * What mail() then does is not deterministic under php-wasm: usually it cannot
+ * reach an MTA and the handler answers 502, but on some hosts it reports
+ * success and the handler answers 200. Both outcomes mean the same thing for
+ * these tests — nothing rejected the submission — so asserting either specific
+ * status makes the suite fail for a reason it is not testing. Anything else,
+ * notably a 4xx or a 429 from the rate limiter, still fails.
+ */
+async function expectReachedSend(res) {
+  const body = await res.json().catch(() => null)
+  expect(
+    [200, 502],
+    `expected the send stage (200 sent, or 502 no MTA) but got ${res.status}: ${JSON.stringify(body)}`,
+  ).toContain(res.status)
+
+  if (res.status === 502) {
+    expect(body.error).toMatch(/mail server/i)
+  } else {
+    expect(body).toEqual({ ok: true })
+  }
+}
+
 let base
 
 beforeAll(async () => {
+  clearState()
   base = await startServer(8131)
 }, 90_000)
 
 afterAll(() => {
   for (const proc of servers) proc.kill('SIGKILL')
+  clearState()
 })
 
 describe('contact.php — request handling', () => {
@@ -102,10 +138,7 @@ describe('contact.php — request handling', () => {
   })
 
   it('accepts a complete submission and gets as far as sending', async () => {
-    const res = await post(base, valid)
-    // 502 == validation passed, abuse checks passed, mail() attempted.
-    expect(res.status).toBe(502)
-    expect((await res.json()).error).toMatch(/mail server/i)
+    await expectReachedSend(await post(base, valid))
   })
 })
 
@@ -138,8 +171,7 @@ describe('contact.php — validation', () => {
   })
 
   it('accepts a message right at the cap', async () => {
-    const res = await post(base, { ...valid, body: 'x'.repeat(5000) })
-    expect(res.status).toBe(502) // reached the send stage, i.e. not rejected
+    await expectReachedSend(await post(base, { ...valid, body: 'x'.repeat(5000) }))
   })
 })
 
@@ -156,13 +188,12 @@ describe('contact.php — abuse resistance', () => {
   })
 
   it('survives header-injection attempts in the name and subject', async () => {
-    const res = await post(base, {
+    // Still processed as a single ordinary message rather than erroring out.
+    await expectReachedSend(await post(base, {
       ...valid,
       name: 'Ada\r\nBcc: attacker@evil.example',
       subject: 'Hi\r\nBcc: attacker@evil.example',
-    })
-    // Still processed as a single ordinary message rather than erroring out.
-    expect(res.status).toBe(502)
+    }))
   })
 
   it('strips CR/LF from every value that reaches a mail header', () => {
@@ -237,18 +268,19 @@ describe('contact.php — form tagging', () => {
     ['nonsense', 'General Inquiry — Kinnav'],
     ['', 'General Inquiry — Kinnav'],
   ])('accepts a %s submission and gets as far as sending', async (form, subject) => {
-    const res = await post(base, { ...valid, form, subject })
-    expect(res.status).toBe(502)
+    await expectReachedSend(await post(base, { ...valid, form, subject }))
   })
 
   it('does not reject a submission that arrives already tagged', async () => {
-    const res = await post(base, { ...valid, form: 'waitlist', subject: '[Waitlist] Kinnav waitlist' })
-    expect(res.status).toBe(502)
+    await expectReachedSend(
+      await post(base, { ...valid, form: 'waitlist', subject: '[Waitlist] Kinnav waitlist' }),
+    )
   })
 
   it('refuses to be talked into an injected header via the form name', async () => {
-    const res = await post(base, { ...valid, form: "contact\r\nBcc: attacker@evil.example" })
-    expect(res.status).toBe(502)
+    await expectReachedSend(
+      await post(base, { ...valid, form: "contact\r\nBcc: attacker@evil.example" }),
+    )
   })
 })
 

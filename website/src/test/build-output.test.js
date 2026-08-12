@@ -185,6 +185,14 @@ describe('deployment configuration', () => {
     expect(apiRules).toMatch(/\.state/)
   })
 
+  it('publishes no rate-limit counters', () => {
+    // .htaccess refuses to serve them, but they should never be in the build at
+    // all: they are hashed visitor IPs the handler writes on the server, and
+    // they land in publicDir whenever the suite exercises the handler locally.
+    expect(existsSync('dist/api/.state')).toBe(false)
+    expect(distFiles().filter(f => f.includes('.state'))).toEqual([])
+  })
+
   it('publishes no source, lockfiles or configuration', () => {
     const leaked = distFiles()
       .map(f => f.replace(/^dist\//, ''))

@@ -75,6 +75,13 @@ if find dist -name '*.map' -o -name '.env*' | grep -q .; then
   echo "refusing to publish: build contains source maps or env files" >&2
   exit 1
 fi
+# The handler's rate-limit counters (hashed visitor IPs) are a server runtime
+# artefact. vite.config.js strips them, so reaching here means something else
+# put them in the build — publishing them would leak them.
+if [ -e dist/api/.state ]; then
+  echo "refusing to publish: build contains api/.state (rate-limit counters)" >&2
+  exit 1
+fi
 
 # The server keeps its checkout in the document root and updates with
 # `git pull` (or cPanel's "Update from Remote"), so the deploy branch must have

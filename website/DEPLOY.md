@@ -162,6 +162,11 @@ Requirements and behaviour:
 - `Reply-To` is the visitor, so replying from webmail reaches them.
 - If PHP is missing or the mail server refuses, the form opens the visitor's mail
   client pre-filled and says so rather than claiming delivery.
+- The rate-limit counters fall back to `api/.state` when there is no writable
+  temp dir. That path is inside `public/`, so running the test suite locally can
+  leave hashed visitor IPs where `vite build` would copy them into `dist/`. The
+  build strips the directory and `pnpm deploy` refuses to publish it — nothing
+  to do by hand, but do not add it to the build on purpose.
 
 HTML instead of JSON from the `curl` test above means PHP is not running for the
 domain. Mail accepted but not arriving: check cPanel → **Track Delivery** and the
