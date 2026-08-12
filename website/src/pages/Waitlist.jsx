@@ -2,15 +2,15 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Send, RefreshCw } from 'lucide-react'
+import { SITE_EMAIL } from '../config'
+import { submitForm, mailtoLink } from '../lib/submitForm'
+import Honeypot from '../components/Honeypot'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
 }
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } }
-
-// Where waitlist signups are sent. Same inbox the contact form uses.
-const WAITLIST_EMAIL = 'saferapp3@gmail.com'
 
 const ROLE_LABELS = {
   user: 'App User',
@@ -21,46 +21,51 @@ const ROLE_LABELS = {
 
 // Waitlist form component
 //
-// Submissions are sent by email: the form composes a mailto: link and hands it
-// to the visitor's mail client. There is no server, so nothing is stored on our
-// side — the signup only reaches us once the visitor actually presses send in
-// their mail app. The confirmation copy below says exactly that rather than
-// claiming the signup is already recorded, because we cannot know that it is.
+// Signups are emailed to SITE_EMAIL by /api/contact.php. If that handler is
+// unreachable the form falls back to opening the visitor's mail client, in
+// which case the signup only reaches us once they actually press send — the
+// confirmation copy below states which of the two happened rather than
+// claiming a signup we may not have received.
 function WaitlistForm() {
   const [form, setForm] = useState({ name: '', email: '', role: 'user', message: '' })
-  const [status, setStatus] = useState('idle') // idle | submitting | sent
+  const [honeypot, setHoneypot] = useState('')
+  const [status, setStatus] = useState('idle') // idle | submitting | sent | mailto
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!form.email || !form.name) return
     setStatus('submitting')
     const roleLabel = ROLE_LABELS[form.role] || form.role
-    const subject = encodeURIComponent(`Kinnav waitlist — ${form.name} (${roleLabel})`)
-    const body = encodeURIComponent(
-      `Name: ${form.name}\n` +
-      `Email: ${form.email}\n` +
-      `Joining as: ${roleLabel}\n\n` +
-      `Message:\n${form.message || '(none)'}\n\n` +
-      `[Sent from the kinnav.com waitlist form]`
-    )
-    window.location.href = `mailto:${WAITLIST_EMAIL}?subject=${subject}&body=${body}`
-    setTimeout(() => setStatus('sent'), 500)
+    const result = await submitForm({
+      subject: `Kinnav waitlist — ${form.name} (${roleLabel})`,
+      fields: { name: form.name, email: form.email, 'joining as': roleLabel },
+      message: form.message,
+      honeypot,
+    })
+    setStatus(result)
   }
 
-  if (status === 'sent') {
-    const mailtoFallback = `mailto:${WAITLIST_EMAIL}?subject=${encodeURIComponent('Kinnav waitlist')}`
+  if (status === 'sent' || status === 'mailto') {
     return (
       <div style={{ textAlign: 'center', padding: '3rem 2rem' }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>💜</div>
-        <h3 style={{ fontWeight: 900, fontSize: 22, color: '#1a1a2e', marginBottom: 12 }}>Almost there — press send</h3>
+        <h3 style={{ fontWeight: 900, fontSize: 22, color: '#1a1a2e', marginBottom: 12 }}>
+          {status === 'sent' ? "You're on the list" : 'Almost there — press send'}
+        </h3>
         <p style={{ color: '#6B7280', fontSize: 16, lineHeight: 1.7 }}>
-          Your email app should have opened with your details already filled in.
-          <strong> Send that email and you're on the list.</strong>
+          {status === 'sent' ? (
+            <>Thanks for joining. We'll email <strong>{form.email}</strong> the moment the full app is ready.</>
+          ) : (
+            <>Your email app should have opened with your details already filled in.
+              <strong> Send that email and you're on the list.</strong></>
+          )}
         </p>
-        <p style={{ color: '#A98BC4', fontSize: 14, lineHeight: 1.7, marginTop: 14 }}>
-          Nothing opened? Email us directly at{' '}
-          <a href={mailtoFallback} style={{ color: '#BF6EEE', fontWeight: 600 }}>{WAITLIST_EMAIL}</a>.
-        </p>
+        {status === 'mailto' && (
+          <p style={{ color: '#A98BC4', fontSize: 14, lineHeight: 1.7, marginTop: 14 }}>
+            Nothing opened? Email us directly at{' '}
+            <a href={mailtoLink('Kinnav waitlist')} style={{ color: '#BF6EEE', fontWeight: 600 }}>{SITE_EMAIL}</a>.
+          </p>
+        )}
         <button
           onClick={() => setStatus('idle')}
           style={{ marginTop: 20, color: '#BF6EEE', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 15 }}
@@ -72,7 +77,8 @@ function WaitlistForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'relative' }}>
+      <Honeypot value={honeypot} onChange={setHoneypot} />
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }} className="form-grid">
         <div>
           <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: '#374151', marginBottom: 6 }}>Full Name *</label>

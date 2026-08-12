@@ -45,4 +45,12 @@ full procedure, SSL, and DNS notes.
 Kinnav is developed by **American Group LLC**, a private company. Kinnav is not a
 nonprofit and does not solicit charitable donations.
 
-Contact: [saferapp3@gmail.com](mailto:saferapp3@gmail.com)
+Contact: [support@kinnav.com](mailto:support@kinnav.com)
+
+## Forms
+
+Both the contact and waitlist forms POST to `public/api/contact.php`, which emails
+**support@kinnav.com** — the address is set once in [`src/config.js`](src/config.js).
+The handler uses the server's local mail transport, so no SMTP password is stored
+anywhere. If PHP is unavailable the forms fall back to opening the visitor's mail
+client and say so explicitly instead of claiming the message was received.

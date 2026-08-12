@@ -1,41 +1,65 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Send, RefreshCw, MessageSquare, Shield, Users, Briefcase, Newspaper } from 'lucide-react'
+import { SITE_EMAIL } from '../config'
+import { submitForm, mailtoLink } from '../lib/submitForm'
+import Honeypot from '../components/Honeypot'
 
 const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } }
 
+// Every topic lands in the same inbox (SITE_EMAIL); the subject line is what
+// tells them apart, so it can be filtered in webmail.
 const contactTypes = [
-  { value: 'general', label: '💬 General Inquiry', email: 'saferapp3@gmail.com', subject: 'General Inquiry — Kinnav' },
-  { value: 'support', label: '🛠️ App Support', email: 'saferapp3@gmail.com', subject: 'App Support — Kinnav' },
-  { value: 'guardian', label: '🛡️ Become a Guardian', email: 'saferapp3@gmail.com', subject: 'Guardian Application — Kinnav' },
-  { value: 'partner', label: '🤝 Partnership / NGO', email: 'saferapp3@gmail.com', subject: 'Partnership Inquiry — Kinnav' },
-  { value: 'investor', label: '💼 Investor Relations', email: 'saferapp3@gmail.com', subject: 'Investor Inquiry — Kinnav' },
-  { value: 'press', label: '📰 Press / Media', email: 'saferapp3@gmail.com', subject: 'Press Inquiry — Kinnav' },
+  { value: 'general', label: '💬 General Inquiry', subject: 'General Inquiry — Kinnav' },
+  { value: 'support', label: '🛠️ App Support', subject: 'App Support — Kinnav' },
+  { value: 'guardian', label: '🛡️ Become a Guardian', subject: 'Guardian Application — Kinnav' },
+  { value: 'partner', label: '🤝 Partnership / NGO', subject: 'Partnership Inquiry — Kinnav' },
+  { value: 'investor', label: '💼 Investor Relations', subject: 'Investor Inquiry — Kinnav' },
+  { value: 'press', label: '📰 Press / Media', subject: 'Press Inquiry — Kinnav' },
 ]
 
 function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', type: 'general', message: '' })
-  const [status, setStatus] = useState('idle')
+  const [honeypot, setHoneypot] = useState('')
+  const [status, setStatus] = useState('idle') // idle | submitting | sent | mailto
 
   const selectedType = contactTypes.find(t => t.value === form.type) || contactTypes[0]
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!form.name || !form.email || !form.message) return
     setStatus('submitting')
-    const subject = encodeURIComponent(`${selectedType.subject} — from ${form.name}`)
-    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\nType: ${selectedType.label}\n\nMessage:\n${form.message}\n\n[Sent from kinnav.com contact form]`)
-    window.location.href = `mailto:${selectedType.email}?subject=${subject}&body=${body}`
-    setTimeout(() => setStatus('success'), 500)
+    const result = await submitForm({
+      subject: `${selectedType.subject} — from ${form.name}`,
+      fields: { name: form.name, email: form.email, type: selectedType.label },
+      message: form.message,
+      honeypot,
+    })
+    setStatus(result)
   }
 
-  if (status === 'success') {
+  if (status === 'sent' || status === 'mailto') {
     return (
       <div style={{ textAlign: 'center', padding: '3rem 2rem' }}>
         <div style={{ fontSize: 56, marginBottom: 16 }}>💜</div>
-        <h3 style={{ fontWeight: 900, fontSize: 22, color: '#1a1a2e', marginBottom: 12 }}>Message sent!</h3>
-        <p style={{ color: '#6B7280', fontSize: 16, lineHeight: 1.7 }}>Your email client should have opened. We'll get back to you at <strong>{form.email}</strong> as soon as possible.</p>
+        <h3 style={{ fontWeight: 900, fontSize: 22, color: '#1a1a2e', marginBottom: 12 }}>
+          {status === 'sent' ? 'Message sent!' : 'Almost there — press send'}
+        </h3>
+        <p style={{ color: '#6B7280', fontSize: 16, lineHeight: 1.7 }}>
+          {status === 'sent' ? (
+            <>Thanks — we've got it. We'll reply to <strong>{form.email}</strong> within 1–2 business days.</>
+          ) : (
+            <>We couldn't reach our mail server, so your email app has opened with the message ready.
+              <strong> Send it and we'll pick it up.</strong></>
+          )}
+        </p>
+        {status === 'mailto' && (
+          <p style={{ color: '#A98BC4', fontSize: 14, lineHeight: 1.7, marginTop: 14 }}>
+            Nothing opened? Email us directly at{' '}
+            <a href={mailtoLink(selectedType.subject)} style={{ color: '#BF6EEE', fontWeight: 600 }}>{SITE_EMAIL}</a>.
+          </p>
+        )}
         <button onClick={() => setStatus('idle')} style={{ marginTop: 20, color: '#BF6EEE', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 15 }}>Send another →</button>
       </div>
     )
@@ -49,7 +73,8 @@ function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20, position: 'relative' }}>
+      <Honeypot value={honeypot} onChange={setHoneypot} />
       <div>
         <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#374151', marginBottom: 8 }}>What can we help you with?</label>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 8 }}>
