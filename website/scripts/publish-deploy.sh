@@ -75,6 +75,11 @@ fi
 echo "==> publish to deploy"
 (
   cd dist
+  # The throwaway repo must not survive, whether the push works or not: a
+  # leftover .git in dist/ would be picked up by the next publish and, worse,
+  # could be copied to the web root by a manual upload.
+  trap 'rm -rf .git' EXIT
+
   rm -rf .git
   git init -q
   git config user.name "$(git -C "$REPO_ROOT" config user.name)"
@@ -82,9 +87,20 @@ echo "==> publish to deploy"
   git checkout -q -b deploy
   git add -A
   git commit -q -m "Build website from ${SOURCE_SHA}"
-  git push --force -q "$REMOTE_URL" deploy:deploy
-  echo "published $(git ls-files | wc -l | tr -d ' ') files from ${SOURCE_SHA:0:7}"
-  rm -rf .git
+
+  # Pushing through a corporate proxy drops connections occasionally
+  # ("bad record mac", "unexpected disconnect"); a retry clears it.
+  for attempt in 1 2 3; do
+    if git push --force -q "$REMOTE_URL" deploy:deploy; then
+      echo "published $(git ls-files | wc -l | tr -d ' ') files from ${SOURCE_SHA:0:7}"
+      exit 0
+    fi
+    echo "push attempt ${attempt} failed; retrying in $((attempt * 5))s" >&2
+    sleep $((attempt * 5))
+  done
+
+  echo "push failed after 3 attempts" >&2
+  exit 1
 )
 
 cat <<'DONE'
