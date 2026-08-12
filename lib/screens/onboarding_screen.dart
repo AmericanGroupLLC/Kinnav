@@ -17,7 +17,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   static const _slides = [
     _Slide(
-      icon: Icons.shield_moon_outlined,
+      logoAsset: 'assets/logo/kinnav_icon.png',
       title: 'Welcome to Kinnav',
       body:
           'A new way of women safety and empowerment — help, anywhere, anytime.',
@@ -138,11 +138,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
+/// One walkthrough page. The first shows the Kinnav mark itself, the rest a
+/// Material icon, so exactly one of [icon] and [logoAsset] is given.
 class _Slide extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
+  final String? logoAsset;
   final String title;
   final String body;
-  const _Slide({required this.icon, required this.title, required this.body});
+  const _Slide({
+    this.icon,
+    this.logoAsset,
+    required this.title,
+    required this.body,
+  }) : assert((icon == null) != (logoAsset == null),
+            'a slide shows either an icon or the logo, not both');
 
   @override
   Widget build(BuildContext context) {
@@ -153,11 +162,19 @@ class _Slide extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(28),
-            decoration: const BoxDecoration(
-              gradient: AppColors.primaryGradient,
+            decoration: BoxDecoration(
+              // The mark is full-colour lavender and gold; on the gradient it
+              // would disappear into the background, so it sits on white.
+              gradient: logoAsset == null ? AppColors.primaryGradient : null,
+              color: logoAsset == null ? null : Colors.white,
               shape: BoxShape.circle,
+              border: logoAsset == null
+                  ? null
+                  : Border.all(color: AppColors.lavenderCard, width: 2),
             ),
-            child: Icon(icon, size: 64, color: Colors.white),
+            child: logoAsset == null
+                ? Icon(icon, size: 64, color: Colors.white)
+                : Image.asset(logoAsset!, width: 64, height: 64),
           ),
           const SizedBox(height: 32),
           Text(title,

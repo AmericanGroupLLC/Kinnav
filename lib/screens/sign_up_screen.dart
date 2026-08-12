@@ -115,12 +115,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 width: 84,
                 height: 84,
                 alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  gradient: AppColors.primaryGradient,
+                decoration: BoxDecoration(
+                  // White rather than the gradient: the mark is full-colour
+                  // and would blend into a purple background.
+                  color: Colors.white,
                   shape: BoxShape.circle,
+                  border:
+                      Border.all(color: AppColors.lavenderCard, width: 2),
                 ),
-                child: const Icon(Icons.shield_moon_outlined,
-                    color: Colors.white, size: 44),
+                child: Image.asset('assets/logo/kinnav_icon.png',
+                    width: 48, height: 48),
               ),
               const SizedBox(height: 20),
               const Text('Join Kinnav',
