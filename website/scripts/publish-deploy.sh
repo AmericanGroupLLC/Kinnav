@@ -76,36 +76,57 @@ if find dist -name '*.map' -o -name '.env*' | grep -q .; then
   exit 1
 fi
 
+# The server keeps its checkout in the document root and updates with
+# `git pull` (or cPanel's "Update from Remote"), so the deploy branch must have
+# continuous history — a force-pushed orphan commit would make every pull fail
+# with "refusing to merge unrelated histories". So: clone the existing branch,
+# replace its contents with this build, and fast-forward it.
 echo "==> publish to deploy"
-(
-  cd dist
-  # The throwaway repo must not survive, whether the push works or not: a
-  # leftover .git in dist/ would be picked up by the next publish and, worse,
-  # could be copied to the web root by a manual upload.
-  trap 'rm -rf .git' EXIT
+WORK="$(mktemp -d)"
+trap 'rm -rf "$WORK"' EXIT
 
-  rm -rf .git
-  git init -q
-  git config user.name "$(git -C "$REPO_ROOT" config user.name)"
-  git config user.email "$(git -C "$REPO_ROOT" config user.email)"
-  git checkout -q -b deploy
-  git add -A
-  git commit -q -m "Build website from ${SOURCE_SHA}"
+if git ls-remote --exit-code --heads "$REMOTE_URL" deploy >/dev/null 2>&1; then
+  git clone -q --branch deploy --single-branch "$REMOTE_URL" "$WORK"
+else
+  echo "    deploy branch does not exist yet; creating it"
+  git init -q "$WORK"
+  git -C "$WORK" checkout -q -b deploy
+fi
+
+git -C "$WORK" config user.name "$(git -C "$REPO_ROOT" config user.name)"
+git -C "$WORK" config user.email "$(git -C "$REPO_ROOT" config user.email)"
+
+# --delete so files removed from the build disappear from the branch too.
+# .well-known is excluded because AutoSSL owns it on the server; it must never
+# be tracked, and .gitignore below keeps `git clean` from removing it.
+rsync -a --delete --exclude '.git/' --exclude '.well-known/' dist/ "$WORK/"
+
+cat > "$WORK/.gitignore" <<'EOF'
+# AutoSSL writes its domain-validation files here on the server. It is not part
+# of the build and must survive every deploy.
+.well-known/
+EOF
+
+if git -C "$WORK" diff --quiet HEAD -- 2>/dev/null && [ -z "$(git -C "$WORK" status --porcelain)" ]; then
+  echo "    deploy branch already matches this build; nothing to push"
+else
+  git -C "$WORK" add -A
+  git -C "$WORK" commit -q -m "Build website from ${SOURCE_SHA}"
 
   # Pushing through a corporate proxy drops connections occasionally
   # ("bad record mac", "unexpected disconnect"); a retry clears it.
+  pushed=0
   for attempt in 1 2 3; do
-    if git push --force -q "$REMOTE_URL" deploy:deploy; then
-      echo "published $(git ls-files | wc -l | tr -d ' ') files from ${SOURCE_SHA:0:7}"
-      exit 0
+    if git -C "$WORK" push -q "$REMOTE_URL" deploy:deploy; then
+      pushed=1
+      break
     fi
     echo "push attempt ${attempt} failed; retrying in $((attempt * 5))s" >&2
     sleep $((attempt * 5))
   done
-
-  echo "push failed after 3 attempts" >&2
-  exit 1
-)
+  [ "$pushed" -eq 1 ] || { echo "push failed after 3 attempts" >&2; exit 1; }
+  echo "    published $(git -C "$WORK" ls-files | wc -l | tr -d ' ') files from ${SOURCE_SHA:0:7}"
+fi
 
 cat <<'DONE'
 
