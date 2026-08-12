@@ -1,18 +1,15 @@
-# Builds website/ and publishes the compiled site to the `deploy` branch.
+# Emergency/manual fallback for publishing the `deploy` branch.
 #
-# master holds source only. cPanel (HostGator) clones this repository, checks
-# out `deploy`, and deploys it — so the server never needs Node, pnpm or a
-# build step. See website/DEPLOY.md.
+# The normal path is local: `cd website && pnpm deploy`
+# (website/scripts/publish-deploy.sh). This workflow does the same thing from
+# a runner and is MANUAL ONLY — if it also ran on push, two publishers would
+# force-push the same branch and whichever finished last would win.
+#
+# Use it when you cannot build locally. See website/DEPLOY.md.
 
-name: Build and publish website
+name: Build and publish website (manual fallback)
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'website/**'
-      - '.github/workflows/deploy-website.yml'
   workflow_dispatch:
 
 # Needed to force-push the built site to the deploy branch.

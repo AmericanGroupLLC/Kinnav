@@ -4,15 +4,14 @@ The site is a **Vite + React SPA**. `website/` is source and cannot be uploaded
 as-is: its `index.html` loads `/src/main.jsx`, which only a dev server resolves.
 Only the compiled output in `dist/` can be served.
 
-That build happens in GitHub Actions, never on HostGator:
+You build it locally and publish it to the `deploy` branch, which cPanel checks
+out. HostGator never runs Node:
 
 ```
 master (source)
   └─ website/
-        │  push to master touching website/**
-        ▼
-  .github/workflows/deploy-website.yml
-        │  pnpm install → lint → test → build
+        │  cd website && pnpm deploy
+        │  lint → test → build → write .cpanel.yml
         ▼
   deploy branch  ← built site only, plus .cpanel.yml
         │  cPanel: Update from Remote → Deploy HEAD Commit
@@ -20,8 +19,27 @@ master (source)
   /home2/safecode/kinnav.com/  →  https://kinnav.com
 ```
 
-`dist/` is **not** committed to `master`. The `deploy` branch is machine-written
-and force-pushed on every build — never commit to it by hand.
+`dist/` is **not** committed to `master`. The `deploy` branch is an orphan branch
+rewritten wholesale on every publish — never commit to it by hand.
+
+GitHub Actions runs the tests on every push but does **not** publish. There is a
+manual fallback workflow (Actions → *Build and publish website (manual
+fallback)* → Run workflow) for when you cannot build locally; it is manual so
+that two publishers can never force-push the same branch.
+
+## Publishing
+
+```bash
+cd website
+pnpm deploy              # lint, test, build, push to the deploy branch
+pnpm deploy --no-test    # skip the suite (not recommended)
+```
+
+The script refuses to run with uncommitted changes in `website/`, so the deploy
+commit always names a source commit that exists. It also checks the build before
+pushing: `index.html`, `.htaccess`, `.cpanel.yml`, `api/contact.php` and
+`api/.htaccess` must be present, and it aborts if any source map or `.env` file
+would be published.
 
 ## One-time cPanel setup
 
@@ -51,20 +69,19 @@ git branch --set-upstream-to=origin/deploy deploy
 git status        # expect: up to date with 'origin/deploy', working tree clean
 ```
 
-`git checkout deploy` only works once the workflow has run at least once and the
+`git checkout deploy` only works once `pnpm deploy` has run at least once and the
 branch exists on GitHub.
 
 ## Every deploy after that
 
 ```bash
-# locally
-git push origin master          # workflow builds and updates `deploy`
+cd website && pnpm deploy
 ```
 
 Then cPanel → Git Version Control → **Kinnav Website** → Manage →
 **Update from Remote**, then **Deploy HEAD Commit**.
 
-The manifest the workflow writes into `deploy`:
+The manifest the script writes into `deploy`:
 
 ```yaml
 deployment:
@@ -150,9 +167,7 @@ resolving to the HostGator IP first, and the `.htaccess` deliberately exempts
   website, and removing them silently breaks mail.
 - Only the `A` record for `kinnav.com` and the `www` record matter for the site.
 
-## Building locally
-
-Only needed to preview or debug; deploys do not use it.
+## Other local commands
 
 ```bash
 cd website
@@ -160,5 +175,6 @@ pnpm install
 pnpm dev            # dev server
 pnpm build          # -> dist/
 pnpm preview        # serve dist/
+pnpm test           # the suite pnpm deploy runs before publishing
 pnpm package        # zip dist/ for a manual File Manager upload, if ever needed
 ```

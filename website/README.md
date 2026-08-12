@@ -31,16 +31,17 @@ pnpm install
 pnpm dev        # Start dev server
 pnpm build      # Production build
 pnpm preview    # Preview production build
-pnpm package    # Build + zip dist/ into kinnav-site.zip for cPanel upload
+pnpm package    # Build + zip dist/ into kinnav-site.zip for a manual upload
+pnpm deploy     # Test, build and publish to the deploy branch
 ```
 
 ## Deployment
 
-Pushing to `master` triggers `.github/workflows/deploy-website.yml`, which lints,
-tests and builds the site, then force-pushes the result to the **`deploy`** branch.
-cPanel checks that branch out and deploys it to `/home2/safecode/kinnav.com/`, so
-HostGator never runs Node. `dist/` is not committed. See [`DEPLOY.md`](DEPLOY.md)
-for the cPanel setup, SSL and DNS notes.
+`pnpm deploy` lints, tests and builds the site, then force-pushes the result to
+the **`deploy`** branch. cPanel checks that branch out and deploys it to
+`/home2/safecode/kinnav.com/`, so HostGator never runs Node. `dist/` is not
+committed, and GitHub Actions runs the tests but does not publish. See
+[`DEPLOY.md`](DEPLOY.md) for the cPanel setup, SSL and DNS notes.
 
 ## About
 

@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "package": "vite build && rm -f kinnav-site.zip && cd dist && zip -rq ../kinnav-site.zip . -x '.DS_Store'",
+    "deploy": "bash scripts/publish-deploy.sh",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
