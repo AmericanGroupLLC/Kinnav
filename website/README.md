@@ -31,7 +31,14 @@ pnpm install
 pnpm dev        # Start dev server
 pnpm build      # Production build
 pnpm preview    # Preview production build
+pnpm package    # Build + zip dist/ into kinnav-site.zip for cPanel upload
 ```
+
+## Deployment
+
+Hosted on HostGator cPanel. Upload the **contents of `dist/`** (including the hidden
+`.htaccess`) to `/home2/safecode/kinnav.com/` — see [`DEPLOY.md`](DEPLOY.md) for the
+full procedure, SSL, and DNS notes.
 
 ## About
 

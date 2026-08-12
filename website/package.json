@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "package": "vite build && rm -f kinnav-site.zip && cd dist && zip -rq ../kinnav-site.zip . -x '.DS_Store'",
     "lint": "eslint .",
     "preview": "vite preview"
   },

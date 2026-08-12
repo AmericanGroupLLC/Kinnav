@@ -1,4 +1,8 @@
-@import "tailwindcss";
+/* Scan only app source — otherwise Tailwind v4's auto-detection also scans
+   README.md / DEPLOY.md and emits utilities for words in the prose. */
+@import "tailwindcss" source(none);
+@source "../index.html";
+@source "../src";
 
 @theme {
   --color-primary: #BF6EEE;
