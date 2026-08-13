@@ -12,22 +12,84 @@ screenshots to attach to each listing.
 | Minimum iOS | 15.0 |
 | Android sdk | `compileSdk` / `minSdk` / `targetSdk` follow the Flutter defaults |
 
+## Store listing URLs
+
+Both consoles require these. All three are live routes on the site
+(`website/src/App.jsx`), listed in `public/sitemap.xml`:
+
+| Field | URL |
+|---|---|
+| Support URL | `https://kinnav.com/contact` |
+| Privacy policy URL | `https://kinnav.com/privacy` |
+| Marketing / website URL | `https://kinnav.com` |
+| Terms of service | `https://kinnav.com/terms` |
+| Support email | `support@kinnav.com` |
+
+The privacy policy is substantive rather than placeholder — it covers
+location, data collected, third parties, retention (call history for 12
+months), children, and deletion rights, and both it and the terms name the
+support address directly, which reviewers look for.
+
+A caveat: these routes are served by the SPA, so they only resolve on a host
+where the `.htaccess` fallback is active. Confirm each returns 200 in a
+browser **before** pasting it into a console — a reviewer hitting a 404
+privacy URL is an automatic rejection.
+
+## Signing
+
+Android signing is configured and verified. iOS is not, and cannot be from a
+machine without an authenticated Xcode.
+
+| | Android | iOS |
+|---|---|---|
+| Configured | yes | no |
+| Key | `~/.android/kinnav-upload.jks`, alias `upload` | distribution cert, team `TLH7Z3G27A` |
+| Wired via | `android/key.properties` (gitignored) | Xcode automatic signing |
+| Valid until | 2053-12-28 | n/a |
+
+The release variant's certificate fingerprint, from `./gradlew :app:signingReport`:
+
+```
+SHA-256: 38:7E:86:13:0F:A6:80:72:8F:2C:0C:3E:92:71:CB:C2:23:76:1F:F4:CC:C8:04:AC:EA:EC:F2:7B:ED:37:3E:35
+```
+
+Play Console shows this same fingerprint once the first bundle is uploaded —
+if it differs, the wrong key signed the build.
+
+> **Back up the keystore and its password now.** Google Play ties the listing
+> to this key. Lose it and you cannot ship an update without going through
+> Play's key-reset process. The password lives in `android/key.properties`,
+> which is gitignored and therefore not backed up by anything.
+
+The keystore sits in `~/.android/` rather than `~/` only because the
+environment it was generated in denied the JVM write access to the home
+directory root. Move it anywhere you prefer and update `storeFile` in
+`android/key.properties` to match.
+
 ## Binaries are deliberately not in this directory
 
-Store-uploadable binaries are **not committed**, for two reasons.
+An `.aab` or `.ipa` is tens of megabytes of build output that changes every
+release. `build/` is already gitignored for the same reason. Attach them to a
+GitHub release or a CI artifact instead of committing them.
 
-They cannot currently be produced. Google Play refuses a bundle signed with
-debug keys, and `android/app/build.gradle.kts` falls back to the debug
-signing config whenever `android/key.properties` is absent — which it is, and
-should stay that way, since a keystore must never be committed. iOS uses
-`CODE_SIGN_STYLE = Automatic`, which needs Xcode signed into the Apple
-Developer account and network access to fetch a distribution profile.
+### What has actually been verified
 
-They also do not belong in git. An `.aab` or `.ipa` is tens of megabytes of
-build output that changes every release; `build/` is already gitignored for
-the same reason. Attach them to a GitHub release or a CI artifact instead.
-
-Build them with the steps below when you are ready to submit.
+- **iOS release compiles.** `flutter build ios --release --no-codesign`
+  produces `build/ios/iphoneos/Runner.app` (44 MB) with the right bundle id,
+  version `1.0.0 (3)`, display name, and app icons. Release mode is where
+  tree-shaking and AOT breakage shows up, so this is worth more than a debug
+  build — but the result is unsigned and cannot be uploaded.
+- **Android signing is correct.** `:app:signingReport` shows the release
+  variant using the upload key (fingerprint above).
+- **Android release does not build offline.** It needs Flutter's release
+  engine artifacts — `flutter_embedding_release`, `arm64_v8a_release`,
+  `armeabi_v7a_release`, `x86_64_release` — from
+  `storage.googleapis.com/download.flutter.io`. Only the *debug* engine jars
+  are in `~/.gradle/caches`. On a networked machine the first release build
+  downloads them and this resolves itself.
+- **Release mode cannot run on the iOS Simulator at all** — Flutter rejects
+  it outright (`Release mode is not supported for simulators`). Testing a
+  release iOS build requires a physical device.
 
 ## Android — Google Play
 

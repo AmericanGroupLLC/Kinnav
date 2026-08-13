@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { SITE_EMAIL } from '../config'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -111,6 +112,11 @@ export default function PrivacyPolicy() {
                   <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Kinnav</div>
                   <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>
                     <Link to="/contact" style={{ color: '#BF6EEE' }}>Contact Us</Link>
+                  </div>
+                  {/* Both app stores expect a contact method inside the policy
+                      itself, not only a link to a form. */}
+                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>
+                    Email: <a href={`mailto:${SITE_EMAIL}`} style={{ color: '#BF6EEE' }}>{SITE_EMAIL}</a>
                   </div>
                   <div style={{ color: '#6B7280', fontSize: 15 }}>
                     Website: <a href="https://kinnav.com" style={{ color: '#BF6EEE' }}>kinnav.com</a>

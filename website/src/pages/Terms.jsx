@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { SITE_EMAIL } from '../config'
 
 const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }
 
@@ -80,6 +81,7 @@ export default function Terms() {
                 <div style={{ background: '#FAF5FF', borderRadius: 16, padding: '1.5rem 2rem', border: '1px solid rgba(191,110,238,0.15)', marginTop: 16 }}>
                   <div style={{ fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Kinnav</div>
                   <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}><Link to="/contact" style={{ color: '#BF6EEE' }}>Contact Us</Link></div>
+                  <div style={{ color: '#6B7280', fontSize: 15, marginBottom: 4 }}>Email: <a href={`mailto:${SITE_EMAIL}`} style={{ color: '#BF6EEE' }}>{SITE_EMAIL}</a></div>
                   <div style={{ color: '#6B7280', fontSize: 15 }}>Website: <a href="https://kinnav.com" style={{ color: '#BF6EEE' }}>kinnav.com</a></div>
                 </div>
               </Section>

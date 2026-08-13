@@ -43,6 +43,20 @@ describe('routing', () => {
     expect(container.textContent).not.toMatch(/404/)
   })
 
+  it.each([['/privacy', PrivacyPolicy], ['/terms', Terms]])(
+    '%s names the support address, which both app stores require in the policy itself',
+    (path, Page) => {
+      // A store listing points its privacy-policy URL here. A reviewer who
+      // cannot find a contact method in the policy rejects the submission, and
+      // a link to a form does not count.
+      const { container } = renderAt(path, Page)
+      expect(container.textContent).toContain('support@kinnav.com')
+      const mailto = Array.from(container.querySelectorAll('a'))
+        .map(a => a.getAttribute('href'))
+        .filter(h => h?.startsWith('mailto:'))
+      expect(mailto).toContain('mailto:support@kinnav.com')
+    })
+
   it('shows the 404 page for an unknown route', () => {
     render(
       <MemoryRouter initialEntries={['/no-such-page']}>
