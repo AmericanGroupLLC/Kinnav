@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import '../config/app_config.dart';
+import '../services/links.dart';
 import '../theme/app_theme.dart';
 
-/// Renders Legal Terms or Privacy Policy. Content here is a plain-language
-/// placeholder — final documents require legal review before launch (Phase 7).
+/// Renders Legal Terms or Privacy Policy as a plain-language summary.
+///
+/// The binding documents are the ones published on kinnav.com — those are what
+/// the App Store and Play listings point their policy URLs at, so this screen
+/// links out to them rather than pretending to be authoritative.
 class LegalScreen extends StatelessWidget {
   final String title;
   final List<(String, String)> sections;
 
-  const LegalScreen._(this.title, this.sections);
+  /// The published document this screen summarises.
+  final String canonicalUrl;
 
-  factory LegalScreen.terms() => const LegalScreen._('Legal Terms', [
+  const LegalScreen._(this.title, this.canonicalUrl, this.sections);
+
+  factory LegalScreen.terms() =>
+      const LegalScreen._('Legal Terms', 'https://kinnav.com/terms', [
         (
           'Acceptance of Terms',
           'By using Kinnav you agree to these Terms. Kinnav connects you with '
@@ -41,11 +49,13 @@ class LegalScreen extends StatelessWidget {
         (
           'Limitation of Liability',
           'To the maximum extent permitted by law, Kinnav is provided "as is" '
-              'without warranties. This is placeholder text pending legal review.'
+              'without warranties. See the full Terms on kinnav.com for the '
+              'binding wording.'
         ),
       ]);
 
-  factory LegalScreen.privacy() => const LegalScreen._('Privacy Policy', [
+  factory LegalScreen.privacy() =>
+      const LegalScreen._('Privacy Policy', 'https://kinnav.com/privacy', [
         (
           'What we collect',
           'Account details (name, contact, age confirmation), profile info, '
@@ -75,8 +85,8 @@ class LegalScreen extends StatelessWidget {
         ),
         (
           'Contact',
-          'Questions? Email ${AppConfig.supportEmail}. This is placeholder '
-              'text pending legal review.'
+          'Questions about your data? Email ${AppConfig.supportEmail} and we '
+              'will respond within 1–2 business days.'
         ),
       ]);
 
@@ -95,17 +105,17 @@ class LegalScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.primaryLight),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.info_outline,
+                const Icon(Icons.info_outline,
                     size: 20, color: AppColors.primaryDark),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Template only — this is placeholder wording pending legal '
-                    'review and is not the final, binding document.',
-                    style:
-                        TextStyle(fontSize: 13, color: AppColors.primaryDark),
+                    'A plain-language summary. The full $title is published on '
+                    'kinnav.com — open it below for the binding version.',
+                    style: const TextStyle(
+                        fontSize: 13, color: AppColors.primaryDark),
                   ),
                 ),
               ],
@@ -126,6 +136,18 @@ class LegalScreen extends StatelessWidget {
                 ],
               ),
             ),
+          // The store listings point their policy URLs at these same pages,
+          // so what a reviewer reads and what the app shows cannot drift.
+          OutlinedButton.icon(
+            onPressed: () => Links.web(canonicalUrl, context),
+            icon: const Icon(Icons.open_in_new, size: 18),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: AppColors.primaryDark,
+              side: const BorderSide(color: AppColors.primaryLight),
+            ),
+            label: Text('Read the full $title on kinnav.com'),
+          ),
+          const SizedBox(height: 16),
           const Text('Last updated: 2026',
               style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
         ],

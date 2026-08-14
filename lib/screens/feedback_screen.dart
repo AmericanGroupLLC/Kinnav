@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../config/app_config.dart';
+import '../services/links.dart';
 import '../theme/app_theme.dart';
 
 /// A simple feedback form (Feedback menu item).
@@ -19,11 +21,38 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     super.dispose();
   }
 
+  /// Hands the feedback to the user's mail client, addressed to the support
+  /// inbox.
+  ///
+  /// The app has no backend for this, and the previous version only cleared
+  /// the form while saying "thank you" — so every piece of feedback anyone
+  /// ever wrote was silently discarded. A mailto: is the honest mechanism:
+  /// the user still has to press send, so the wording says so rather than
+  /// claiming we received anything.
   void _submit() {
     FocusScope.of(context).unfocus();
+
+    final message = _controller.text.trim();
+    if (_rating == 0 && message.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Add a rating or a note first.')),
+      );
+      return;
+    }
+
+    final stars = _rating > 0 ? '$_rating/5' : 'not rated';
+    Links.email(
+      AppConfig.supportEmail,
+      context,
+      subject: 'Kinnav app feedback — $stars',
+      body: 'Rating: $stars\n\n'
+          '${message.isEmpty ? '(no message)' : message}\n\n'
+          '[Sent from the Kinnav app]',
+    );
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Thank you! Your feedback helps keep women safer. 💜'),
+        content: Text('Your email app is open — press send and we’ll get it.'),
         backgroundColor: AppColors.primaryDark,
       ),
     );

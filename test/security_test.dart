@@ -79,6 +79,29 @@ void main() {
           reason: 'contact addresses must be @kinnav.com');
     });
 
+    test('feedback is actually sent somewhere, not silently dropped', () {
+      // The screen used to show "thank you" and only clear the form, so every
+      // piece of feedback anyone wrote was discarded. It must hand the message
+      // to the support inbox, and it must not claim receipt it cannot vouch
+      // for — the user still has to press send in their mail client.
+      final source = read('lib/screens/feedback_screen.dart');
+      expect(source, contains('Links.email'));
+      expect(source, contains('AppConfig.supportEmail'));
+      expect(source, isNot(contains('Thank you! Your feedback helps')));
+    });
+
+    test('legal screens link the published policy the stores point at', () {
+      // A store listing's privacy-policy URL is kinnav.com/privacy. If the app
+      // showed different text, a reviewer comparing the two would see a
+      // mismatch — so the screens summarise and link out rather than diverge.
+      final source = read('lib/screens/legal_screen.dart');
+      expect(source, contains('https://kinnav.com/privacy'));
+      expect(source, contains('https://kinnav.com/terms'));
+      // The old copy told users the text was placeholder pending review.
+      expect(source, isNot(contains('pending legal review')));
+      expect(source, isNot(contains('Template only')));
+    });
+
     test('the support address matches the one the website publishes', () {
       expect(read('lib/config/app_config.dart'),
           contains("supportEmail = 'support@kinnav.com'"));

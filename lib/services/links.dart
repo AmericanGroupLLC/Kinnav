@@ -34,14 +34,22 @@ class Links {
       );
 
   static Future<void> email(String address, BuildContext context,
-          {String? subject}) =>
-      _launch(
-        Uri(
-            scheme: 'mailto',
-            path: address,
-            queryParameters: subject == null ? null : {'subject': subject}),
-        context,
-      );
+      {String? subject, String? body}) {
+    // An empty query map would still produce a trailing '?', which some mail
+    // clients show as a blank subject, so pass null when there is nothing.
+    final params = <String, String>{
+      if (subject != null) 'subject': subject,
+      if (body != null) 'body': body,
+    };
+    return _launch(
+      Uri(
+        scheme: 'mailto',
+        path: address,
+        queryParameters: params.isEmpty ? null : params,
+      ),
+      context,
+    );
+  }
 
   static Future<void> web(String url, BuildContext context) =>
       _launch(Uri.parse(url), context);

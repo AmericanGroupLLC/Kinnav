@@ -215,5 +215,15 @@ fails with `Bad address` on this emulator image — use `exec-out`.
   roots rather than real accounts. Reviewers do look at outbound links.
 - `assets/logo/kinnav_icon_square.svg` is the previous shield-and-crescent
   mark. It is unused by the build but will mislead anyone regenerating icons.
-- Legal copy in `lib/screens/legal_screen.dart` is explicitly marked
-  placeholder pending legal review.
+
+## Privacy policy — what a reviewer sees
+
+The listing's policy URL is `https://kinnav.com/privacy`, and that page is the
+binding document. The app's own Legal Terms and Privacy Policy screens are
+plain-language summaries that link out to the published pages, so the two
+cannot drift apart — a reviewer comparing them sees the same source of truth.
+Both name `support@kinnav.com` directly.
+
+Every place the app invites contact goes to that one address, from
+`AppConfig.supportEmail`: the drawer's Contact Us, About, the legal screens,
+and Feedback.
