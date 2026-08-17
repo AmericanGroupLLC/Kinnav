@@ -39,6 +39,8 @@ UI never calls a backend directly. Swap mock→real in `lib/services/services.da
 | `services/services.dart` | **ServiceLocator** — mock↔real swap point |
 | `services/auth_service.dart` | `SupabaseAuthService` — **real** Supabase auth |
 | `services/guardian_service.dart` | `GuardianService` + `MockGuardianService` (sample data) |
+| `services/supabase_guardian_service.dart` | real roster from the Supabase `guardians` table |
+| `services/call_service.dart` | `CallService` + `MockCallService`; drives the demo disclosure |
 | `services/location_service.dart` | `LocationService` (geolocator + fallback) |
 | `services/purchase_service.dart` | `MockPurchaseService` — not wired to a store |
 | `services/emergency.dart` | `Emergency.confirmAndDial` (confirmed 911) |
@@ -86,8 +88,8 @@ the previous version described an architecture that did not exist.
 |---|---|---|
 | Auth | **real** — Supabase, live project in `AppConfig` | nothing; already wired |
 | Location | **real** — geolocator GPS | nothing |
-| Guardians | `MockGuardianService` → `kGuardians`, a const list | implement `GuardianService`, return it from `ServiceLocator.guardians` |
-| Safe Call | **simulated** — the screen says `DEMO · simulated safe call` | `--dart-define=AGORA_APP_ID=…` plus a call service |
+| Guardians | sample list; `SupabaseGuardianService` is written and waiting | create the `guardians` table (schema in that file), build with `--dart-define=BACKEND=americangroupllc` |
+| Safe Call | **simulated** — `MockCallService`; no RTC package exists | add an RTC package, implement `CallService` with `isSimulated => false`, mint tokens server-side |
 | Maps | painted offline map | `--dart-define=MAPS_API_KEY=…` |
 | Purchases | `MockPurchaseService` | `in_app_purchase` + store products |
 | Notifications | none | FCM/APNs |

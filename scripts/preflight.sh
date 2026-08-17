@@ -17,15 +17,26 @@ meh()  { printf '  \033[33m!\033[0m %s\n' "$1"; warn=$((warn+1)); }
 head_() { printf '\n\033[1m%s\033[0m\n' "$1"; }
 
 head_ "Code health"
-if flutter analyze >/dev/null 2>&1; then ok "flutter analyze clean"; else no "flutter analyze reports issues"; fi
-if flutter test >/dev/null 2>&1; then ok "widget tests pass"; else no "widget tests fail"; fi
+# Distinguish "the toolchain is missing" from "the code is broken" — reporting
+# a missing flutter as a code failure sends you hunting for the wrong thing.
+if ! command -v flutter >/dev/null 2>&1; then
+  meh "flutter is not on PATH — skipping analyze and tests"
+else
+  if flutter analyze >/dev/null 2>&1; then ok "flutter analyze clean"; else no "flutter analyze reports issues"; fi
+  if flutter test >/dev/null 2>&1; then ok "widget tests pass"; else no "widget tests fail"; fi
+fi
 
 head_ "Ships as a product, not a demo"
-# The single most important check: the core feature must not be simulated.
-if grep -rq "simulated safe call" lib/; then
-  no "Safe Call is simulated — lib/screens/safe_call_screen.dart says so on screen"
+# The single most important check: the core feature must actually connect.
+# Test the cause, not the banner — the banner is now driven by
+# CallService.isSimulated, so it disappears on its own once this is fixed.
+if ! grep -qE "^  (agora_rtc_engine|flutter_webrtc|livekit_client):" pubspec.yaml; then
+  no "Safe Call connects nobody — no RTC package in pubspec; CallService has only MockCallService"
+elif ! grep -rq "class .*CallService" lib/services/ --include="*.dart" \
+     || ! grep -rqE "isSimulated => false" lib/services/; then
+  no "an RTC package is present but no real CallService implements it"
 else
-  ok "Safe Call is not advertised as simulated"
+  ok "a real CallService is wired"
 fi
 if grep -q "defaultValue: 'mock'" lib/config/app_config.dart; then
   meh "BACKEND defaults to mock — pass --dart-define=BACKEND=… for a real build"

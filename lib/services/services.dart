@@ -1,5 +1,7 @@
 import '../config/app_config.dart';
+import 'call_service.dart';
 import 'guardian_service.dart';
+import 'supabase_guardian_service.dart';
 
 /// The one place implementations are chosen.
 ///
@@ -17,24 +19,45 @@ class ServiceLocator {
   static final ServiceLocator instance = ServiceLocator._();
 
   GuardianService? _guardians;
+  CallService? _calls;
 
   /// Guardians shown on the map and pickers.
   ///
-  /// Falls back to the sample data whenever no backend is configured, which
-  /// keeps the app runnable offline and in demos. When a real
-  /// `GuardianService` exists, construct it here under `AppConfig.hasBackend`.
-  GuardianService get guardians =>
-      _guardians ??= const MockGuardianService();
+  /// With a backend configured this reads the Supabase `guardians` table; see
+  /// [SupabaseGuardianService] for the schema. Otherwise it serves the bundled
+  /// sample list, which keeps the app runnable offline and in demos.
+  GuardianService get guardians => _guardians ??= AppConfig.hasBackend
+      ? SupabaseGuardianService()
+      : const MockGuardianService();
+
+  /// Connecting to a guardian. Simulated until an RTC implementation exists.
+  CallService get calls => _calls ??= const MockCallService();
 
   /// True when the guardians on screen are sample data rather than real
   /// responders. The UI uses this to be honest about what it is showing.
-  bool get guardiansAreSample => !AppConfig.hasBackend;
+  ///
+  /// A configured backend that has not answered yet still counts as sample:
+  /// what matters is what is on the screen, not what was intended.
+  bool get guardiansAreSample {
+    final g = _guardians ?? guardians;
+    if (g is SupabaseGuardianService) return g.usingFallback;
+    return true;
+  }
+
+  /// True while a "call" connects nobody. Drives the Safe Call disclosure.
+  bool get callsAreSimulated => calls.isSimulated;
 
   /// Test seam: replace an implementation, then [reset] afterwards.
   // ignore: use_setters_to_change_properties
   void overrideGuardians(GuardianService service) => _guardians = service;
 
-  void reset() => _guardians = null;
+  // ignore: use_setters_to_change_properties
+  void overrideCalls(CallService service) => _calls = service;
+
+  void reset() {
+    _guardians = null;
+    _calls = null;
+  }
 }
 
 /// Short accessor, mirroring the `appState` and `analytics` globals.

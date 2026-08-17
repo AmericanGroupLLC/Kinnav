@@ -191,9 +191,11 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
                       color: Colors.black.withValues(alpha: 0.45),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Text(
-                      'DEMO · simulated safe call (no live video)',
-                      style: TextStyle(color: Colors.white, fontSize: 10),
+                    child: Text(
+                      services.callsAreSimulated
+                          ? 'DEMO · simulated safe call (no live video)'
+                          : 'Live safe call',
+                      style: const TextStyle(color: Colors.white, fontSize: 10),
                     ),
                   ),
                 ],

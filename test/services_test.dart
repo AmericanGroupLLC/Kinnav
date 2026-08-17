@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kinnav/models/guardian.dart';
+import 'package:kinnav/models/call_type.dart';
+import 'package:kinnav/services/call_service.dart';
 import 'package:kinnav/services/guardian_service.dart';
+import 'package:kinnav/services/supabase_guardian_service.dart';
 import 'package:kinnav/services/services.dart';
 
 /// A stand-in backend, to prove the app reads guardians from the service
@@ -44,6 +47,7 @@ class _FakeGuardians implements GuardianService {
 
 void main() {
   tearDown(services.reset);
+  _callAndBackendTests();
 
   group('GuardianService', () {
     test('the default implementation serves the bundled sample data', () {
@@ -86,6 +90,65 @@ void main() {
       services.overrideGuardians(_FakeGuardians());
       services.reset();
       expect(services.guardians, isA<MockGuardianService>());
+    });
+  });
+}
+
+/// A call service that claims to be real, to prove the Safe Call disclosure
+/// is driven by the service rather than hardcoded.
+class _LiveCalls implements CallService {
+  @override
+  bool get isSimulated => false;
+  @override
+  Future<String> start(CallType type, Guardian guardian) async => 'ch-1';
+  @override
+  Future<void> end() async {}
+}
+
+void _callAndBackendTests() {
+  group('CallService', () {
+    tearDown(services.reset);
+
+    test('calls are simulated by default and the app admits it', () {
+      expect(services.calls, isA<MockCallService>());
+      expect(services.callsAreSimulated, isTrue);
+    });
+
+    test('a real implementation clears the demo disclosure', () {
+      services.overrideCalls(_LiveCalls());
+      expect(services.callsAreSimulated, isFalse,
+          reason: 'the Safe Call banner keys off this');
+    });
+
+    test('the mock connects nobody but still yields a channel id', () async {
+      const svc = MockCallService();
+      final id = await svc.start(CallType.voice, kGuardians.first);
+      expect(id, startsWith('demo-'));
+      await svc.end(); // must not throw when never connected
+    });
+  });
+
+  group('SupabaseGuardianService', () {
+    test('serves sample data until a fetch succeeds, and says so', () {
+      final svc = SupabaseGuardianService();
+      expect(svc.usingFallback, isTrue);
+      expect(svc.all(), isNotEmpty,
+          reason: 'a cold start must still draw a map');
+    });
+
+    test('a failed fetch leaves the app usable rather than throwing', () async {
+      // Supabase is not initialised in a unit test, so this exercises the
+      // real failure path: no network, no table, or RLS denial.
+      final svc = SupabaseGuardianService();
+      await svc.refresh();
+      expect(svc.usingFallback, isTrue);
+      expect(svc.all(), isNotEmpty);
+    });
+
+    test('distance is zero when the user position is unknown', () {
+      // Guardians must not vanish just because location is unavailable.
+      final svc = SupabaseGuardianService();
+      expect(svc.nearby(limit: 1), hasLength(1));
     });
   });
 }
