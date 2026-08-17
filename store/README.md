@@ -312,3 +312,38 @@ no-op boundary. **Revisit this the moment Firebase or Sentry is added.**
 - **Account for review.** Reviewers need working credentials. Supabase test
   accounts exist in `lib/services/auth_service.dart`; supply one, or the
   reviewer will bounce the build.
+
+## Safe Call — how the token flow is meant to work
+
+The app never holds the Agora App Certificate and never calls Agora's REST
+API. It asks the Kinnav backend, which signs a credential scoped to one
+channel:
+
+```
+Kinnav app  --POST /calls/token-->  Kinnav API  --App ID + Certificate-->  Agora
+            <---- short-lived token ----                <---- token ----
+            ---- joins channel ---->  Agora
+```
+
+`lib/services/call_token_client.dart` implements the app's half and is
+covered by eight tests, including the failure paths that matter on a safety
+app: a malformed 200, a missing token, and a hung server (which fails fast
+rather than leaving someone waiting).
+
+The backend contract it assumes:
+
+| | |
+|---|---|
+| Request | `POST {API_BASE_URL}/calls/token` `{"channel": "...", "role": "publisher"}` |
+| Auth | `Authorization: Bearer <supabase access token>` |
+| Response | `{"appId","channel","token","uid","expiresAt"}` |
+| `expiresAt` | Unix seconds or ISO-8601; both are parsed |
+
+`snake_case` keys are read too, so a Python or Go service needs no
+special-casing. If the real endpoint differs, `CallToken.fromJson` and the
+`path` argument are the only things to change.
+
+**What is still missing:** an RTC package (none is in `pubspec.yaml`) and a
+`CallService` that joins the channel with the token. Until then
+`MockCallService` is what ships and the Safe Call screen discloses that it
+connects nobody.
