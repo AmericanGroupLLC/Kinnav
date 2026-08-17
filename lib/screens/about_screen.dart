@@ -70,12 +70,12 @@ class AboutScreen extends StatelessWidget {
             style: TextStyle(fontSize: 15, height: 1.5),
           ),
           const SizedBox(height: 12),
-          _social(context, Icons.camera_alt_outlined, 'Instagram',
-              '@getsaferapp', 'https://instagram.com'),
-          _social(context, Icons.facebook, 'Facebook',
-              'facebook.com/getsaferapp', 'https://facebook.com'),
-          _social(context, Icons.alternate_email, 'Twitter / X',
-              '@getsaferapp', 'https://twitter.com'),
+          // Instagram, Facebook and Twitter rows lived here advertising
+          // @getsaferapp — the previous brand — and each linked to the bare
+          // instagram.com / facebook.com root rather than an account. Store
+          // reviewers follow outbound links, and a dead handle for a different
+          // product is worse than no handle. Restore them once real Kinnav
+          // accounts exist, with their actual profile URLs.
           _social(context, Icons.language, 'Website',
               'kinnav.com', 'https://kinnav.com'),
           _social(context, Icons.mail_outline, 'Email', AppConfig.supportEmail,

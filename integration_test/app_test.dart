@@ -24,15 +24,30 @@ import 'package:kinnav/main.dart' as app;
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-  /// Screenshots need the surface converted on Android; on iOS it is a no-op
-  /// that throws, so failures here must not fail the test.
+  /// Captures the current screen.
+  ///
+  /// On Android the surface can be converted and grabbed in-process. On iOS
+  /// it cannot — `convertFlutterSurfaceToImage` is Android-only and
+  /// `takeScreenshot` returns a blank frame — so the run instead holds still
+  /// on each screen and the host grabs it with `xcrun simctl io screenshot`.
+  /// Pass --dart-define=HOLD_MS=6000 to enable that.
+  ///
+  /// This distinction matters: without it the suite writes seven convincing
+  /// but empty PNGs and reports success.
+  const holdMs = int.fromEnvironment('HOLD_MS');
   Future<void> shoot(String name) async {
+    if (holdMs > 0) {
+      // Callers have already settled the frame; just stay put long enough for
+      // the host to take the picture.
+      await Future<void>.delayed(const Duration(milliseconds: holdMs));
+      return;
+    }
     try {
       await binding.convertFlutterSurfaceToImage();
+      await binding.takeScreenshot(name);
     } catch (_) {
-      // iOS, or already converted.
+      // No surface to convert (iOS): nothing useful can be captured here.
     }
-    await binding.takeScreenshot(name);
   }
 
   /// Starts the real app and hands error reporting back to the test harness.

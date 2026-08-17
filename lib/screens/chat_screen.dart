@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/guardian.dart';
+import '../services/services.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 
@@ -39,7 +40,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final helpers = kGuardians.take(3).toList();
+    final helpers = services.guardians.nearby(limit: 3);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(

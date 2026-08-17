@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/guardian.dart';
+import '../services/services.dart';
 import '../theme/app_theme.dart';
 import 'avatar.dart';
 
@@ -8,12 +9,14 @@ import 'avatar.dart';
 /// location are laid out using normalized coordinates.
 class MapView extends StatelessWidget {
   final bool showUserPhoto;
-  final List<Guardian> pins;
+  /// Null means "ask the guardian service" — a const default cannot call it,
+  /// and hardcoding kGuardians here hid a second data source behind the map.
+  final List<Guardian>? pins;
   final bool showGuardianAvatars; // true = Safe Call style avatars on map
 
   const MapView({
     super.key,
-    this.pins = kGuardians,
+    this.pins,
     this.showUserPhoto = true,
     this.showGuardianAvatars = false,
   });
@@ -33,7 +36,7 @@ class MapView extends StatelessWidget {
         return Stack(
           children: [
             Positioned.fill(child: CustomPaint(painter: _MapPainter())),
-            for (final g in pins)
+            for (final g in (pins ?? services.guardians.nearby(limit: 6)))
               if (showGuardianAvatars)
                 Positioned(
                   left: clampX(g.mapPos.dx, 40) - 22,

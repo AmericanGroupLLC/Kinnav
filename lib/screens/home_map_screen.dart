@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/guardian.dart';
 import '../services/location_service.dart';
+import '../services/services.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import '../widgets/coach_bubble.dart';
@@ -37,7 +38,7 @@ class _HomeMapScreenState extends State<HomeMapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final nearby = kGuardians.take(6).toList();
+    final nearby = services.guardians.nearby(limit: 6);
     // Reference screens show a large community ("+63"); reflect that here.
     final more = 63;
 

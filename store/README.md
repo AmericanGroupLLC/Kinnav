@@ -91,7 +91,19 @@ GitHub release or a CI artifact instead of committing them.
   it outright (`Release mode is not supported for simulators`). Testing a
   release iOS build requires a physical device.
 - **The end-to-end suite passes on iOS**, 7/7 on both the iPhone 17 and the
-  Pro Max, and produced every screenshot in `screenshots/ios`.
+  Pro Max.
+- **It cannot capture iOS screenshots.** `binding.takeScreenshot()` returns a
+  blank frame there — `convertFlutterSurfaceToImage()` is Android-only — so
+  the suite writes seven convincing but empty PNGs and still reports success.
+  Check any generated image before trusting it:
+  `magick shot.png -format '%k' info:` returns 1 for a blank.
+  Capturing from the host with `xcrun simctl io … screenshot` during a
+  `--dart-define=HOLD_MS=7000` run does not work either: the app requests
+  location on reaching the map, and the system dialog covers the screen for
+  the rest of the run. `simctl privacy grant location-always` fixes that, but
+  `flutter drive` reinstalls the app on every run and reinstalling resets the
+  grant. The suite is still valuable as a test; iOS screenshots have to be
+  taken by hand for now.
 - **It has not been run on Android.** `integration_test` adds Android build
   dependencies that were not in the local Gradle cache, and the machine it
   was authored on had no network, so `flutter drive -d emulator-5554` failed
@@ -158,10 +170,14 @@ is `CFBundleVersion` on iOS and `versionCode` on Android.
 build running on a simulator and an emulator, already at each store's
 required size.
 
-| | Size | Store rule |
-|---|---|---|
-| `ios/` | 1320 × 2868 | App Store 6.9" iPhone (iPhone 17 Pro Max) |
-| `android/` | 1080 × 2160 | Play caps phone screenshots at 2:1 |
+| | Count | Size | Store rule |
+|---|---|---|---|
+| `ios/` | **1** | 1320 × 2868 | App Store 6.9" iPhone (iPhone 17 Pro Max) |
+| `android/` | 5 | 1080 × 2160 | Play caps phone screenshots at 2:1 |
+
+iOS is short: the App Store shows the first three in search results, so at
+least three are wanted and this has one. See the note above for why
+automation cannot produce them yet.
 
 The Android emulator frame is 1080 × 2400, which is 2.22:1 and would be
 rejected. The committed files are cropped to 2:1 by removing the status bar
@@ -222,8 +238,15 @@ fails with `Bad address` on this emulator image — use `exec-out`.
 - The About screen still lists `@getsaferapp` for Instagram, Facebook and
   Twitter, and those rows link to the bare `instagram.com` / `facebook.com`
   roots rather than real accounts. Reviewers do look at outbound links.
-- `assets/logo/kinnav_icon_square.svg` is the previous shield-and-crescent
-  mark. It is unused by the build but will mislead anyone regenerating icons.
+- The About screen no longer lists Instagram, Facebook or Twitter. They
+  advertised `@getsaferapp` — the previous brand — and pointed at bare
+  `instagram.com` / `facebook.com` roots. Reviewers follow outbound links.
+  Restore them with real profile URLs once the accounts exist.
+- **The guardians shown in the screenshots are sample data.** Both stores
+  require screenshots to reflect real functionality, and Safe Call still says
+  `DEMO · simulated safe call` on screen. Treat `screenshots/` as internal
+  until a backend is wired; shipping them as-is claims a live responder
+  network the build does not have.
 
 ## Privacy policy — what a reviewer sees
 

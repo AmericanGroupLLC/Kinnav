@@ -8,6 +8,7 @@ import '../models/safety_contact.dart';
 import '../services/emergency.dart';
 import '../services/links.dart';
 import '../services/location_service.dart';
+import '../services/services.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import '../widgets/coach_bubble.dart';
@@ -44,7 +45,7 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
   int _startedAtMs = 0;
 
   late final List<Guardian> _onCall =
-      kGuardians.where((g) => g.online).take(4).toList();
+      services.guardians.online(limit: 4);
 
   @override
   void initState() {

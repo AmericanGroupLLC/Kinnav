@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../models/guardian.dart';
+import '../services/services.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import 'guardian_course_screen.dart';
@@ -26,7 +27,7 @@ class GuardiansScreen extends StatelessWidget {
               const Text('Guardians near you',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
-              for (final g in kGuardians) _GuardianTile(guardian: g),
+              for (final g in services.guardians.all()) _GuardianTile(guardian: g),
             ],
           );
         },
