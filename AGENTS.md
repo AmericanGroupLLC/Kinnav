@@ -37,17 +37,15 @@ UI never calls a backend directly. Swap mock→real in `lib/services/services.da
 | `services/storage.dart` | shared_preferences wrapper (non-secret) |
 | `services/secure_store.dart` | Keychain/Keystore for JWTs (org policy) |
 | `services/services.dart` | **ServiceLocator** — mock↔real swap point |
-| `services/auth_service.dart` | `AuthService` (OTP) + `MockAuthService` |
-| `services/auth_api.dart` | `AuthApi` — AmericanGroupLLC gateway auth |
-| `services/api_client.dart` | HTTP: Bearer + 401→refresh + `{error}` |
-| `services/guardian_service.dart` | nearby guardians / presence |
-| `services/call_service.dart` | `CallService`/`CallSession` lifecycle |
+| `services/auth_service.dart` | `SupabaseAuthService` — **real** Supabase auth |
+| `services/guardian_service.dart` | `GuardianService` + `MockGuardianService` (sample data) |
 | `services/location_service.dart` | `LocationService` (geolocator + fallback) |
-| `services/notification_service.dart` | guardian/contact alerts boundary |
-| `services/purchase_service.dart` | subscription purchase boundary |
+| `services/purchase_service.dart` | `MockPurchaseService` — not wired to a store |
+| `services/emergency.dart` | `Emergency.confirmAndDial` (confirmed 911) |
 | `services/links.dart` | tel/sms/mailto/web launchers |
 | `services/emergency.dart` | `Emergency.confirmAndDial` (confirmed 911) |
 | `services/analytics_service.dart` | events + crash boundary (`analytics`, no-op) |
+| `services/links.dart` | tel/sms/mailto/web launchers |
 | `widgets/avatar.dart` | `InitialsAvatar` (generated, offline) |
 | `widgets/map_view.dart` | `MapView` painted offline map + pins |
 | `widgets/live_map.dart` | `LiveMap` = GoogleMap if key else `MapView` |
@@ -79,17 +77,25 @@ Fields (persist key): `onboarded`,`signedIn`,`profile`,`contacts(safetyContacts)
 `guardianCourseStep`,`guardianAvailable`. Secrets (JWT) → `SecureStore`, not here.
 Mutate → persist → `notifyListeners()`. Read in UI via `ListenableBuilder(listenable: appState)`.
 
-## Services: mock ↔ real (gated by AppConfig)
-| Capability | Interface | Real (gated) |
+## What is real and what is not — read before promising anything
+
+A default `flutter build` produces a **demo**. This table is the honest state;
+the previous version described an architecture that did not exist.
+
+| Capability | Today | To make it real |
 |---|---|---|
-| Auth | AuthService/AuthApi | Gateway `api.americangroupllc.com` / Firebase OTP |
-| Guardians | GuardianService | Firestore geo |
-| Safe Call | CallService | Agora RTC (`AGORA_APP_ID`) |
-| Location | LocationService | geolocator GPS |
-| Maps | (LiveMap widget) | Google Maps (`MAPS_API_KEY`) |
-| Notifications | NotificationService | FCM/APNs |
-| Purchases | PurchaseService | in_app_purchase |
-| Analytics | AnalyticsService | Firebase/Sentry |
+| Auth | **real** — Supabase, live project in `AppConfig` | nothing; already wired |
+| Location | **real** — geolocator GPS | nothing |
+| Guardians | `MockGuardianService` → `kGuardians`, a const list | implement `GuardianService`, return it from `ServiceLocator.guardians` |
+| Safe Call | **simulated** — the screen says `DEMO · simulated safe call` | `--dart-define=AGORA_APP_ID=…` plus a call service |
+| Maps | painted offline map | `--dart-define=MAPS_API_KEY=…` |
+| Purchases | `MockPurchaseService` | `in_app_purchase` + store products |
+| Notifications | none | FCM/APNs |
+| Analytics | no-op boundary | Firebase/Sentry behind `analytics` |
+
+`ServiceLocator` (`lib/services/services.dart`) is the single swap point.
+`services.guardiansAreSample` is true whenever the people on screen are not
+real responders.
 
 ## Where to change X
 | Task | Edit |

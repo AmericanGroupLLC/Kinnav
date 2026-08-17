@@ -259,3 +259,56 @@ Both name `support@kinnav.com` directly.
 Every place the app invites contact goes to that one address, from
 `AppConfig.supportEmail`: the drawer's Contact Us, About, the legal screens,
 and Feedback.
+
+## Privacy forms — drafted from what the app declares
+
+Both consoles ask these before review. Answers below follow the permissions
+actually declared and the code that uses them; check each against the build
+you submit, because a form that contradicts the binary is a rejection.
+
+Declared permissions:
+
+| Platform | Permission | Why |
+|---|---|---|
+| iOS | `NSLocationWhenInUseUsageDescription` | show the user and nearby guardians on the map |
+| iOS | `NSLocationAlwaysAndWhenInUseUsageDescription` | keep sharing live location during a Safe Call |
+| iOS | `NSCameraUsageDescription` | video Safe Call |
+| Android | `ACCESS_FINE_LOCATION`, `ACCESS_COARSE_LOCATION` | same as iOS |
+| Android | `INTERNET` | auth and, once wired, the guardian network |
+
+### Apple — App Privacy
+
+| Data type | Collected | Linked to user | Tracking | Purpose |
+|---|---|---|---|---|
+| Precise location | yes | yes | no | App Functionality |
+| Email address | yes (Supabase sign-in) | yes | no | App Functionality |
+| Name | yes (profile) | yes | no | App Functionality |
+| User content (feedback) | yes, by email | yes | no | App Functionality |
+| Identifiers | Supabase user id | yes | no | App Functionality |
+
+No third-party advertising or analytics SDK ships today — `analytics` is a
+no-op boundary. **Revisit this the moment Firebase or Sentry is added.**
+
+### Google Play — Data safety
+
+- Collected: location (precise), personal info (name, email), user id.
+- Shared with third parties: **no** — Supabase is a processor, not a
+  recipient, but declare it if that changes.
+- Encrypted in transit: yes (HTTPS/Supabase).
+- Deletion: users can request deletion in-app or by email; the privacy policy
+  says so at `https://kinnav.com/privacy`.
+- Data collection is required, not optional — the app cannot find guardians
+  without location.
+
+### Questions both stores will ask about a safety app
+
+- **Why background/always location?** Only to keep sharing live location for
+  the duration of a Safe Call. If that is not implemented in the build you
+  submit, drop `NSLocationAlwaysAndWhenInUseUsageDescription` — asking for
+  more than you use draws scrutiny.
+- **Is this a medical or emergency service?** No. The Terms say Kinnav is not
+  a replacement for emergency services and the app tells users to call 911.
+  Say the same in review notes.
+- **Account for review.** Reviewers need working credentials. Supabase test
+  accounts exist in `lib/services/auth_service.dart`; supply one, or the
+  reviewer will bounce the build.
