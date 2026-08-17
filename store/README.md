@@ -90,6 +90,14 @@ GitHub release or a CI artifact instead of committing them.
 - **Release mode cannot run on the iOS Simulator at all** — Flutter rejects
   it outright (`Release mode is not supported for simulators`). Testing a
   release iOS build requires a physical device.
+- **The end-to-end suite passes on iOS**, 7/7 on both the iPhone 17 and the
+  Pro Max, and produced every screenshot in `screenshots/ios`.
+- **It has not been run on Android.** `integration_test` adds Android build
+  dependencies that were not in the local Gradle cache, and the machine it
+  was authored on had no network, so `flutter drive -d emulator-5554` failed
+  at dependency resolution. Nothing is wrong with the test — run it once on a
+  networked machine and Gradle caches what it needs. Verify with a plain
+  `flutter build apk --debug` first.
 
 ## Android — Google Play
 
@@ -159,29 +167,30 @@ The Android emulator frame is 1080 × 2400, which is 2.22:1 and would be
 rejected. The committed files are cropped to 2:1 by removing the status bar
 and gesture bar — OS chrome rather than app content.
 
-### What is covered, and what is missing
+### Regenerating them
 
-Android has five screens: welcome, guardian map, *Reach a Guardian*, the
-menu, and About. iOS has **only the welcome screen**.
-
-That gap is not an oversight. The captures were automated, and Android can be
-driven with `adb shell input tap`, while the iOS Simulator has no equivalent —
-`simctl` cannot synthesise touches, and the AppleScript route was unavailable
-in that environment. The remaining iOS screenshots have to be taken by tapping
-through the app by hand:
+Both sets come from `integration_test/app_test.dart`, which drives the real
+app and screenshots each stop. Nothing is staged by hand, so the images cannot
+drift from what the app actually renders.
 
 ```bash
-xcrun simctl boot "iPhone 17 Pro Max"
-flutter run -d "iPhone 17 Pro Max"
-# tap "Demo mode (dev) — skip to app", navigate, then per screen:
-xcrun simctl io booted screenshot store/screenshots/ios/0N-name.png
+# iOS — run against the Pro Max: 1320x2868 is the App Store 6.9" size
+flutter drive --driver=test_driver/integration_test.dart \
+  --target=integration_test/app_test.dart -d "iPhone 17 Pro Max"
+
+# Android
+flutter drive --driver=test_driver/integration_test.dart \
+  --target=integration_test/app_test.dart -d emulator-5554
 ```
 
-The App Store wants up to 10 and shows the first 3 in search results; Play
-requires at least 2 and allows 8. Aim to match the Android set so the two
-listings tell the same story.
+Screenshots land in `build/screenshots/`; copy the ones you want into
+`store/screenshots/<platform>/`. Android output is 1080x2400 and must be
+cropped to 2:1 before upload (see below).
 
-### Reproducing the Android set
+The App Store shows the first 3 in search results; Play requires at least 2
+and allows 8.
+
+### Reproducing the Android set by hand
 
 ```bash
 adb install -r build/app/outputs/flutter-apk/app-debug.apk

@@ -26,6 +26,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # Drives the real app on a simulator/emulator. Used for the end-to-end pass
+  # and to capture store screenshots on iOS, where the simulator has no
+  # equivalent of `adb shell input tap`.
+  integration_test:
+    sdk: flutter
   flutter_lints: ^5.0.0
 
 flutter:
