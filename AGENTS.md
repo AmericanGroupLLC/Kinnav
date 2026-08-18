@@ -116,9 +116,22 @@ Text(context.l10n.safeCallTitle)          // never a bare string literal
   in `ios/Runner/Info.plist`, then `flutter gen-l10n`.
 - `test/l10n_test.dart` fails on a missing/extra/empty key, on an ARB that is
   not in `supportedLocales`, and if Arabic stops resolving RTL.
-- Not yet migrated: the remaining screens (modules, rewards, profile, legal,
-  chat, drawer…) still hold English literals. Migrating one is mechanical —
-  add keys to every ARB, swap the literal for `context.l10n.…`.
+- **142 keys, all six locales at parity.** Every screen's chrome — sign-up,
+  profile, drawer, chat, call history, modules, rewards, guardians, course,
+  subscription, feedback, how-to, about, legal headings — resolves through
+  `context.l10n`. Keys are deduped by English text, so `Cancel`/`Name`/`Rewards`
+  are single entries shared across screens.
+- **Still English-only**, and each needs a different approach than a `Text()`
+  swap, which is why they were left:
+  | What | Where | Why it is not mechanical |
+  |---|---|---|
+  | Module + reward content | `models/content.dart` (48) | `const` model data with no `BuildContext`; needs an id per item, resolved at the call site |
+  | Legal + about prose | `legal_screen`, `about_screen` (~65) | long-form; legal wording should be reviewed, not machine-translated |
+  | Course module titles | `guardian_course_screen` (22) | same const-data problem as content.dart |
+  | Identity + language lists | `profile_setup`, `profile_edit` | option values are persisted, so the stored value must stay a stable id while only the label translates |
+  | `CallType` labels | `models/call_type.dart` | enum extension getter, no context |
+  Developer-facing strings (`auth_service` errors, `call_token_client`
+  exceptions, `AppConfig` keys) are deliberately **not** localised.
 - A widget under test needs `AppLocalizations.localizationsDelegates` on its
   `MaterialApp`, or `context.l10n` asserts.
 
