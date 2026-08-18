@@ -4,8 +4,12 @@
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
-pubspec.lock
 .metadata
+
+# pubspec.lock IS tracked. It was ignored here, which is the right default for a
+# published Dart *package* and the wrong one for an app: without it CI resolves
+# its own transitive versions, so the reviewed build and the shipped build can
+# differ. Kinnav is an app.
 
 # IDE
 .idea/
@@ -66,3 +70,10 @@ fastlane/play-service-account.json
 # fastlane rewrites this JUnit report on every lane run, so it showed up as a
 # diff after each release and once carried a local stack trace into a commit.
 fastlane/report.xml
+
+# The store screenshots ARE release assets and must be tracked. A global
+# ~/.gitignore_global rule (fastlane/screenshots/**/*.png) was silently keeping
+# the whole iOS set out of the repo, so it existed only on one Mac and on App
+# Store Connect. A repo .gitignore beats the global excludes file, so this
+# negation is what puts them back under version control.
+!fastlane/screenshots/**/*.png
