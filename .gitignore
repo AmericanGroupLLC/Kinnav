@@ -51,6 +51,9 @@ fastlane/play-service-account.json
 *.jks
 *.keystore
 
+# Local build secrets (MAPS_API_KEY, AGORA_APP_ID) sourced by the release lanes.
+.env.release
+
 # Downloaded release artifacts. `gh release download` drops these in the repo
 # root; they are tens of megabytes and rebuilt every release, so they belong on
 # a GitHub release, never in git. See store/README.md.
