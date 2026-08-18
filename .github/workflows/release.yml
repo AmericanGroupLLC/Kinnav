@@ -10,6 +10,10 @@ on:
 jobs:
   android:
     runs-on: ubuntu-latest
+    # The default GITHUB_TOKEN is read-only, so creating the release 403s with
+    # "Resource not accessible by integration" after a successful build.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -23,8 +27,16 @@ jobs:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           KEY_PROPERTIES: ${{ secrets.ANDROID_KEY_PROPERTIES }}
         run: |
+          # Fail here rather than five minutes later. An unset secret otherwise
+          # writes an empty key.properties, and Gradle only complains at
+          # :app:packageRelease with 'SigningConfig "release" is missing
+          # required property "storeFile"', which reads like a build-config bug.
+          : "${KEYSTORE_BASE64:?ANDROID_KEYSTORE_BASE64 secret is not set}"
+          : "${KEY_PROPERTIES:?ANDROID_KEY_PROPERTIES secret is not set}"
           echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload.jks
           printf '%s' "$KEY_PROPERTIES" > android/key.properties
+          grep -q '^storeFile=' android/key.properties \
+            || { echo "key.properties has no storeFile= line"; exit 1; }
       # Block style, not `env: { ... }`. A ${{ }} expression inside a YAML flow
       # mapping ends the mapping at its own `}}`, which made this file
       # unparseable — every run died in 0s with "workflow file issue".
