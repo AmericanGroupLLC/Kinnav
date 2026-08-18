@@ -9,7 +9,7 @@ The Sign Up screen has a "Use test account" button that signs in with one tap.
 If you prefer to type them, the credentials are:
 
   Email:    qa@safecodeg.com
-  Password: QATest@2026!
+  Password: QATest@2024!
 
 Authentication is Supabase email/password.
 

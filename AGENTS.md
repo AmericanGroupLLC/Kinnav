@@ -186,6 +186,6 @@ Authentication uses the org's real **Supabase** backend.
   local demo session persisted in `shared_preferences` (`localDemoSession`).
 - Sign-out (`AppState.logOut` / `deleteAccount`) clears both the Supabase session
   and the local fallback via `SupabaseAuthService.signOut()`.
-- Provisioned test accounts: `qa@safecodeg.com` / `QATest@2026!` (QA, one-tap
-  button) and `dev@safecodeg.com` / `DevTest@2026!` (developer). Full detail in
+- Provisioned test accounts: `qa@safecodeg.com` / `QATest@2024!` (QA, one-tap
+  button) and `dev@safecodeg.com` / `DevTest@2024!` (developer). Full detail in
   `docs/DESIGN.md`.
