@@ -16,14 +16,41 @@ APP_ID = "com.americangroupllc.kinnav".freeze
 APP_NAME = "Kinnav".freeze
 AAB_PATH = File.expand_path("../build/app/outputs/bundle/release/app-release.aab", __dir__).freeze
 
+ASC_KEY_ID = ENV.fetch("ASC_KEY_ID", "UV8NYF9767").freeze
+
+# Where the .p8 lives, in preference order. Resolving it here means the lanes
+# run with no environment at all — `bundle exec fastlane ios upload` is the
+# whole command.
+#
+# This used to demand a pre-exported ASC_KEY_CONTENT holding the base64 of the
+# key. That is easy to get wrong: a shell that wraps the line breaks the
+# `$(base64 …)` substitution and the variable silently ends up empty, so the
+# lane aborts having done nothing. Reading the file directly removes the step.
+def asc_key_path
+  [
+    ENV["ASC_KEY_PATH"],
+    File.expand_path("../AuthKey_#{ASC_KEY_ID}.p8", __dir__),
+    File.expand_path("~/Downloads/AuthKey_#{ASC_KEY_ID}.p8"),
+    File.expand_path("~/agl/CalcMaster/AuthKey_#{ASC_KEY_ID}.p8")
+  ].compact.find { |p| File.exist?(p) }
+end
+
 def asc_api_key
   key_content = ENV["ASC_KEY_CONTENT"].to_s.strip
+
   if key_content.empty?
-    UI.user_error!("ASC_KEY_CONTENT is empty — pass the .p8 to tools/ios_appstore_submit.sh, " \
-      "or export the base64 of it.")
+    path = asc_key_path
+    if path.nil?
+      UI.user_error!("No AuthKey_#{ASC_KEY_ID}.p8 found. Put it in the repo root, " \
+        "or set ASC_KEY_PATH=/path/to/AuthKey_#{ASC_KEY_ID}.p8, " \
+        "or export ASC_KEY_CONTENT with its base64.")
+    end
+    UI.message("Using App Store Connect key #{path}")
+    key_content = Base64.strict_encode64(File.read(path))
   end
+
   app_store_connect_api_key(
-    key_id: ENV.fetch("ASC_KEY_ID", "UV8NYF9767"),
+    key_id: ASC_KEY_ID,
     issuer_id: ENV.fetch("ASC_ISSUER_ID", "ec93cc91-97c2-4b03-860b-697d7ec5d1fb"),
     key_content: key_content,
     is_key_content_base64: true,
