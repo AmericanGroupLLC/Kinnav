@@ -1,0 +1,62 @@
+{
+  "@@locale": "ar",
+
+  "appTitle": "Kinnav",
+
+  "actionCancel": "إلغاء",
+  "actionNext": "التالي",
+  "actionSkip": "تخطٍ",
+  "actionGetStarted": "ابدئي الآن",
+  "actionAdd": "إضافة",
+
+  "onboardingWelcomeTitle": "مرحبًا بكِ في Kinnav",
+  "onboardingWelcomeBody": "طريقة جديدة لأمان النساء وتمكينهنّ — مساعدة في أي مكان وفي أي وقت.",
+  "onboardingPressTitle": "اضغطي زرًا واحدًا",
+  "onboardingPressBody": "اضغطي على «الاتصال بالحاميات» واختاري مكالمة صوتية أو فيديو أو رسالة أو طوارئ للتواصل.",
+  "onboardingGuardiansTitle": "الحاميات يبقين معكِ",
+  "onboardingGuardiansBody": "نساء موثّقات قريبات منكِ يتحدثن معكِ حتى تشعري بالأمان — بلا حدود زمنية وبلا أحكام.",
+  "onboardingRewardsTitle": "تطوّري واحصلي على مكافآت",
+  "onboardingRewardsBody": "وحدات للعناية بالذات ومكافآت للعافية لتزدهري إلى ما هو أبعد من الأمان.",
+  "onboardingDemoMode": "الوضع التجريبي (للمطوّرين) — الانتقال مباشرة إلى التطبيق",
+
+  "emergencyConfirmTitle": "الاتصال بخدمات الطوارئ ({number})؟",
+  "emergencyConfirmBody": "سيتم إجراء مكالمة هاتفية حقيقية بخدمات الطوارئ وستبقى الحاميات على المكالمة الآمنة.",
+  "emergencyConfirmAction": "اتصلي بـ {number}",
+
+  "safeCallTitle": "المكالمة الآمنة",
+  "safeCallConnecting": "جارٍ الاتصال…",
+  "safeCallConnectingTo": "{count, plural, zero{جارٍ توصيلكِ بالحاميات…} one{جارٍ توصيلكِ بحامية واحدة…} two{جارٍ توصيلكِ بحاميتين…} few{جارٍ توصيلكِ بـ {count} حاميات…} many{جارٍ توصيلكِ بـ {count} حامية…} other{جارٍ توصيلكِ بـ {count} حامية…}}",
+  "safeCallSimulatedBadge": "تجريبي · مكالمة آمنة محاكاة (بدون فيديو مباشر)",
+  "safeCallLiveBadge": "مكالمة آمنة مباشرة",
+  "safeCallAddPolice": "إضافة الشرطة",
+  "safeCallPoliceAdded": "تمت إضافة الشرطة",
+  "safeCallStartVideo": "تشغيل الفيديو",
+  "safeCallStopVideo": "إيقاف الفيديو",
+  "safeCallSpeakerOn": "تشغيل مكبّر الصوت",
+  "safeCallSpeakerOff": "إيقاف مكبّر الصوت",
+  "safeCallMap": "الخريطة",
+  "safeCallVideo": "الفيديو",
+  "safeCallCoachPolice": "أضيفي الشرطة إلى المكالمة عند الحاجة",
+  "safeCallCoachToggle": "بدّلي بسهولة بين الخريطة والفيديو",
+  "safeCallCoachEnd": "عدتِ إلى الأمان؟ اشكري الحاميات وأنهي المكالمة",
+  "safeCallNotifyingContacts": "{count, plural, zero{جارٍ فتح رسالة لتنبيه جهات الاتصال…} one{جارٍ فتح رسالة لتنبيه جهة اتصال الأمان الخاصة بكِ…} two{جارٍ فتح رسالة لتنبيه جهتي اتصال الأمان…} few{جارٍ فتح رسالة لتنبيه {count} جهات اتصال أمان…} many{جارٍ فتح رسالة لتنبيه {count} جهة اتصال أمان…} other{جارٍ فتح رسالة لتنبيه {count} جهة اتصال أمان…}}",
+  "safeCallAlertMessage": "تنبيه Kinnav: بدأتُ مكالمة آمنة وقد أحتاج إلى مساعدة.{location} من فضلكم اطمئنّوا عليّ.",
+  "safeCallAlertLocation": " موقعي المباشر: https://maps.google.com/?q={lat},{lng}.",
+
+  "safetyContactsTitle": "جهات اتصال الأمان",
+  "safetyContactsBlurb": "يتلقّى هؤلاء الأشخاص الموثوق بهم موقعكِ المباشر عند بدء مكالمة آمنة.",
+  "safetyContactsEmpty": "لا توجد جهات اتصال بعد. اضغطي على «إضافة» لدعوة شخص ما.",
+  "safetyContactsAddTitle": "إضافة جهة اتصال أمان",
+  "safetyContactsName": "الاسم",
+  "safetyContactsPhone": "الهاتف",
+  "safetyContactsAddAction": "إضافة جهة الاتصال",
+  "safetyContactsNoNumber": "بدون رقم",
+  "safetyContactsRelation": "جهة اتصال",
+
+  "homeMapCallGuardians": "الاتصال بالحاميات",
+
+  "callOptionsTitle": "تواصلي مع حامية",
+  "callOptionsBlurb": "اختاري طريقة التواصل ثم اسحبي للأسفل.",
+  "callOptionsSlide": "اسحبي للأسفل",
+  "callOptionsClose": "إغلاق"
+}

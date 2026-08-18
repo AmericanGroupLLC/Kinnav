@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/l10n.dart';
 import '../models/call_type.dart';
 import '../theme/app_theme.dart';
 import 'safe_call_screen.dart';
@@ -33,6 +34,7 @@ class _CallOptionsScreenState extends State<CallOptionsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.l10n;
     final isEmergency = _selected == CallType.emergency;
     return Scaffold(
       backgroundColor: const Color(0xFF161421),
@@ -46,11 +48,11 @@ class _CallOptionsScreenState extends State<CallOptionsScreen> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.close, color: Colors.white),
-                    tooltip: 'Close',
+                    tooltip: strings.callOptionsClose,
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
-                  const Text('Reach a Guardian',
-                      style: TextStyle(
+                  Text(strings.callOptionsTitle,
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.w600)),
@@ -58,9 +60,9 @@ class _CallOptionsScreenState extends State<CallOptionsScreen> {
                 ],
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Choose how you want to connect, then slide down.',
-                style: TextStyle(color: Colors.white70),
+              Text(
+                strings.callOptionsBlurb,
+                style: const TextStyle(color: Colors.white70),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
@@ -81,7 +83,7 @@ class _CallOptionsScreenState extends State<CallOptionsScreen> {
               _SlideToActivate(
                 progress: _drag,
                 color: isEmergency ? AppColors.danger : AppColors.primary,
-                label: 'Slide Down',
+                label: strings.callOptionsSlide,
                 onDrag: (v) => setState(() => _drag = v),
                 onComplete: _activate,
               ),

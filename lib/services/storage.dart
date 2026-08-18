@@ -23,19 +23,36 @@ class Storage {
       _prefs.getBool(key) ?? fallback;
   Future<void> setBool(String key, bool value) => _prefs.setBool(key, value);
 
+  /// Reads a JSON object, treating unreadable data as absent.
+  ///
+  /// `AppState._load()` runs in the constructor, before `runApp`. An
+  /// interrupted write or an older on-disk shape would throw there and the app
+  /// would fail to launch — every launch, with no way for the user to recover
+  /// short of reinstalling. Dropping the bad key degrades to a default instead.
   Map<String, dynamic>? getJson(String key) {
     final raw = _prefs.getString(key);
     if (raw == null) return null;
-    return jsonDecode(raw) as Map<String, dynamic>;
+    try {
+      final decoded = jsonDecode(raw);
+      return decoded is Map<String, dynamic> ? decoded : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<void> setJson(String key, Map<String, dynamic> value) =>
       _prefs.setString(key, jsonEncode(value));
 
+  /// Reads a JSON list, treating unreadable data as absent. See [getJson].
   List<dynamic>? getJsonList(String key) {
     final raw = _prefs.getString(key);
     if (raw == null) return null;
-    return jsonDecode(raw) as List<dynamic>;
+    try {
+      final decoded = jsonDecode(raw);
+      return decoded is List<dynamic> ? decoded : null;
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<void> setJsonList(String key, List<dynamic> value) =>

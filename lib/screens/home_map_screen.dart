@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/l10n.dart';
 import '../models/guardian.dart';
 import '../services/location_service.dart';
 import '../services/services.dart';
@@ -208,7 +209,7 @@ class _BottomPanel extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: PrimaryButton(
-            label: 'CALL GUARDIANS',
+            label: context.l10n.homeMapCallGuardians,
             icon: Icons.call,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const CallOptionsScreen()),

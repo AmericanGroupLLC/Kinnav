@@ -22,22 +22,6 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<!-- URL schemes the app can be opened back into after a native sign-in.
-	     REQUIRED for Google Sign-In: replace REVERSED_CLIENT_ID below with the
-	     value of the REVERSED_CLIENT_ID key from the app's GoogleService-Info.plist
-	     (it looks like com.googleusercontent.apps.NNNNNNNN-xxxx). Without the real
-	     value the Google sign-in callback will not return to the app. -->
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.REVERSED_CLIENT_ID</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>GMSApiKey</key>
@@ -68,6 +52,21 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<!-- Languages the app ships strings for (lib/l10n/*.arb). The App Store
+	     reads this to list supported languages on the product page, and iOS
+	     uses it to pick a locale. Keep in step with l10n.yaml.
+	     (The development region is already set above.) -->
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>es</string>
+		<string>fr</string>
+		<string>hi</string>
+		<string>zh</string>
+		<string>ar</string>
 	</array>
 </dict>
 </plist>

@@ -100,6 +100,28 @@ the previous version described an architecture that did not exist.
 `services.guardiansAreSample` is true whenever the people on screen are not
 real responders.
 
+## i18n
+Strings live in `lib/l10n/*.arb` (ARB is the source of truth); `flutter gen-l10n`
+writes `lib/l10n/generated/` from `l10n.yaml`. Ships **en, es, fr, hi, zh, ar**
+— `ar` exercises RTL. `MaterialApp` follows the device language and falls back
+to English.
+
+```dart
+import '../l10n/l10n.dart';
+Text(context.l10n.safeCallTitle)          // never a bare string literal
+```
+
+- Add a language: copy `app_en.arb` → `app_<code>.arb`, translate, add the code
+  to `preferred-supported-locales` in `l10n.yaml` *and* `CFBundleLocalizations`
+  in `ios/Runner/Info.plist`, then `flutter gen-l10n`.
+- `test/l10n_test.dart` fails on a missing/extra/empty key, on an ARB that is
+  not in `supportedLocales`, and if Arabic stops resolving RTL.
+- Not yet migrated: the remaining screens (modules, rewards, profile, legal,
+  chat, drawer…) still hold English literals. Migrating one is mechanical —
+  add keys to every ARB, swap the literal for `context.l10n.…`.
+- A widget under test needs `AppLocalizations.localizationsDelegates` on its
+  `MaterialApp`, or `context.l10n` asserts.
+
 ## Where to change X
 | Task | Edit |
 |---|---|
@@ -120,7 +142,18 @@ real responders.
 - **JWTs only in `SecureStore`** (never shared_preferences).
 - **Android** id `com.americangroupllc.kinnav`; needs JDK 17+; Maps key via
   `manifestPlaceholders[MAPS_API_KEY]`.
-- This sandbox can't build Android (Gradle daemon) — builds fine on a normal machine.
+- **Android won't build on a Cisco-AnyConnect-managed Mac unless the JDK is
+  IT-approved.** The failure looks like `Could not connect to the Gradle
+  daemon`, but the real cause is `java.net.SocketException: Operation not
+  permitted` — the AnyConnect socket filter extension
+  (`com.cisco.anyconnect.macos.acsockext`) blocks loopback `connect()` for
+  unapproved binaries, so the Gradle client can't reach its own daemon.
+  Homebrew `openjdk@17` and Android Studio's bundled JBR 21 are both blocked;
+  the IT-installed Amazon Corretto 11 is allowed but Gradle 9.3.1 needs 17+.
+  Fix: install Corretto 17 to `/Library/Java/JavaVirtualMachines`
+  (`brew install --cask corretto@17`, needs admin), then
+  `flutter config --jdk-dir`. Verify a JDK before trusting it:
+  a 3-line Java `Socket.connect("127.0.0.1", …)` either prints OK or `EPERM`.
 
 ## Docs
 `requirements/specs/`: REQUIREMENTS (what) · DESIGN (how) · PLAN (when) · PRODUCTION

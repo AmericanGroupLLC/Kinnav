@@ -1,0 +1,62 @@
+{
+  "@@locale": "hi",
+
+  "appTitle": "Kinnav",
+
+  "actionCancel": "रद्द करें",
+  "actionNext": "आगे",
+  "actionSkip": "छोड़ें",
+  "actionGetStarted": "शुरू करें",
+  "actionAdd": "जोड़ें",
+
+  "onboardingWelcomeTitle": "Kinnav में आपका स्वागत है",
+  "onboardingWelcomeBody": "महिलाओं की सुरक्षा और सशक्तिकरण का एक नया तरीका — कहीं भी, कभी भी मदद।",
+  "onboardingPressTitle": "एक बटन दबाएँ",
+  "onboardingPressBody": "गार्जियन को कॉल करें पर टैप करें और जुड़ने के लिए वॉइस, वीडियो, टेक्स्ट या आपातकाल चुनें।",
+  "onboardingGuardiansTitle": "गार्जियन आपके साथ रहती हैं",
+  "onboardingGuardiansBody": "आस-पास की सत्यापित महिलाएँ तब तक आपसे बात करती हैं जब तक आप सुरक्षित महसूस न करें — कोई समय सीमा नहीं, कोई आलोचना नहीं।",
+  "onboardingRewardsTitle": "आगे बढ़ें और पुरस्कार पाएँ",
+  "onboardingRewardsBody": "सेल्फ-केयर मॉड्यूल और वेलनेस रिवॉर्ड, ताकि आप सुरक्षा से आगे बढ़कर फल-फूल सकें।",
+  "onboardingDemoMode": "डेमो मोड (dev) — सीधे ऐप में जाएँ",
+
+  "emergencyConfirmTitle": "आपातकालीन सेवाओं ({number}) को कॉल करें?",
+  "emergencyConfirmBody": "इससे आपातकालीन सेवाओं को एक वास्तविक फ़ोन कॉल की जाएगी और आपकी गार्जियन सेफ़ कॉल पर बनी रहेंगी।",
+  "emergencyConfirmAction": "{number} पर कॉल करें",
+
+  "safeCallTitle": "सेफ़ कॉल",
+  "safeCallConnecting": "कनेक्ट हो रहा है…",
+  "safeCallConnectingTo": "{count, plural, =1{आपको 1 गार्जियन से जोड़ा जा रहा है…} other{आपको {count} गार्जियन से जोड़ा जा रहा है…}}",
+  "safeCallSimulatedBadge": "डेमो · सिम्युलेटेड सेफ़ कॉल (लाइव वीडियो नहीं)",
+  "safeCallLiveBadge": "लाइव सेफ़ कॉल",
+  "safeCallAddPolice": "पुलिस जोड़ें",
+  "safeCallPoliceAdded": "पुलिस जोड़ी गई",
+  "safeCallStartVideo": "वीडियो चालू करें",
+  "safeCallStopVideo": "वीडियो बंद करें",
+  "safeCallSpeakerOn": "स्पीकर चालू करें",
+  "safeCallSpeakerOff": "स्पीकर बंद करें",
+  "safeCallMap": "मानचित्र",
+  "safeCallVideo": "वीडियो",
+  "safeCallCoachPolice": "ज़रूरत हो तो कॉल में पुलिस को जोड़ें",
+  "safeCallCoachToggle": "मानचित्र और वीडियो के बीच आसानी से बदलें",
+  "safeCallCoachEnd": "सुरक्षित पहुँच गईं? अपनी गार्जियन को धन्यवाद दें और कॉल समाप्त करें",
+  "safeCallNotifyingContacts": "{count, plural, =1{आपके 1 सुरक्षा संपर्क को सूचित करने के लिए संदेश खोला जा रहा है…} other{आपके {count} सुरक्षा संपर्कों को सूचित करने के लिए संदेश खोला जा रहा है…}}",
+  "safeCallAlertMessage": "Kinnav अलर्ट: मैंने सेफ़ कॉल शुरू की है और मुझे मदद की ज़रूरत हो सकती है।{location} कृपया मेरा हाल पूछें।",
+  "safeCallAlertLocation": " मेरी लाइव लोकेशन: https://maps.google.com/?q={lat},{lng}.",
+
+  "safetyContactsTitle": "मेरे सुरक्षा संपर्क",
+  "safetyContactsBlurb": "जब आप सेफ़ कॉल शुरू करती हैं, तो इन भरोसेमंद लोगों को आपकी लाइव लोकेशन भेजी जाती है।",
+  "safetyContactsEmpty": "अभी कोई संपर्क नहीं। किसी को जोड़ने के लिए जोड़ें पर टैप करें।",
+  "safetyContactsAddTitle": "सुरक्षा संपर्क जोड़ें",
+  "safetyContactsName": "नाम",
+  "safetyContactsPhone": "फ़ोन",
+  "safetyContactsAddAction": "संपर्क जोड़ें",
+  "safetyContactsNoNumber": "कोई नंबर नहीं",
+  "safetyContactsRelation": "संपर्क",
+
+  "homeMapCallGuardians": "गार्जियन को कॉल करें",
+
+  "callOptionsTitle": "किसी गार्जियन से जुड़ें",
+  "callOptionsBlurb": "चुनें कि आप कैसे जुड़ना चाहती हैं, फिर नीचे स्लाइड करें।",
+  "callOptionsSlide": "नीचे स्लाइड करें",
+  "callOptionsClose": "बंद करें"
+}

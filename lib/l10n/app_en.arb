@@ -1,0 +1,123 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Kinnav",
+  "@appTitle": {
+    "description": "The app name. A brand name — leave untranslated."
+  },
+
+  "actionCancel": "Cancel",
+  "@actionCancel": { "description": "Dismisses a dialog without acting." },
+  "actionNext": "Next",
+  "@actionNext": { "description": "Advances to the next onboarding slide." },
+  "actionSkip": "Skip",
+  "@actionSkip": { "description": "Skips the onboarding walkthrough." },
+  "actionGetStarted": "Get Started",
+  "@actionGetStarted": { "description": "Finishes onboarding and enters the app." },
+  "actionAdd": "Add",
+  "@actionAdd": { "description": "Button that opens the add-contact sheet." },
+
+  "onboardingWelcomeTitle": "Welcome to Kinnav",
+  "onboardingWelcomeBody": "A new way of women safety and empowerment — help, anywhere, anytime.",
+  "onboardingPressTitle": "Press a button",
+  "onboardingPressBody": "Tap CALL GUARDIANS and choose voice, video, text or emergency to connect.",
+  "onboardingGuardiansTitle": "Guardians stay with you",
+  "onboardingGuardiansBody": "Vetted women nearby talk to you until you feel safe — no time limit, no judgment.",
+  "onboardingRewardsTitle": "Grow & get rewarded",
+  "onboardingRewardsBody": "Self-care modules and wellness rewards to help you flourish beyond safety.",
+  "onboardingDemoMode": "Demo mode (dev) — skip to app",
+  "@onboardingDemoMode": {
+    "description": "Debug-only shortcut into the app. Not shown in release builds."
+  },
+
+  "emergencyConfirmTitle": "Call emergency services ({number})?",
+  "@emergencyConfirmTitle": {
+    "description": "Title of the confirmation dialog shown before dialling emergency services.",
+    "placeholders": {
+      "number": { "type": "String", "example": "911" }
+    }
+  },
+  "emergencyConfirmBody": "This will place a real phone call to emergency services and keep your guardians on the Safe Call.",
+  "emergencyConfirmAction": "Call {number}",
+  "@emergencyConfirmAction": {
+    "description": "Confirm button. Placing the number in the label makes the consequence explicit.",
+    "placeholders": {
+      "number": { "type": "String", "example": "911" }
+    }
+  },
+
+  "safeCallTitle": "Safe Call",
+  "safeCallConnecting": "connecting…",
+  "safeCallConnectingTo": "{count, plural, =1{Connecting you to 1 guardian…} other{Connecting you to {count} guardians…}}",
+  "@safeCallConnectingTo": {
+    "description": "Overlay shown while the call is being set up.",
+    "placeholders": {
+      "count": { "type": "int", "example": "4" }
+    }
+  },
+  "safeCallSimulatedBadge": "DEMO · simulated safe call (no live video)",
+  "@safeCallSimulatedBadge": {
+    "description": "Shown whenever calls are simulated. This disclosure is a safety requirement — never hide or soften it."
+  },
+  "safeCallLiveBadge": "Live safe call",
+  "safeCallAddPolice": "Add police",
+  "safeCallPoliceAdded": "Police added",
+  "@safeCallPoliceAdded": {
+    "description": "Shown only after an emergency call has actually been placed."
+  },
+  "safeCallStartVideo": "Start Video",
+  "safeCallStopVideo": "Stop Video",
+  "safeCallSpeakerOn": "Turn On Speaker",
+  "safeCallSpeakerOff": "Turn Off Speaker",
+  "safeCallMap": "Map",
+  "safeCallVideo": "Video",
+  "safeCallCoachPolice": "Add the police to the call, if needed",
+  "safeCallCoachToggle": "Simply switch between map and video",
+  "safeCallCoachEnd": "Back to safety? Thank your guardians and end the call",
+  "safeCallNotifyingContacts": "{count, plural, =1{Opening a text to notify your 1 safety contact…} other{Opening a text to notify your {count} safety contacts…}}",
+  "@safeCallNotifyingContacts": {
+    "placeholders": {
+      "count": { "type": "int", "example": "2" }
+    }
+  },
+  "safeCallAlertMessage": "Kinnav alert: I've started a Safe Call and may need help.{location} Please check on me.",
+  "@safeCallAlertMessage": {
+    "description": "Body of the SMS sent to safety contacts. {location} is either empty or a leading-space sentence with a map link.",
+    "placeholders": {
+      "location": { "type": "String", "example": " My live location: https://maps.google.com/?q=37.4,-122.1." }
+    }
+  },
+  "safeCallAlertLocation": " My live location: https://maps.google.com/?q={lat},{lng}.",
+  "@safeCallAlertLocation": {
+    "placeholders": {
+      "lat": { "type": "String", "example": "37.3861" },
+      "lng": { "type": "String", "example": "-122.0839" }
+    }
+  },
+
+  "safetyContactsTitle": "My Safety Contacts",
+  "safetyContactsBlurb": "These trusted people are notified with your live location when you start a Safe Call.",
+  "safetyContactsEmpty": "No contacts yet. Tap Add to invite someone.",
+  "safetyContactsAddTitle": "Add safety contact",
+  "safetyContactsName": "Name",
+  "safetyContactsPhone": "Phone",
+  "safetyContactsAddAction": "Add contact",
+  "safetyContactsNoNumber": "No number",
+  "@safetyContactsNoNumber": {
+    "description": "Placeholder shown for a contact saved without a phone number."
+  },
+  "safetyContactsRelation": "Contact",
+  "@safetyContactsRelation": {
+    "description": "Default relationship label for a manually added contact."
+  },
+
+  "homeMapCallGuardians": "CALL GUARDIANS",
+  "@homeMapCallGuardians": {
+    "description": "The primary call-to-action on the map. Onboarding names this button, so the two must be translated consistently. Upper case in English; use whatever emphasis is natural for the language."
+  },
+
+  "callOptionsTitle": "Reach a Guardian",
+  "callOptionsBlurb": "Choose how you want to connect, then slide down.",
+  "callOptionsSlide": "Slide Down",
+  "callOptionsClose": "Close"
+}

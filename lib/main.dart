@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'app_state.dart';
 import 'config/app_config.dart';
+import 'l10n/l10n.dart';
 import 'services/analytics_service.dart';
 import 'services/storage.dart';
 import 'theme/app_theme.dart';
@@ -55,9 +56,15 @@ class KinnavApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Kinnav',
+      onGenerateTitle: (context) => context.l10n.appTitle,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
+      // Follows the device language, falling back to English for anything not
+      // translated. `flutter_localizations` also supplies the translated
+      // Material/Cupertino strings and drives text direction, so Arabic renders
+      // right-to-left without any per-widget work.
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: const RootRouter(),
     );
   }

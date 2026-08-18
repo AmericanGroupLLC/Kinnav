@@ -1,0 +1,22 @@
+# Flutter gen-l10n configuration.
+#
+# Conventions match CalcMaster so the two apps are maintained the same way:
+# ARB files in lib/l10n are the source of truth, and the generated
+# AppLocalizations is written into lib/l10n/generated (checked in, so the code
+# reads without a build step).
+#
+# Adding a language is one file: copy app_en.arb to app_<code>.arb, translate
+# the values, add the code to preferred-supported-locales, and run
+# `flutter gen-l10n`. test/l10n_test.dart fails if a locale is missing a key.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+output-dir: lib/l10n/generated
+preferred-supported-locales:
+  - en
+  - es
+  - zh
+  - hi
+  - fr
+  - ar

@@ -1,0 +1,62 @@
+{
+  "@@locale": "fr",
+
+  "appTitle": "Kinnav",
+
+  "actionCancel": "Annuler",
+  "actionNext": "Suivant",
+  "actionSkip": "Passer",
+  "actionGetStarted": "Commencer",
+  "actionAdd": "Ajouter",
+
+  "onboardingWelcomeTitle": "Bienvenue sur Kinnav",
+  "onboardingWelcomeBody": "Une nouvelle façon d'assurer la sécurité et l'autonomie des femmes : de l'aide, partout et à tout moment.",
+  "onboardingPressTitle": "Appuyez sur un bouton",
+  "onboardingPressBody": "Appuyez sur APPELER DES GARDIENNES et choisissez appel vocal, vidéo, message ou urgence pour vous connecter.",
+  "onboardingGuardiansTitle": "Les gardiennes restent avec vous",
+  "onboardingGuardiansBody": "Des femmes vérifiées près de chez vous vous parlent jusqu'à ce que vous vous sentiez en sécurité : sans limite de temps ni jugement.",
+  "onboardingRewardsTitle": "Progressez et soyez récompensée",
+  "onboardingRewardsBody": "Des modules de bien-être et des récompenses pour vous épanouir au-delà de la sécurité.",
+  "onboardingDemoMode": "Mode démo (dev) — accéder directement à l'app",
+
+  "emergencyConfirmTitle": "Appeler les services d'urgence ({number}) ?",
+  "emergencyConfirmBody": "Un véritable appel téléphonique sera passé aux services d'urgence et vos gardiennes resteront dans l'Appel Sécurisé.",
+  "emergencyConfirmAction": "Appeler le {number}",
+
+  "safeCallTitle": "Appel Sécurisé",
+  "safeCallConnecting": "connexion…",
+  "safeCallConnectingTo": "{count, plural, =1{Connexion avec 1 gardienne…} other{Connexion avec {count} gardiennes…}}",
+  "safeCallSimulatedBadge": "DÉMO · appel sécurisé simulé (pas de vidéo réelle)",
+  "safeCallLiveBadge": "Appel sécurisé en direct",
+  "safeCallAddPolice": "Ajouter la police",
+  "safeCallPoliceAdded": "Police ajoutée",
+  "safeCallStartVideo": "Activer la vidéo",
+  "safeCallStopVideo": "Arrêter la vidéo",
+  "safeCallSpeakerOn": "Activer le haut-parleur",
+  "safeCallSpeakerOff": "Couper le haut-parleur",
+  "safeCallMap": "Carte",
+  "safeCallVideo": "Vidéo",
+  "safeCallCoachPolice": "Ajoutez la police à l'appel si nécessaire",
+  "safeCallCoachToggle": "Basculez simplement entre la carte et la vidéo",
+  "safeCallCoachEnd": "De retour en sécurité ? Remerciez vos gardiennes et terminez l'appel",
+  "safeCallNotifyingContacts": "{count, plural, =1{Ouverture d'un message pour prévenir votre contact de sécurité…} other{Ouverture d'un message pour prévenir vos {count} contacts de sécurité…}}",
+  "safeCallAlertMessage": "Alerte Kinnav : j'ai lancé un Appel Sécurisé et j'ai peut-être besoin d'aide.{location} Merci de prendre de mes nouvelles.",
+  "safeCallAlertLocation": " Ma position en temps réel : https://maps.google.com/?q={lat},{lng}.",
+
+  "safetyContactsTitle": "Mes contacts de sécurité",
+  "safetyContactsBlurb": "Ces personnes de confiance reçoivent votre position en temps réel lorsque vous lancez un Appel Sécurisé.",
+  "safetyContactsEmpty": "Aucun contact pour l'instant. Appuyez sur Ajouter pour inviter quelqu'un.",
+  "safetyContactsAddTitle": "Ajouter un contact de sécurité",
+  "safetyContactsName": "Nom",
+  "safetyContactsPhone": "Téléphone",
+  "safetyContactsAddAction": "Ajouter le contact",
+  "safetyContactsNoNumber": "Pas de numéro",
+  "safetyContactsRelation": "Contact",
+
+  "homeMapCallGuardians": "APPELER DES GARDIENNES",
+
+  "callOptionsTitle": "Contacter une gardienne",
+  "callOptionsBlurb": "Choisissez comment vous connecter, puis faites glisser vers le bas.",
+  "callOptionsSlide": "Faites glisser",
+  "callOptionsClose": "Fermer"
+}

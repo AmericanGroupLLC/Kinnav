@@ -1,0 +1,62 @@
+{
+  "@@locale": "zh",
+
+  "appTitle": "Kinnav",
+
+  "actionCancel": "取消",
+  "actionNext": "下一步",
+  "actionSkip": "跳过",
+  "actionGetStarted": "开始使用",
+  "actionAdd": "添加",
+
+  "onboardingWelcomeTitle": "欢迎使用 Kinnav",
+  "onboardingWelcomeBody": "守护女性安全与力量的全新方式——随时随地获得帮助。",
+  "onboardingPressTitle": "按下按钮",
+  "onboardingPressBody": "点按「呼叫守护者」，然后选择语音、视频、文字或紧急呼叫来建立联系。",
+  "onboardingGuardiansTitle": "守护者会一直陪着你",
+  "onboardingGuardiansBody": "附近经过审核的女性会一直和你通话，直到你感到安全——没有时间限制，也不会评判你。",
+  "onboardingRewardsTitle": "成长并获得奖励",
+  "onboardingRewardsBody": "自我关怀课程与健康奖励，助你在安全之外持续成长。",
+  "onboardingDemoMode": "演示模式（开发）——直接进入应用",
+
+  "emergencyConfirmTitle": "拨打紧急服务电话（{number}）？",
+  "emergencyConfirmBody": "这将向紧急服务拨打真实电话，你的守护者会继续留在安全通话中。",
+  "emergencyConfirmAction": "拨打 {number}",
+
+  "safeCallTitle": "安全通话",
+  "safeCallConnecting": "正在连接…",
+  "safeCallConnectingTo": "{count, plural, other{正在为你连接 {count} 位守护者…}}",
+  "safeCallSimulatedBadge": "演示 · 模拟安全通话（无实时视频）",
+  "safeCallLiveBadge": "实时安全通话",
+  "safeCallAddPolice": "加入警方",
+  "safeCallPoliceAdded": "已加入警方",
+  "safeCallStartVideo": "开启视频",
+  "safeCallStopVideo": "关闭视频",
+  "safeCallSpeakerOn": "打开扬声器",
+  "safeCallSpeakerOff": "关闭扬声器",
+  "safeCallMap": "地图",
+  "safeCallVideo": "视频",
+  "safeCallCoachPolice": "如有需要，可将警方加入通话",
+  "safeCallCoachToggle": "在地图与视频之间轻松切换",
+  "safeCallCoachEnd": "已经安全了吗？感谢你的守护者并结束通话",
+  "safeCallNotifyingContacts": "{count, plural, other{正在打开短信，通知你的 {count} 位安全联系人…}}",
+  "safeCallAlertMessage": "Kinnav 警报：我已发起安全通话，可能需要帮助。{location} 请联系我确认我的情况。",
+  "safeCallAlertLocation": " 我的实时位置：https://maps.google.com/?q={lat},{lng}。",
+
+  "safetyContactsTitle": "我的安全联系人",
+  "safetyContactsBlurb": "当你发起安全通话时，这些信任的人会收到你的实时位置。",
+  "safetyContactsEmpty": "还没有联系人。点按「添加」邀请他人。",
+  "safetyContactsAddTitle": "添加安全联系人",
+  "safetyContactsName": "姓名",
+  "safetyContactsPhone": "电话",
+  "safetyContactsAddAction": "添加联系人",
+  "safetyContactsNoNumber": "无号码",
+  "safetyContactsRelation": "联系人",
+
+  "homeMapCallGuardians": "呼叫守护者",
+
+  "callOptionsTitle": "联系守护者",
+  "callOptionsBlurb": "选择联系方式，然后向下滑动。",
+  "callOptionsSlide": "向下滑动",
+  "callOptionsClose": "关闭"
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../config/app_config.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 import 'links.dart';
 
@@ -8,32 +9,41 @@ import 'links.dart';
 class Emergency {
   Emergency._();
 
-  static Future<void> confirmAndDial(BuildContext context) async {
+  /// Asks for confirmation and dials. Returns true only when the call was
+  /// actually placed.
+  ///
+  /// Callers must not assume a dial happened: this used to return void, so
+  /// `SafeCallScreen` flipped its "Police added" badge on even when the user
+  /// tapped Cancel. Telling someone the police are on a Safe Call when nobody
+  /// was dialled is the worst failure this app can have, so the outcome is now
+  /// reported back.
+  static Future<bool> confirmAndDial(BuildContext context) async {
     final number = AppConfig.emergencyNumber;
+    final strings = context.l10n;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         icon: const Icon(Icons.local_police_outlined,
             color: AppColors.danger, size: 36),
-        title: Text('Call emergency services ($number)?'),
-        content: const Text(
-            'This will place a real phone call to emergency services and keep '
-            'your guardians on the Safe Call.'),
+        title: Text(strings.emergencyConfirmTitle(number)),
+        content: Text(strings.emergencyConfirmBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(strings.actionCancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: AppColors.danger),
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text('Call $number'),
+            child: Text(strings.emergencyConfirmAction(number)),
           ),
         ],
       ),
     );
     if (confirmed == true && context.mounted) {
       await Links.dial(number, context);
+      return true;
     }
+    return false;
   }
 }

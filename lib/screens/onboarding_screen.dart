@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// First-run walkthrough. Completing it sets the onboarded flag and routes on.
@@ -15,32 +16,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _controller = PageController();
   int _page = 0;
 
-  static const _slides = [
-    _Slide(
-      logoAsset: 'assets/logo/kinnav_icon.png',
-      title: 'Welcome to Kinnav',
-      body:
-          'A new way of women safety and empowerment — help, anywhere, anytime.',
-    ),
-    _Slide(
-      icon: Icons.touch_app,
-      title: 'Press a button',
-      body:
-          'Tap CALL GUARDIANS and choose voice, video, text or emergency to connect.',
-    ),
-    _Slide(
-      icon: Icons.diversity_1,
-      title: 'Guardians stay with you',
-      body:
-          'Vetted women nearby talk to you until you feel safe — no time limit, no judgment.',
-    ),
-    _Slide(
-      icon: Icons.volunteer_activism,
-      title: 'Grow & get rewarded',
-      body:
-          'Self-care modules and wellness rewards to help you flourish beyond safety.',
-    ),
-  ];
+  /// Built per-build rather than held in a `const` list: the copy comes from
+  /// the active locale, which can change while the app is running.
+  static List<_Slide> _slidesFor(AppLocalizations s) => [
+        _Slide(
+          logoAsset: 'assets/logo/kinnav_icon.png',
+          title: s.onboardingWelcomeTitle,
+          body: s.onboardingWelcomeBody,
+        ),
+        _Slide(
+          icon: Icons.touch_app,
+          title: s.onboardingPressTitle,
+          body: s.onboardingPressBody,
+        ),
+        _Slide(
+          icon: Icons.diversity_1,
+          title: s.onboardingGuardiansTitle,
+          body: s.onboardingGuardiansBody,
+        ),
+        _Slide(
+          icon: Icons.volunteer_activism,
+          title: s.onboardingRewardsTitle,
+          body: s.onboardingRewardsBody,
+        ),
+      ];
+
+  /// The page count is fixed even though the copy is not.
+  static const _slideCount = 4;
 
   @override
   void dispose() {
@@ -48,7 +50,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
   }
 
-  bool get _isLast => _page == _slides.length - 1;
+  bool get _isLast => _page == _slideCount - 1;
 
   void _next() {
     if (_isLast) {
@@ -61,6 +63,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.l10n;
+    final slides = _slidesFor(strings);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -69,22 +73,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () => appState.completeOnboarding(),
-                child: const Text('Skip',
-                    style: TextStyle(color: AppColors.textMuted)),
+                child: Text(strings.actionSkip,
+                    style: const TextStyle(color: AppColors.textMuted)),
               ),
             ),
             Expanded(
               child: PageView.builder(
                 controller: _controller,
-                itemCount: _slides.length,
+                itemCount: slides.length,
                 onPageChanged: (i) => setState(() => _page = i),
-                itemBuilder: (_, i) => _slides[i],
+                itemBuilder: (_, i) => slides[i],
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                for (int i = 0; i < _slides.length; i++)
+                for (int i = 0; i < slides.length; i++)
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     margin: const EdgeInsets.all(4),
@@ -111,7 +115,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         borderRadius: BorderRadius.circular(30)),
                   ),
                   onPressed: _next,
-                  child: Text(_isLast ? 'Get Started' : 'Next',
+                  child: Text(
+                      _isLast ? strings.actionGetStarted : strings.actionNext,
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.w700)),
                 ),
@@ -128,7 +133,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     foregroundColor: AppColors.primaryDark,
                     side: const BorderSide(color: AppColors.primaryLight),
                   ),
-                  label: const Text('Demo mode (dev) — skip to app'),
+                  label: Text(strings.onboardingDemoMode),
                 ),
               ),
           ],

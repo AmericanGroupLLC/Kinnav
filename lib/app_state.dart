@@ -72,13 +72,26 @@ class AppState extends ChangeNotifier {
   void _load() {
     _onboarded = _storage.getBool(_kOnboarded);
     _signedIn = _storage.getBool(_kSignedIn);
+    // Each stored section is decoded independently and defensively: `_load`
+    // runs before `runApp`, so one malformed record must not stop the app from
+    // launching. A dropped section costs the user that data, not the app.
     final p = _storage.getJson(_kProfile);
-    if (p != null) _profile = UserProfile.fromJson(p);
+    if (p != null) {
+      try {
+        _profile = UserProfile.fromJson(p);
+      } catch (_) {
+        _profile = null;
+      }
+    }
     final c = _storage.getJsonList(_kContacts);
     if (c != null) {
-      _contacts = c
-          .map((e) => SafetyContact.fromJson(e as Map<String, dynamic>))
-          .toList();
+      try {
+        _contacts = c
+            .map((e) => SafetyContact.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } catch (_) {
+        _contacts = _defaultContacts();
+      }
     } else {
       _contacts = _defaultContacts();
     }
@@ -91,9 +104,13 @@ class AppState extends ChangeNotifier {
     );
     final h = _storage.getJsonList(_kCallHistory);
     if (h != null) {
-      _callHistory = h
-          .map((e) => CallRecord.fromJson(e as Map<String, dynamic>))
-          .toList();
+      try {
+        _callHistory = h
+            .map((e) => CallRecord.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } catch (_) {
+        _callHistory = [];
+      }
     }
     _guardianCourseStep = int.tryParse(
             _storage.getString(_kGuardianStep) ?? '') ??
@@ -101,18 +118,15 @@ class AppState extends ChangeNotifier {
     _guardianAvailable = _storage.getBool(_kGuardianAvailable);
   }
 
-  List<SafetyContact> _defaultContacts() => const [
-        SafetyContact(
-            name: 'Mom',
-            phone: '+1 (555) 010-2233',
-            relation: 'Family',
-            colorValue: 0xFFAB47BC),
-        SafetyContact(
-            name: 'Emma',
-            phone: '+1 (555) 887-6655',
-            relation: 'Best friend',
-            colorValue: 0xFF5C6BC0),
-      ];
+  /// New users start with no safety contacts.
+  ///
+  /// This used to seed two fictional ones ("Mom", "Emma") with made-up numbers.
+  /// Starting a Safe Call texts every safety contact the user's **precise live
+  /// location**, so anyone who never edited the list would have broadcast where
+  /// they are to numbers they had never seen — and the app told them it had
+  /// "notified your 2 safety contacts". Better to have none than to have wrong
+  /// ones; the Safety Contacts screen already prompts the user to add their own.
+  List<SafetyContact> _defaultContacts() => const [];
 
   /// Subscribes to Supabase auth events so a dropped/expired/refreshed session
   /// immediately flips routing to match. No-op when Supabase isn't initialized
@@ -264,13 +278,46 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Signs out and clears everything belonging to the person who was signed in.
+  ///
+  /// Only [_onboarded] survives — that describes the device, not the user.
+  /// Previously this flipped [_signedIn] and nothing else, so the profile,
+  /// safety contacts, Safe Call history, rewards and plan all stayed on the
+  /// device. The next person to sign in on that phone skipped profile setup
+  /// (because `hasProfile` was still true), was greeted by the previous user's
+  /// name, and could read their call history. On a shared or resold phone that
+  /// is a straight privacy leak, and the history is exactly the sensitive part.
   Future<void> logOut() async {
-    _signedIn = false;
-    await _storage.setBool(_kSignedIn, false);
     // Clear both the Supabase session and the local (offline) fallback session.
     await SupabaseAuthService.instance.signOut();
     await SecureStore.instance.clear(); // drop any legacy JWTs
+    await _clearUserData();
     notifyListeners();
+  }
+
+  /// Wipes per-user state from memory and storage, keeping device-level flags.
+  Future<void> _clearUserData() async {
+    _signedIn = false;
+    _profile = null;
+    _contacts = _defaultContacts();
+    _redeemedRewards = {};
+    _completedModules = {};
+    _plan = SubscriptionPlan.none;
+    _callHistory = [];
+    _guardianCourseStep = 0;
+    _guardianAvailable = false;
+
+    await Future.wait([
+      _storage.setBool(_kSignedIn, false),
+      _storage.remove(_kProfile),
+      _storage.remove(_kContacts),
+      _storage.remove(_kRedeemed),
+      _storage.remove(_kCompleted),
+      _storage.remove(_kPlan),
+      _storage.remove(_kCallHistory),
+      _storage.remove(_kGuardianStep),
+      _storage.remove(_kGuardianAvailable),
+    ]);
   }
 
   Future<void> deleteAccount() async {

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
+import '../l10n/l10n.dart';
 import '../models/call_record.dart';
 import '../models/call_type.dart';
 import '../models/guardian.dart';
@@ -35,12 +36,16 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
   bool _speakerOn = false;
   bool _policeAdded = false;
 
-  // Guided coach marks shown once during the call.
-  final List<String> _coach = const [
-    'Add the police to the call, if needed',
-    'Simply switch between map and video',
-    'Back to safety? Thank your guardians and end the call',
-  ];
+  // Guided coach marks shown once during the call. Resolved per build so the
+  // copy follows the active locale.
+  List<String> _coachFor(AppLocalizations s) => [
+        s.safeCallCoachPolice,
+        s.safeCallCoachToggle,
+        s.safeCallCoachEnd,
+      ];
+
+  /// How many coach marks there are — fixed, even though the copy is not.
+  static const _coachCount = 3;
   int _coachStep = 0;
   int _startedAtMs = 0;
 
@@ -50,11 +55,23 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
   @override
   void initState() {
     super.initState();
-    // Emergency & video calls begin in video, and emergency auto-adds police.
+    // Emergency & video calls begin in video.
     _videoOn = widget.callType.startsVideo;
     _videoMode = widget.callType.startsVideo;
-    _policeAdded = widget.callType == CallType.emergency;
     _startedAtMs = DateTime.now().millisecondsSinceEpoch;
+
+    // An emergency call must actually dial. This used to just set
+    // `_policeAdded = true`, so picking "Emergency" showed "Police added"
+    // while nobody was ever called — the app claimed help was coming when it
+    // was not. Prompt for the real call instead, and only claim the police
+    // were added once one has been placed.
+    if (widget.callType == CallType.emergency) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (!mounted) return;
+        final dialled = await Emergency.confirmAndDial(context);
+        if (mounted && dialled) setState(() => _policeAdded = true);
+      });
+    }
 
     Future.delayed(_connectDelay, () {
       if (!mounted) return;
@@ -84,23 +101,23 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
     if (numbers.isEmpty) return;
     final n = contacts.length;
 
+    if (!mounted) return;
+    final strings = context.l10n;
+
     String locationLine = '';
     try {
       final pos = await GeoLocationService().current();
-      locationLine =
-          ' My live location: https://maps.google.com/?q=${pos.lat},${pos.lng}.';
+      locationLine = strings.safeCallAlertLocation(
+          pos.lat.toString(), pos.lng.toString());
     } catch (_) {
       // Location unavailable — send the alert without a map link.
     }
-    final body =
-        'Kinnav alert: I\'ve started a Safe Call and may need help.$locationLine '
-        'Please check on me.';
+    final body = strings.safeCallAlertMessage(locationLine);
 
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-            'Opening a text to notify your $n safety contact${n == 1 ? '' : 's'}…'),
+        content: Text(strings.safeCallNotifyingContacts(n)),
         backgroundColor: AppColors.primaryDark,
       ),
     );
@@ -148,7 +165,7 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
           _buildModeToggle(),
           if (_connecting) _buildConnecting(),
           _buildControls(),
-          if (!_connecting && _coachStep < _coach.length) _buildCoach(),
+          if (!_connecting && _coachStep < _coachCount) _buildCoach(),
         ],
       ),
     );
@@ -166,7 +183,7 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Safe Call',
+                    context.l10n.safeCallTitle,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
@@ -177,7 +194,7 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
                     ),
                   ),
                   Text(
-                    _connecting ? 'connecting…' : _clock,
+                    _connecting ? context.l10n.safeCallConnecting : _clock,
                     style: TextStyle(
                       fontSize: 15,
                       color: _videoMode ? Colors.white70 : AppColors.textMuted,
@@ -193,8 +210,8 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
                     ),
                     child: Text(
                       services.callsAreSimulated
-                          ? 'DEMO · simulated safe call (no live video)'
-                          : 'Live safe call',
+                          ? context.l10n.safeCallSimulatedBadge
+                          : context.l10n.safeCallLiveBadge,
                       style: const TextStyle(color: Colors.white, fontSize: 10),
                     ),
                   ),
@@ -203,9 +220,11 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
             ),
             _AddPoliceButton(
               added: _policeAdded,
+              // Only mark the police as added when a call was actually placed.
+              // Cancelling the confirmation used to still flip the badge.
               onTap: () async {
-                await Emergency.confirmAndDial(context);
-                if (mounted) setState(() => _policeAdded = true);
+                final dialled = await Emergency.confirmAndDial(context);
+                if (mounted && dialled) setState(() => _policeAdded = true);
               },
             ),
           ],
@@ -228,7 +247,7 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
           ),
           const SizedBox(height: 20),
           Text(
-            'Connecting you to ${_onCall.length} guardians…',
+            context.l10n.safeCallConnectingTo(_onCall.length),
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ],
@@ -256,7 +275,9 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
                     size: 18, color: AppColors.primaryDark),
                 const SizedBox(width: 6),
                 Text(
-                  _videoMode ? 'Map' : 'Video',
+                  _videoMode
+                      ? context.l10n.safeCallMap
+                      : context.l10n.safeCallVideo,
                   style: const TextStyle(
                     color: AppColors.primaryDark,
                     fontWeight: FontWeight.w600,
@@ -297,7 +318,9 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
             alignment: align,
             child: Padding(
               padding: pad,
-              child: CoachBubble(text: _coach[_coachStep], onDismiss: _nextCoach),
+              child: CoachBubble(
+                  text: _coachFor(context.l10n)[_coachStep],
+                  onDismiss: _nextCoach),
             ),
           ),
         ),
@@ -322,7 +345,9 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
               children: [
                 _CallControl(
                   icon: _videoOn ? Icons.videocam : Icons.videocam_off,
-                  label: _videoOn ? 'Stop Video' : 'Start Video',
+                  label: _videoOn
+                      ? context.l10n.safeCallStopVideo
+                      : context.l10n.safeCallStartVideo,
                   onTap: () => setState(() {
                     _videoOn = !_videoOn;
                     if (_videoOn) _videoMode = true;
@@ -331,7 +356,9 @@ class _SafeCallScreenState extends State<SafeCallScreen> {
                 _HangUpButton(onTap: _hangUp),
                 _CallControl(
                   icon: _speakerOn ? Icons.volume_up : Icons.volume_off,
-                  label: _speakerOn ? 'Turn Off Speaker' : 'Turn On Speaker',
+                  label: _speakerOn
+                      ? context.l10n.safeCallSpeakerOff
+                      : context.l10n.safeCallSpeakerOn,
                   onTap: () => setState(() => _speakerOn = !_speakerOn),
                 ),
               ],
@@ -428,7 +455,9 @@ class _AddPoliceButton extends StatelessWidget {
         ),
         const SizedBox(height: 2),
         Text(
-          added ? 'Police added' : 'Add police',
+          added
+              ? context.l10n.safeCallPoliceAdded
+              : context.l10n.safeCallAddPolice,
           style: const TextStyle(fontSize: 11, color: AppColors.textDark),
         ),
       ],

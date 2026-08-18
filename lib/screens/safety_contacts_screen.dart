@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
+import '../l10n/l10n.dart';
 import '../models/safety_contact.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
@@ -9,6 +10,7 @@ class SafetyContactsScreen extends StatelessWidget {
   const SafetyContactsScreen({super.key});
 
   void _addContact(BuildContext context) {
+    final strings = context.l10n;
     final nameCtrl = TextEditingController();
     final phoneCtrl = TextEditingController();
     showModalBottomSheet(
@@ -28,20 +30,23 @@ class SafetyContactsScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Add safety contact',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+            Text(strings.safetyContactsAddTitle,
+                style: const TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.w700)),
             const SizedBox(height: 16),
             TextField(
               controller: nameCtrl,
-              decoration: const InputDecoration(
-                  labelText: 'Name', border: OutlineInputBorder()),
+              decoration: InputDecoration(
+                  labelText: strings.safetyContactsName,
+                  border: const OutlineInputBorder()),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: phoneCtrl,
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                  labelText: 'Phone', border: OutlineInputBorder()),
+              decoration: InputDecoration(
+                  labelText: strings.safetyContactsPhone,
+                  border: const OutlineInputBorder()),
             ),
             const SizedBox(height: 16),
             SizedBox(
@@ -55,14 +60,14 @@ class SafetyContactsScreen extends StatelessWidget {
                   appState.addContact(SafetyContact(
                     name: name,
                     phone: phoneCtrl.text.trim().isEmpty
-                        ? 'No number'
+                        ? strings.safetyContactsNoNumber
                         : phoneCtrl.text.trim(),
-                    relation: 'Contact',
+                    relation: strings.safetyContactsRelation,
                     colorValue: AppColors.primary.toARGB32(),
                   ));
                   Navigator.of(ctx).pop();
                 },
-                child: const Text('Add contact'),
+                child: Text(strings.safetyContactsAddAction),
               ),
             ),
           ],
@@ -74,12 +79,12 @@ class SafetyContactsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Safety Contacts')),
+      appBar: AppBar(title: Text(context.l10n.safetyContactsTitle)),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: AppColors.primary,
         onPressed: () => _addContact(context),
         icon: const Icon(Icons.person_add_alt),
-        label: const Text('Add'),
+        label: Text(context.l10n.actionAdd),
       ),
       body: ListenableBuilder(
         listenable: appState,
@@ -88,20 +93,19 @@ class SafetyContactsScreen extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 90),
             children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 12),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
                 child: Text(
-                  'These trusted people are notified with your live location '
-                  'when you start a Safe Call.',
-                  style: TextStyle(color: AppColors.textMuted),
+                  context.l10n.safetyContactsBlurb,
+                  style: const TextStyle(color: AppColors.textMuted),
                 ),
               ),
               if (contacts.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.only(top: 40),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40),
                   child: Center(
-                    child: Text('No contacts yet. Tap Add to invite someone.',
-                        style: TextStyle(color: AppColors.textMuted)),
+                    child: Text(context.l10n.safetyContactsEmpty,
+                        style: const TextStyle(color: AppColors.textMuted)),
                   ),
                 ),
               for (int i = 0; i < contacts.length; i++)

@@ -9,6 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # Localisation. `flutter_localizations` supplies the translated Material and
+  # Cupertino widget strings (date pickers, "Cancel", semantics labels); `intl`
+  # backs the generated AppLocalizations and locale-aware formatting.
+  flutter_localizations:
+    sdk: flutter
+  intl: any
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.3.2
   url_launcher: ^6.3.0
@@ -35,5 +41,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  # Runs gen-l10n on build, turning lib/l10n/*.arb into AppLocalizations.
+  generate: true
   assets:
     - assets/logo/
