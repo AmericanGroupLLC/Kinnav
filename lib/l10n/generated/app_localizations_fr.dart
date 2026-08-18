@@ -198,4 +198,299 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get callOptionsClose => 'Fermer';
+
+  @override
+  String get signUpTitle => 'Rejoindre Kinnav';
+
+  @override
+  String get signUpSubtitle =>
+      'Connectez-vous pour joindre les gardiennes près de chez vous.';
+
+  @override
+  String get signUpAgeConfirm => 'Je confirme avoir 18 ans ou plus';
+
+  @override
+  String get signUpLogIn => 'Se connecter';
+
+  @override
+  String get signUpTestAccount => 'Utiliser le compte de test';
+
+  @override
+  String get signUpOr => 'ou';
+
+  @override
+  String get signUpApple => 'Se connecter avec Apple';
+
+  @override
+  String get signUpGoogle => 'Continuer avec Google';
+
+  @override
+  String get signUpLegalNote =>
+      'En continuant, vous acceptez nos Conditions et notre Politique de confidentialité.';
+
+  @override
+  String get drawerVersion => 'Version 1.0.0';
+
+  @override
+  String get profileChooseFromLibrary => 'Choisir dans la galerie';
+
+  @override
+  String get profileTakePhoto => 'Prendre une photo';
+
+  @override
+  String get profileMyProfile => 'Mon profil';
+
+  @override
+  String get profileNoProfile => 'Aucun profil';
+
+  @override
+  String get profileEditAction => 'MODIFIER LE PROFIL';
+
+  @override
+  String get profileDeleteAction => 'SUPPRIMER LE COMPTE';
+
+  @override
+  String get profileDeleteConfirmTitle => 'Supprimer le compte ?';
+
+  @override
+  String get profileDeleteConfirmBody =>
+      'Cela supprime définitivement votre profil et vos données de cet appareil.';
+
+  @override
+  String get profileDelete => 'Supprimer';
+
+  @override
+  String get profileSetupProfile => 'Votre profil';
+
+  @override
+  String get profileSetupTellUsBitAbout => 'Parlez-nous un peu de vous';
+
+  @override
+  String get profileSetupName => 'Nom';
+
+  @override
+  String get profileSetupContinueKinnav => 'Continuer vers Kinnav';
+
+  @override
+  String get profileEditProfileUpdated => 'Profil mis à jour.';
+
+  @override
+  String get profileEditEditProfile => 'Modifier le profil';
+
+  @override
+  String get profileEditMonthYearBirth => 'Mois et année de naissance';
+
+  @override
+  String get profileEditSpokenLanguages => 'Langues parlées';
+
+  @override
+  String get profileEditSaveChanges => 'Enregistrer';
+
+  @override
+  String get chatKinnavSupport => 'Assistance Kinnav';
+
+  @override
+  String get chatReplyTime => 'Répond généralement en moins de 5 min';
+
+  @override
+  String get chatTypeMessage => 'Écrivez un message…';
+
+  @override
+  String get callHistoryTitle => 'Historique des Appels Sécurisés';
+
+  @override
+  String get callHistoryEmpty =>
+      'Aucun Appel Sécurisé pour l\'instant.\nVos appels passés avec des gardiennes apparaîtront ici.';
+
+  @override
+  String get callHistoryPolice => 'Police';
+
+  @override
+  String get modulesSelfCare => 'Bien-être';
+
+  @override
+  String get moduleDetailLessons => 'Leçons';
+
+  @override
+  String get rewardsRewards => 'Récompenses';
+
+  @override
+  String get rewardsGetSafeGetRewarded =>
+      'Mettez-vous en sécurité. Soyez récompensée.';
+
+  @override
+  String get rewardsRedeemed => 'Utilisée';
+
+  @override
+  String get rewardsRedeem => 'Utiliser';
+
+  @override
+  String get guardiansGuardians => 'Gardiennes';
+
+  @override
+  String get guardiansNearYou => 'Gardiennes près de vous';
+
+  @override
+  String get guardiansBecomeGuardian => 'Devenir gardienne';
+
+  @override
+  String get guardiansVerifiedGuardian => 'Vous êtes une gardienne vérifiée';
+
+  @override
+  String get guardiansAvailableHelp => 'Disponible pour aider';
+
+  @override
+  String get guardiansCalls => 'Appels';
+
+  @override
+  String get guardiansHours => 'Heures';
+
+  @override
+  String get guardiansEarnings => 'Revenus';
+
+  @override
+  String get guardiansPayoutNote =>
+      'Les paiements des gardiennes sont traités chaque mois (Phase 6 — paiements).';
+
+  @override
+  String get courseGuardianCourse => 'Formation de gardienne';
+
+  @override
+  String get courseVerifiedGuardian => 'Gardienne vérifiée';
+
+  @override
+  String get subscriptionActivated => 'Abonnement actif. Bienvenue ! 💜';
+
+  @override
+  String get subscriptionNoPreviousPurchasesFound =>
+      'Aucun achat précédent trouvé.';
+
+  @override
+  String get subscriptionKinnavMembership => 'Abonnement Kinnav';
+
+  @override
+  String get subscriptionJoinKinnavCommunity =>
+      'Rejoignez la communauté Kinnav';
+
+  @override
+  String get subscriptionRestorePurchases => 'Restaurer les achats';
+
+  @override
+  String get subscriptionCancelMembership => 'Résilier l\'abonnement';
+
+  @override
+  String get subscriptionActive => 'ACTIF';
+
+  @override
+  String get feedbackAddRatingNoteFirst =>
+      'Ajoutez d\'abord une note ou un commentaire.';
+
+  @override
+  String get feedbackEmailOpened =>
+      'Votre application e-mail est ouverte — appuyez sur envoyer et nous le recevrons.';
+
+  @override
+  String get feedbackFeedback => 'Commentaires';
+
+  @override
+  String get feedbackHowKinnavExperience =>
+      'Comment se passe votre expérience Kinnav ?';
+
+  @override
+  String get feedbackHint =>
+      'Dites-nous ce que vous aimez ou ce que nous pouvons améliorer…';
+
+  @override
+  String get feedbackSendFeedback => 'Envoyer';
+
+  @override
+  String get howToHowUseKinnav => 'Comment utiliser Kinnav';
+
+  @override
+  String get aboutAboutUs => 'À propos';
+
+  @override
+  String get aboutSubtitle =>
+      'Une nouvelle façon d\'assurer la sécurité et l\'autonomie des femmes.';
+
+  @override
+  String get aboutSpreadingWord => 'Faites passer le mot';
+
+  @override
+  String get aboutLegal => 'Mentions légales';
+
+  @override
+  String get aboutTagline =>
+      'Il est plus facile d\'aller de l\'avant quand on n\'a pas à surveiller ses arrières.';
+
+  @override
+  String get aboutTeam => 'Notre équipe';
+
+  @override
+  String get aboutShivaniFounderSurvivor =>
+      'Shivani — Fondatrice et survivante';
+
+  @override
+  String get aboutVishalFullStackEngineer => 'Vishal — Ingénieur full stack';
+
+  @override
+  String get aboutVanshikaMarketingDigitalNative =>
+      'Vanshika — Marketing et native du numérique';
+
+  @override
+  String get legalLastUpdated => 'Dernière mise à jour : 2026';
+
+  @override
+  String get coachDismissTip => 'Masquer l\'astuce';
+
+  @override
+  String get guardiansBecomeBlurb =>
+      'Des femmes vérifiées de 18 ans et plus suivent une formation d\'accompagnement de 40 heures, dispensée à distance par des associations locales. Elles parlent aux femmes qui en ont besoin jusqu\'à ce qu\'elles se sentent en sécurité : sans limite de temps ni jugement. Les gardiennes sont rémunérées.';
+
+  @override
+  String get subscriptionBlurb =>
+      'Appels Sécurisés illimités, modules de bien-être et récompenses exclusives.';
+
+  @override
+  String get subscriptionDemoNotice =>
+      'Mode démo — achat simulé uniquement. Aucun paiement réel n\'est effectué et aucune facturation App Store ou Play n\'est utilisée.';
+
+  @override
+  String get aboutMission =>
+      'Kinnav aide les femmes en situation de danger, partout et à tout moment, en les mettant en relation avec des gardiennes vérifiées dans un rayon de 16 km, et en bâtissant une communauté où toutes les femmes peuvent s\'épanouir librement.';
+
+  @override
+  String get aboutSpreadingBlurb =>
+      'Des questions, des suggestions, ou simplement envie de faire connaître Kinnav à vos proches ? Suivez-nous et partagez :';
+
+  @override
+  String get drawerKinnavMember => 'Membre Kinnav';
+
+  @override
+  String get drawerGuardian => 'Gardienne';
+
+  @override
+  String get drawerCommunityMember => 'Membre de la communauté';
+
+  @override
+  String get drawerInviteFriend => 'Inviter une amie';
+
+  @override
+  String get drawerInviteBody =>
+      'Rejoins-moi sur Kinnav, une application de sécurité pour les femmes. https://kinnav.com';
+
+  @override
+  String get drawerSelfCare => 'Bien-être et autonomie';
+
+  @override
+  String get drawerMembership => 'Abonnement';
+
+  @override
+  String get drawerContactUs => 'Nous contacter';
+
+  @override
+  String get drawerContactSubject => 'Demande concernant l\'application Kinnav';
+
+  @override
+  String get drawerLogOut => 'Se déconnecter';
 }

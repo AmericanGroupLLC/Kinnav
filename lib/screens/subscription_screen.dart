@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../services/purchase_service.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// Subscription plans ($3.99/mo, $39.99/yr). UI + local state only — real IAP
@@ -32,8 +33,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       await appState.setPlan(_selected);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Membership active. Welcome! 💜'),
+        SnackBar(
+            content: Text(context.l10n.subscriptionActivated),
             backgroundColor: AppColors.primaryDark),
       );
     }
@@ -46,7 +47,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       await appState.setPlan(plan);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No previous purchases found.')),
+        SnackBar(content: Text(context.l10n.subscriptionNoPreviousPurchasesFound)),
       );
     }
   }
@@ -54,7 +55,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Kinnav Membership')),
+      appBar: AppBar(title: Text(context.l10n.subscriptionKinnavMembership)),
       body: ListenableBuilder(
         listenable: appState,
         builder: (context, _) {
@@ -64,13 +65,12 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             children: [
               const _DemoBanner(),
               const SizedBox(height: 12),
-              const Text('Join the Kinnav community',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
+              Text(context.l10n.subscriptionJoinKinnavCommunity,
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700)),
               const SizedBox(height: 6),
-              const Text(
-                'Unlimited Safe Calls, self-care modules and exclusive wellness '
-                'rewards.',
-                style: TextStyle(color: AppColors.textMuted),
+              Text(
+                context.l10n.subscriptionBlurb,
+                style: const TextStyle(color: AppColors.textMuted),
               ),
               const SizedBox(height: 20),
               _PlanCard(
@@ -118,16 +118,16 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               Center(
                 child: TextButton(
                   onPressed: _restore,
-                  child: const Text('Restore purchases',
-                      style: TextStyle(color: AppColors.textMuted)),
+                  child: Text(context.l10n.subscriptionRestorePurchases,
+                      style: const TextStyle(color: AppColors.textMuted)),
                 ),
               ),
               if (active != SubscriptionPlan.none)
                 Center(
                   child: TextButton(
                     onPressed: () => appState.setPlan(SubscriptionPlan.none),
-                    child: const Text('Cancel membership',
-                        style: TextStyle(color: AppColors.textMuted)),
+                    child: Text(context.l10n.subscriptionCancelMembership,
+                        style: const TextStyle(color: AppColors.textMuted)),
                   ),
                 ),
             ],
@@ -174,15 +174,14 @@ class _DemoBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: AppColors.primaryLight),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(Icons.info_outline, size: 20, color: AppColors.primaryDark),
-          SizedBox(width: 10),
+          const Icon(Icons.info_outline, size: 20, color: AppColors.primaryDark),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Demo mode — simulated purchase only. No real charge is made and '
-              'no App Store / Play billing is used.',
-              style: TextStyle(fontSize: 13, color: AppColors.primaryDark),
+              context.l10n.subscriptionDemoNotice,
+              style: const TextStyle(fontSize: 13, color: AppColors.primaryDark),
             ),
           ),
         ],
@@ -250,8 +249,8 @@ class _PlanCard extends StatelessWidget {
                             color: AppColors.online,
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: const Text('ACTIVE',
-                              style: TextStyle(
+                          child: Text(context.l10n.subscriptionActive,
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 10,
                                   fontWeight: FontWeight.w700)),

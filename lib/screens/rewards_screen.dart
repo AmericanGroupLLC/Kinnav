@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../models/content.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// Wellness & lifestyle rewards; redemptions persist via [AppState].
@@ -10,7 +11,7 @@ class RewardsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Rewards')),
+      appBar: AppBar(title: Text(context.l10n.rewardsRewards)),
       body: ListenableBuilder(
         listenable: appState,
         builder: (context, _) {
@@ -33,8 +34,8 @@ class RewardsScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Get safe. Get rewarded.',
-                              style: TextStyle(
+                          Text(context.l10n.rewardsGetSafeGetRewarded,
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700)),
@@ -111,16 +112,16 @@ class _RewardTile extends StatelessWidget {
               ),
             ),
             redeemed
-                ? const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.check_circle,
+                        const Icon(Icons.check_circle,
                             color: AppColors.online, size: 20),
-                        SizedBox(width: 4),
-                        Text('Redeemed',
-                            style: TextStyle(
+                        const SizedBox(width: 4),
+                        Text(context.l10n.rewardsRedeemed,
+                            style: const TextStyle(
                                 color: AppColors.online,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12)),
@@ -134,8 +135,8 @@ class _RewardTile extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                     ),
-                    child: const Text('Redeem',
-                        style: TextStyle(
+                    child: Text(context.l10n.rewardsRedeem,
+                        style: const TextStyle(
                             color: AppColors.primaryDark,
                             fontWeight: FontWeight.w600)),
                   ),

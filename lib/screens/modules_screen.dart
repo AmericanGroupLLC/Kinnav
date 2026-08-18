@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../models/content.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 import 'module_detail_screen.dart';
 
@@ -11,7 +12,7 @@ class ModulesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Self Care')),
+      appBar: AppBar(title: Text(context.l10n.modulesSelfCare)),
       body: ListenableBuilder(
         listenable: appState,
         builder: (context, _) {

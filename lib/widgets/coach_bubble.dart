@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// A rounded, purple-outlined speech bubble used for the in-app coach marks /
@@ -42,7 +43,7 @@ class CoachBubble extends StatelessWidget {
             // by a screen reader.
             Semantics(
               button: true,
-              label: 'Dismiss tip',
+              label: context.l10n.coachDismissTip,
               child: InkWell(
                 onTap: onDismiss,
                 customBorder: const CircleBorder(),

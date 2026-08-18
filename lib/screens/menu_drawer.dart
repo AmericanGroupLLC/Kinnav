@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../config/app_config.dart';
 import '../services/links.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import 'profile_screen.dart';
@@ -53,10 +54,10 @@ class MenuDrawer extends StatelessWidget {
                                     ?.copyWith(fontWeight: FontWeight.w700)),
                             Text(
                               appState.isSubscribed
-                                  ? 'Kinnav member'
+                                  ? context.l10n.drawerKinnavMember
                                   : (p?.isGuardian == true
-                                      ? 'Guardian'
-                                      : 'Community Member'),
+                                      ? context.l10n.drawerGuardian
+                                      : context.l10n.drawerCommunityMember),
                               style: const TextStyle(color: AppColors.textMuted),
                             ),
                           ],
@@ -70,37 +71,37 @@ class MenuDrawer extends StatelessWidget {
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      _item(context, Icons.person_add_alt, 'Invite a Friend',
+                      _item(context, Icons.person_add_alt, context.l10n.drawerInviteFriend,
                           onTap: () => Links.sms('', context,
                               body:
-                                  'Join me on Kinnav — a women\'s safety app. https://kinnav.com')),
-                      _item(context, Icons.shield_outlined, 'Become a Guardian',
+                                  context.l10n.drawerInviteBody)),
+                      _item(context, Icons.shield_outlined, context.l10n.guardiansBecomeGuardian,
                           page: const GuardiansScreen()),
                       const Divider(),
-                      _item(context, Icons.person_outline, 'My Profile',
+                      _item(context, Icons.person_outline, context.l10n.profileMyProfile,
                           page: const ProfileScreen()),
-                      _item(context, Icons.group_outlined, 'My Safety Contacts',
+                      _item(context, Icons.group_outlined, context.l10n.safetyContactsTitle,
                           page: const SafetyContactsScreen()),
-                      _item(context, Icons.history, 'Safe Call History',
+                      _item(context, Icons.history, context.l10n.callHistoryTitle,
                           page: const CallHistoryScreen()),
                       _item(context, Icons.school_outlined,
-                          'Self Care & Empowerment',
+                          context.l10n.drawerSelfCare,
                           page: const ModulesScreen()),
-                      _item(context, Icons.card_giftcard, 'Rewards',
+                      _item(context, Icons.card_giftcard, context.l10n.rewardsRewards,
                           page: const RewardsScreen()),
                       _item(context, Icons.workspace_premium_outlined,
-                          'Membership',
+                          context.l10n.drawerMembership,
                           page: const SubscriptionScreen()),
                       const Divider(),
-                      _item(context, Icons.help_outline, 'How to use Kinnav',
+                      _item(context, Icons.help_outline, context.l10n.howToHowUseKinnav,
                           page: const HowToUseScreen()),
-                      _item(context, Icons.mail_outline, 'Contact Us',
+                      _item(context, Icons.mail_outline, context.l10n.drawerContactUs,
                           onTap: () => Links.email(AppConfig.supportEmail,
                               context,
-                              subject: 'Kinnav app enquiry')),
-                      _item(context, Icons.edit_outlined, 'Feedback',
+                              subject: context.l10n.drawerContactSubject)),
+                      _item(context, Icons.edit_outlined, context.l10n.feedbackFeedback,
                           page: const FeedbackScreen()),
-                      _item(context, Icons.info_outline, 'About Us',
+                      _item(context, Icons.info_outline, context.l10n.aboutAboutUs,
                           page: const AboutScreen()),
                     ],
                   ),
@@ -110,16 +111,16 @@ class MenuDrawer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: _item(context, Icons.logout, 'Log out',
+                      child: _item(context, Icons.logout, context.l10n.drawerLogOut,
                           color: AppColors.primaryDark, onTap: () {
                         Navigator.of(context).popUntil((r) => r.isFirst);
                         appState.logOut();
                       }),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(right: 16),
-                      child: Text('Version 1.0.0',
-                          style: TextStyle(
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: Text(context.l10n.drawerVersion,
+                          style: const TextStyle(
                               color: AppColors.textMuted, fontSize: 12)),
                     ),
                   ],

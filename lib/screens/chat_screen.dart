@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/guardian.dart';
 import '../services/services.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 
@@ -107,11 +108,11 @@ class _Header extends StatelessWidget {
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () => Navigator.of(context).maybePop(),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Kinnav Support',
+                      context.l10n.chatKinnavSupport,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.w600),
@@ -144,8 +145,8 @@ class _Header extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              const Text('Typically replies in under 5m',
-                  style: TextStyle(color: Colors.white70)),
+              Text(context.l10n.chatReplyTime,
+                  style: const TextStyle(color: Colors.white70)),
             ],
           ),
         ),
@@ -202,7 +203,7 @@ class _Composer extends StatelessWidget {
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => onSend(),
                 decoration: InputDecoration(
-                  hintText: 'Type a message…',
+                  hintText: context.l10n.chatTypeMessage,
                   filled: true,
                   fillColor: AppColors.lavenderBg,
                   contentPadding: const EdgeInsets.symmetric(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../config/app_config.dart';
 import '../services/links.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 import 'legal_screen.dart';
 
@@ -12,23 +13,21 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('About Us')),
+      appBar: AppBar(title: Text(context.l10n.aboutAboutUs)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
         children: [
-          const Text(
-            'A new way of women safety and empowerment.',
-            style: TextStyle(
+          Text(
+            context.l10n.aboutSubtitle,
+            style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primaryDark),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Kinnav helps women in unsafe situations, anywhere, anytime — '
-            'connecting them to vetted guardians within a 10-mile radius, '
-            'and building a community where all women feel free to flourish.',
-            style: TextStyle(fontSize: 15, height: 1.5),
+          Text(
+            context.l10n.aboutMission,
+            style: const TextStyle(fontSize: 15, height: 1.5),
           ),
           const SizedBox(height: 24),
           const _Section(
@@ -61,13 +60,12 @@ class AboutScreen extends StatelessWidget {
           ),
           const _Team(),
           const SizedBox(height: 20),
-          const Text('Spreading the word',
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+          Text(context.l10n.aboutSpreadingWord,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
           const SizedBox(height: 8),
-          const Text(
-            'Have questions, suggestions, or just want to let friends and family '
-            'know we exist? Follow and share us:',
-            style: TextStyle(fontSize: 15, height: 1.5),
+          Text(
+            context.l10n.aboutSpreadingBlurb,
+            style: const TextStyle(fontSize: 15, height: 1.5),
           ),
           const SizedBox(height: 12),
           // Instagram, Facebook and Twitter rows lived here advertising
@@ -81,8 +79,8 @@ class AboutScreen extends StatelessWidget {
           _social(context, Icons.mail_outline, 'Email', AppConfig.supportEmail,
               'mailto:${AppConfig.supportEmail}'),
           const SizedBox(height: 20),
-          const Text('Legal',
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
+          Text(context.l10n.aboutLegal,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
           const SizedBox(height: 4),
           _link(context, 'Legal Terms', LegalScreen.terms()),
           _link(context, 'Privacy Policy', LegalScreen.privacy()),
@@ -93,9 +91,9 @@ class AboutScreen extends StatelessWidget {
               gradient: AppColors.primaryGradient,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Text(
-              'It\'s easier to look forward when you don\'t have to watch your back.',
-              style: TextStyle(
+            child: Text(
+              context.l10n.aboutTagline,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -181,15 +179,15 @@ class _Team extends StatelessWidget {
         color: AppColors.lavenderCard,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Our Team',
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
-          SizedBox(height: 8),
-          Text('Shivani — Founder & Survivor'),
-          Text('Vishal — Full Stack Engineer'),
-          Text('Vanshika — Marketing & Digital Native'),
+          Text(context.l10n.aboutTeam,
+              style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+          const SizedBox(height: 8),
+          Text(context.l10n.aboutShivaniFounderSurvivor),
+          Text(context.l10n.aboutVishalFullStackEngineer),
+          Text(context.l10n.aboutVanshikaMarketingDigitalNative),
         ],
       ),
     );

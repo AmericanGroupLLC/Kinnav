@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../config/app_config.dart';
 import '../services/links.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// Renders Legal Terms or Privacy Policy as a plain-language summary.
@@ -148,8 +149,8 @@ class LegalScreen extends StatelessWidget {
             label: Text('Read the full $title on kinnav.com'),
           ),
           const SizedBox(height: 16),
-          const Text('Last updated: 2026',
-              style: TextStyle(color: AppColors.textMuted, fontSize: 12)),
+          Text(context.l10n.legalLastUpdated,
+              style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
         ],
       ),
     );

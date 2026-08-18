@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../models/guardian.dart';
 import '../services/services.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import 'guardian_course_screen.dart';
@@ -14,7 +15,7 @@ class GuardiansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Guardians')),
+      appBar: AppBar(title: Text(context.l10n.guardiansGuardians)),
       body: ListenableBuilder(
         listenable: appState,
         builder: (context, _) {
@@ -24,8 +25,8 @@ class GuardiansScreen extends StatelessWidget {
             children: [
               verified ? _dashboard(context) : _becomeCard(context),
               const SizedBox(height: 22),
-              const Text('Guardians near you',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+              Text(context.l10n.guardiansNearYou,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
               for (final g in services.guardians.all()) _GuardianTile(guardian: g),
             ],
@@ -46,17 +47,15 @@ class GuardiansScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Become a Guardian',
-              style: TextStyle(
+          Text(context.l10n.guardiansBecomeGuardian,
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   fontWeight: FontWeight.w700)),
           const SizedBox(height: 6),
-          const Text(
-            'Vetted women 18+ complete a 40-hour advocacy course, trained '
-            'virtually by local non-profits. Speak to women in need until they '
-            'feel safe — no time limit, no judgment. Guardians get paid.',
-            style: TextStyle(color: Colors.white),
+          Text(
+            context.l10n.guardiansBecomeBlurb,
+            style: const TextStyle(color: Colors.white),
           ),
           const SizedBox(height: 16),
           SizedBox(
@@ -94,12 +93,12 @@ class GuardiansScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.verified, color: AppColors.online),
-              SizedBox(width: 8),
-              Text('You are a verified Guardian',
-                  style: TextStyle(
+              const Icon(Icons.verified, color: AppColors.online),
+              const SizedBox(width: 8),
+              Text(context.l10n.guardiansVerifiedGuardian,
+                  style: const TextStyle(
                       fontSize: 17, fontWeight: FontWeight.w700)),
             ],
           ),
@@ -109,24 +108,24 @@ class GuardiansScreen extends StatelessWidget {
             activeThumbColor: AppColors.primary,
             value: appState.guardianAvailable,
             onChanged: (v) => appState.setGuardianAvailable(v),
-            title: const Text('Available to help'),
+            title: Text(context.l10n.guardiansAvailableHelp),
             subtitle: Text(appState.guardianAvailable
                 ? 'You may receive Safe Call requests'
                 : 'You are offline'),
           ),
           const Divider(),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _Stat(label: 'Calls', value: '0'),
-              _Stat(label: 'Hours', value: '0'),
-              _Stat(label: 'Earnings', value: '\$0'),
+              _Stat(label: context.l10n.guardiansCalls, value: '0'),
+              _Stat(label: context.l10n.guardiansHours, value: '0'),
+              _Stat(label: context.l10n.guardiansEarnings, value: '\$0'),
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Guardian payouts are processed monthly (Phase 6 — payments).',
-            style: TextStyle(color: AppColors.textMuted, fontSize: 12),
+          Text(
+            context.l10n.guardiansPayoutNote,
+            style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
           ),
         ],
       ),

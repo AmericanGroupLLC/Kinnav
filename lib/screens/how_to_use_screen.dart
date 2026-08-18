@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// A simple, swipeable "How to use Kinnav" walkthrough mirroring the reference
@@ -52,7 +53,7 @@ class _HowToUseScreenState extends State<HowToUseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('How to use Kinnav')),
+      appBar: AppBar(title: Text(context.l10n.howToHowUseKinnav)),
       body: Column(
         children: [
           Expanded(

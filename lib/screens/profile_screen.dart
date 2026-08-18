@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../app_state.dart';
 import '../models/user_profile.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 import '../widgets/avatar.dart';
 import 'profile_edit_screen.dart';
@@ -32,12 +33,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             ListTile(
               leading: const Icon(Icons.photo_library_outlined),
-              title: const Text('Choose from library'),
+              title: Text(context.l10n.profileChooseFromLibrary),
               onTap: () => Navigator.pop(ctx, ImageSource.gallery),
             ),
             ListTile(
               leading: const Icon(Icons.photo_camera_outlined),
-              title: const Text('Take a photo'),
+              title: Text(context.l10n.profileTakePhoto),
               onTap: () => Navigator.pop(ctx, ImageSource.camera),
             ),
           ],
@@ -70,13 +71,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My Profile')),
+      appBar: AppBar(title: Text(context.l10n.profileMyProfile)),
       body: ListenableBuilder(
         listenable: appState,
         builder: (context, _) {
           final UserProfile? p = appState.profile;
           if (p == null) {
-            return const Center(child: Text('No profile'));
+            return Center(child: Text(context.l10n.profileNoProfile));
           }
           return ListView(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -139,8 +140,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     MaterialPageRoute(
                         builder: (_) => const ProfileEditScreen()),
                   ),
-                  child: const Text('EDIT PROFILE',
-                      style: TextStyle(
+                  child: Text(context.l10n.profileEditAction,
+                      style: const TextStyle(
                           color: AppColors.textDark,
                           fontWeight: FontWeight.w700)),
                 ),
@@ -148,8 +149,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Center(
                 child: TextButton(
                   onPressed: () => _confirmDelete(context),
-                  child: const Text('DELETE ACCOUNT',
-                      style: TextStyle(
+                  child: Text(context.l10n.profileDeleteAction,
+                      style: const TextStyle(
                           color: AppColors.danger,
                           fontWeight: FontWeight.w700)),
                 ),
@@ -165,13 +166,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete account?'),
-        content: const Text(
-            'This permanently removes your profile and data from this device.'),
+        title: Text(context.l10n.profileDeleteConfirmTitle),
+        content: Text(
+            context.l10n.profileDeleteConfirmBody),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel')),
+              child: Text(context.l10n.actionCancel)),
           TextButton(
             onPressed: () {
               Navigator.pop(ctx);
@@ -179,8 +180,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.of(context).popUntil((r) => r.isFirst);
               appState.deleteAccount();
             },
-            child: const Text('Delete',
-                style: TextStyle(color: AppColors.danger)),
+            child: Text(context.l10n.profileDelete,
+                style: const TextStyle(color: AppColors.danger)),
           ),
         ],
       ),

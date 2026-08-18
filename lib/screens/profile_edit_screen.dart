@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../models/user_profile.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// Edit the member's profile (name, birth month/year, identity, languages) and
@@ -72,8 +73,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     );
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-          content: Text('Profile updated.'),
+      SnackBar(
+          content: Text(context.l10n.profileEditProfileUpdated),
           backgroundColor: AppColors.primaryDark),
     );
     Navigator.of(context).pop();
@@ -83,7 +84,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   Widget build(BuildContext context) {
     final years = [for (int y = 2010; y >= 1940; y--) y];
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Profile')),
+      appBar: AppBar(title: Text(context.l10n.profileEditEditProfile)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
         children: [
@@ -93,8 +94,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             decoration: _dec('Name'),
           ),
           const SizedBox(height: 16),
-          const Text('Month and year of birth',
-              style: TextStyle(color: AppColors.textMuted)),
+          Text(context.l10n.profileEditMonthYearBirth,
+              style: const TextStyle(color: AppColors.textMuted)),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -135,8 +136,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             onChanged: (v) => setState(() => _identity = v ?? _identity),
           ),
           const SizedBox(height: 16),
-          const Text('Spoken languages',
-              style: TextStyle(color: AppColors.textMuted)),
+          Text(context.l10n.profileEditSpokenLanguages,
+              style: const TextStyle(color: AppColors.textMuted)),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -171,8 +172,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             ),
             onPressed: _save,
-            child: const Text('Save changes',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+            child: Text(context.l10n.profileEditSaveChanges,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
           ),
         ],
       ),

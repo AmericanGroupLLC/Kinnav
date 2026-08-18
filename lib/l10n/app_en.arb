@@ -1,22 +1,11 @@
 {
   "@@locale": "en",
-
   "appTitle": "Kinnav",
-  "@appTitle": {
-    "description": "The app name. A brand name — leave untranslated."
-  },
-
   "actionCancel": "Cancel",
-  "@actionCancel": { "description": "Dismisses a dialog without acting." },
   "actionNext": "Next",
-  "@actionNext": { "description": "Advances to the next onboarding slide." },
   "actionSkip": "Skip",
-  "@actionSkip": { "description": "Skips the onboarding walkthrough." },
   "actionGetStarted": "Get Started",
-  "@actionGetStarted": { "description": "Finishes onboarding and enters the app." },
   "actionAdd": "Add",
-  "@actionAdd": { "description": "Button that opens the add-contact sheet." },
-
   "onboardingWelcomeTitle": "Welcome to Kinnav",
   "onboardingWelcomeBody": "A new way of women safety and empowerment — help, anywhere, anytime.",
   "onboardingPressTitle": "Press a button",
@@ -26,45 +15,16 @@
   "onboardingRewardsTitle": "Grow & get rewarded",
   "onboardingRewardsBody": "Self-care modules and wellness rewards to help you flourish beyond safety.",
   "onboardingDemoMode": "Demo mode (dev) — skip to app",
-  "@onboardingDemoMode": {
-    "description": "Debug-only shortcut into the app. Not shown in release builds."
-  },
-
   "emergencyConfirmTitle": "Call emergency services ({number})?",
-  "@emergencyConfirmTitle": {
-    "description": "Title of the confirmation dialog shown before dialling emergency services.",
-    "placeholders": {
-      "number": { "type": "String", "example": "911" }
-    }
-  },
   "emergencyConfirmBody": "This will place a real phone call to emergency services and keep your guardians on the Safe Call.",
   "emergencyConfirmAction": "Call {number}",
-  "@emergencyConfirmAction": {
-    "description": "Confirm button. Placing the number in the label makes the consequence explicit.",
-    "placeholders": {
-      "number": { "type": "String", "example": "911" }
-    }
-  },
-
   "safeCallTitle": "Safe Call",
   "safeCallConnecting": "connecting…",
   "safeCallConnectingTo": "{count, plural, =1{Connecting you to 1 guardian…} other{Connecting you to {count} guardians…}}",
-  "@safeCallConnectingTo": {
-    "description": "Overlay shown while the call is being set up.",
-    "placeholders": {
-      "count": { "type": "int", "example": "4" }
-    }
-  },
   "safeCallSimulatedBadge": "DEMO · simulated safe call (no live video)",
-  "@safeCallSimulatedBadge": {
-    "description": "Shown whenever calls are simulated. This disclosure is a safety requirement — never hide or soften it."
-  },
   "safeCallLiveBadge": "Live safe call",
   "safeCallAddPolice": "Add police",
   "safeCallPoliceAdded": "Police added",
-  "@safeCallPoliceAdded": {
-    "description": "Shown only after an emergency call has actually been placed."
-  },
   "safeCallStartVideo": "Start Video",
   "safeCallStopVideo": "Stop Video",
   "safeCallSpeakerOn": "Turn On Speaker",
@@ -75,26 +35,8 @@
   "safeCallCoachToggle": "Simply switch between map and video",
   "safeCallCoachEnd": "Back to safety? Thank your guardians and end the call",
   "safeCallNotifyingContacts": "{count, plural, =1{Opening a text to notify your 1 safety contact…} other{Opening a text to notify your {count} safety contacts…}}",
-  "@safeCallNotifyingContacts": {
-    "placeholders": {
-      "count": { "type": "int", "example": "2" }
-    }
-  },
   "safeCallAlertMessage": "Kinnav alert: I've started a Safe Call and may need help.{location} Please check on me.",
-  "@safeCallAlertMessage": {
-    "description": "Body of the SMS sent to safety contacts. {location} is either empty or a leading-space sentence with a map link.",
-    "placeholders": {
-      "location": { "type": "String", "example": " My live location: https://maps.google.com/?q=37.4,-122.1." }
-    }
-  },
   "safeCallAlertLocation": " My live location: https://maps.google.com/?q={lat},{lng}.",
-  "@safeCallAlertLocation": {
-    "placeholders": {
-      "lat": { "type": "String", "example": "37.3861" },
-      "lng": { "type": "String", "example": "-122.0839" }
-    }
-  },
-
   "safetyContactsTitle": "My Safety Contacts",
   "safetyContactsBlurb": "These trusted people are notified with your live location when you start a Safe Call.",
   "safetyContactsEmpty": "No contacts yet. Tap Add to invite someone.",
@@ -103,21 +45,199 @@
   "safetyContactsPhone": "Phone",
   "safetyContactsAddAction": "Add contact",
   "safetyContactsNoNumber": "No number",
-  "@safetyContactsNoNumber": {
-    "description": "Placeholder shown for a contact saved without a phone number."
-  },
   "safetyContactsRelation": "Contact",
-  "@safetyContactsRelation": {
-    "description": "Default relationship label for a manually added contact."
-  },
-
   "homeMapCallGuardians": "CALL GUARDIANS",
-  "@homeMapCallGuardians": {
-    "description": "The primary call-to-action on the map. Onboarding names this button, so the two must be translated consistently. Upper case in English; use whatever emphasis is natural for the language."
-  },
-
   "callOptionsTitle": "Reach a Guardian",
   "callOptionsBlurb": "Choose how you want to connect, then slide down.",
   "callOptionsSlide": "Slide Down",
-  "callOptionsClose": "Close"
+  "callOptionsClose": "Close",
+  "@appTitle": {
+    "description": "The app name. A brand name — leave untranslated."
+  },
+  "@actionCancel": {
+    "description": "Dismisses a dialog without acting."
+  },
+  "@actionNext": {
+    "description": "Advances to the next onboarding slide."
+  },
+  "@actionSkip": {
+    "description": "Skips the onboarding walkthrough."
+  },
+  "@actionGetStarted": {
+    "description": "Finishes onboarding and enters the app."
+  },
+  "@actionAdd": {
+    "description": "Button that opens the add-contact sheet."
+  },
+  "@onboardingDemoMode": {
+    "description": "Debug-only shortcut into the app. Not shown in release builds."
+  },
+  "@emergencyConfirmTitle": {
+    "description": "Title of the confirmation dialog shown before dialling emergency services.",
+    "placeholders": {
+      "number": {
+        "type": "String",
+        "example": "911"
+      }
+    }
+  },
+  "@emergencyConfirmAction": {
+    "description": "Confirm button. Placing the number in the label makes the consequence explicit.",
+    "placeholders": {
+      "number": {
+        "type": "String",
+        "example": "911"
+      }
+    }
+  },
+  "@safeCallConnectingTo": {
+    "description": "Overlay shown while the call is being set up.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "4"
+      }
+    }
+  },
+  "@safeCallSimulatedBadge": {
+    "description": "Shown whenever calls are simulated. This disclosure is a safety requirement — never hide or soften it."
+  },
+  "@safeCallPoliceAdded": {
+    "description": "Shown only after an emergency call has actually been placed."
+  },
+  "@safeCallNotifyingContacts": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "@safeCallAlertMessage": {
+    "description": "Body of the SMS sent to safety contacts. {location} is either empty or a leading-space sentence with a map link.",
+    "placeholders": {
+      "location": {
+        "type": "String",
+        "example": " My live location: https://maps.google.com/?q=37.4,-122.1."
+      }
+    }
+  },
+  "@safeCallAlertLocation": {
+    "placeholders": {
+      "lat": {
+        "type": "String",
+        "example": "37.3861"
+      },
+      "lng": {
+        "type": "String",
+        "example": "-122.0839"
+      }
+    }
+  },
+  "@safetyContactsNoNumber": {
+    "description": "Placeholder shown for a contact saved without a phone number."
+  },
+  "@safetyContactsRelation": {
+    "description": "Default relationship label for a manually added contact."
+  },
+  "@homeMapCallGuardians": {
+    "description": "The primary call-to-action on the map. Onboarding names this button, so the two must be translated consistently. Upper case in English; use whatever emphasis is natural for the language."
+  },
+  "signUpTitle": "Join Kinnav",
+  "signUpSubtitle": "Sign in to connect with guardians near you.",
+  "signUpAgeConfirm": "I confirm I am 18 years or older",
+  "signUpLogIn": "Log in",
+  "signUpTestAccount": "Use test account",
+  "signUpOr": "or",
+  "signUpApple": "Sign in with Apple",
+  "signUpGoogle": "Continue with Google",
+  "signUpLegalNote": "By continuing you agree to our Terms & Privacy Policy.",
+  "drawerVersion": "Version 1.0.0",
+  "profileChooseFromLibrary": "Choose from library",
+  "profileTakePhoto": "Take a photo",
+  "profileMyProfile": "My Profile",
+  "profileNoProfile": "No profile",
+  "profileEditAction": "EDIT PROFILE",
+  "profileDeleteAction": "DELETE ACCOUNT",
+  "profileDeleteConfirmTitle": "Delete account?",
+  "profileDeleteConfirmBody": "This permanently removes your profile and data from this device.",
+  "profileDelete": "Delete",
+  "profileSetupProfile": "Your Profile",
+  "profileSetupTellUsBitAbout": "Tell us a bit about you",
+  "profileSetupName": "Name",
+  "profileSetupContinueKinnav": "Continue to Kinnav",
+  "profileEditProfileUpdated": "Profile updated.",
+  "profileEditEditProfile": "Edit Profile",
+  "profileEditMonthYearBirth": "Month and year of birth",
+  "profileEditSpokenLanguages": "Spoken languages",
+  "profileEditSaveChanges": "Save changes",
+  "chatKinnavSupport": "Kinnav Support",
+  "chatReplyTime": "Typically replies in under 5m",
+  "chatTypeMessage": "Type a message…",
+  "callHistoryTitle": "Safe Call History",
+  "callHistoryEmpty": "No Safe Calls yet.\nYour past calls with guardians will appear here.",
+  "callHistoryPolice": "Police",
+  "modulesSelfCare": "Self Care",
+  "moduleDetailLessons": "Lessons",
+  "rewardsRewards": "Rewards",
+  "rewardsGetSafeGetRewarded": "Get safe. Get rewarded.",
+  "rewardsRedeemed": "Redeemed",
+  "rewardsRedeem": "Redeem",
+  "guardiansGuardians": "Guardians",
+  "guardiansNearYou": "Guardians near you",
+  "guardiansBecomeGuardian": "Become a Guardian",
+  "guardiansVerifiedGuardian": "You are a verified Guardian",
+  "guardiansAvailableHelp": "Available to help",
+  "guardiansCalls": "Calls",
+  "guardiansHours": "Hours",
+  "guardiansEarnings": "Earnings",
+  "guardiansPayoutNote": "Guardian payouts are processed monthly (Phase 6 — payments).",
+  "courseGuardianCourse": "Guardian Course",
+  "courseVerifiedGuardian": "Verified Guardian",
+  "subscriptionActivated": "Membership active. Welcome! 💜",
+  "subscriptionNoPreviousPurchasesFound": "No previous purchases found.",
+  "subscriptionKinnavMembership": "Kinnav Membership",
+  "subscriptionJoinKinnavCommunity": "Join the Kinnav community",
+  "subscriptionRestorePurchases": "Restore purchases",
+  "subscriptionCancelMembership": "Cancel membership",
+  "subscriptionActive": "ACTIVE",
+  "feedbackAddRatingNoteFirst": "Add a rating or a note first.",
+  "feedbackEmailOpened": "Your email app is open — press send and we’ll get it.",
+  "feedbackFeedback": "Feedback",
+  "feedbackHowKinnavExperience": "How is your Kinnav experience?",
+  "feedbackHint": "Tell us what you love or what we can improve…",
+  "feedbackSendFeedback": "Send feedback",
+  "howToHowUseKinnav": "How to use Kinnav",
+  "aboutAboutUs": "About Us",
+  "aboutSubtitle": "A new way of women safety and empowerment.",
+  "aboutSpreadingWord": "Spreading the word",
+  "aboutLegal": "Legal",
+  "aboutTagline": "It's easier to look forward when you don't have to watch your back.",
+  "aboutTeam": "Our Team",
+  "aboutShivaniFounderSurvivor": "Shivani — Founder & Survivor",
+  "aboutVishalFullStackEngineer": "Vishal — Full Stack Engineer",
+  "aboutVanshikaMarketingDigitalNative": "Vanshika — Marketing & Digital Native",
+  "legalLastUpdated": "Last updated: 2026",
+  "coachDismissTip": "Dismiss tip",
+  "guardiansBecomeBlurb": "Vetted women 18+ complete a 40-hour advocacy course, trained virtually by local non-profits. Speak to women in need until they feel safe — no time limit, no judgment. Guardians get paid.",
+  "subscriptionBlurb": "Unlimited Safe Calls, self-care modules and exclusive wellness rewards.",
+  "subscriptionDemoNotice": "Demo mode — simulated purchase only. No real charge is made and no App Store / Play billing is used.",
+  "aboutMission": "Kinnav helps women in unsafe situations, anywhere, anytime — connecting them to vetted guardians within a 10-mile radius, and building a community where all women feel free to flourish.",
+  "aboutSpreadingBlurb": "Have questions, suggestions, or just want to let friends and family know we exist? Follow and share us:",
+  "@signUpOr": {
+    "description": "Divider between password sign-in and the OAuth buttons."
+  },
+  "@signUpAgeConfirm": {
+    "description": "18+ gate. Kinnav is 18+ only, so this wording is a legal requirement."
+  },
+  "drawerKinnavMember": "Kinnav member",
+  "drawerGuardian": "Guardian",
+  "drawerCommunityMember": "Community Member",
+  "drawerInviteFriend": "Invite a Friend",
+  "drawerInviteBody": "Join me on Kinnav — a women's safety app. https://kinnav.com",
+  "drawerSelfCare": "Self Care & Empowerment",
+  "drawerMembership": "Membership",
+  "drawerContactUs": "Contact Us",
+  "drawerContactSubject": "Kinnav app enquiry",
+  "drawerLogOut": "Log out"
 }

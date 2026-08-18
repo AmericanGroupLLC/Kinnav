@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../models/call_record.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// A log of past Safe Calls (persisted).
@@ -10,19 +11,19 @@ class CallHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Safe Call History')),
+      appBar: AppBar(title: Text(context.l10n.callHistoryTitle)),
       body: ListenableBuilder(
         listenable: appState,
         builder: (context, _) {
           final history = appState.callHistory;
           if (history.isEmpty) {
-            return const Center(
+            return Center(
               child: Padding(
-                padding: EdgeInsets.all(32),
+                padding: const EdgeInsets.all(32),
                 child: Text(
-                  'No Safe Calls yet.\nYour past calls with guardians will appear here.',
+                  context.l10n.callHistoryEmpty,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColors.textMuted),
+                  style: const TextStyle(color: AppColors.textMuted),
                 ),
               ),
             );
@@ -78,8 +79,8 @@ class _RecordTile extends StatelessWidget {
         subtitle: Text(
             '${record.guardianCount} guardians · ${record.durationLabel} · ${_when()}'),
         trailing: record.policeAdded
-            ? const Text('Police',
-                style: TextStyle(
+            ? Text(context.l10n.callHistoryPolice,
+                style: const TextStyle(
                     color: AppColors.danger, fontWeight: FontWeight.w600))
             : null,
       ),

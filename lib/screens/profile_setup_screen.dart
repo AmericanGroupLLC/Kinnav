@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../models/user_profile.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// Collects the member's profile after sign-in, then routes to Home.
@@ -53,17 +54,17 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
   Widget build(BuildContext context) {
     final years = [for (int y = 2010; y >= 1940; y--) y];
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Profile')),
+      appBar: AppBar(title: Text(context.l10n.profileSetupProfile)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
         children: [
-          const Text('Tell us a bit about you',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          Text(context.l10n.profileSetupTellUsBitAbout,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           const SizedBox(height: 16),
           TextField(
             controller: _nameCtrl,
             decoration: InputDecoration(
-              labelText: 'Name',
+              labelText: context.l10n.profileSetupName,
               filled: true,
               fillColor: Colors.white,
               border:
@@ -71,8 +72,8 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          const Text('Month and year of birth',
-              style: TextStyle(color: AppColors.textMuted)),
+          Text(context.l10n.profileEditMonthYearBirth,
+              style: const TextStyle(color: AppColors.textMuted)),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -113,8 +114,8 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
             onChanged: (v) => setState(() => _identity = v ?? _identity),
           ),
           const SizedBox(height: 16),
-          const Text('Spoken languages',
-              style: TextStyle(color: AppColors.textMuted)),
+          Text(context.l10n.profileEditSpokenLanguages,
+              style: const TextStyle(color: AppColors.textMuted)),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -149,8 +150,8 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                   borderRadius: BorderRadius.circular(30)),
             ),
             onPressed: _save,
-            child: const Text('Continue to Kinnav',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+            child: Text(context.l10n.profileSetupContinueKinnav,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
           ),
         ],
       ),

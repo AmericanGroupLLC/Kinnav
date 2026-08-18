@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../config/app_config.dart';
 import '../services/links.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// A simple feedback form (Feedback menu item).
@@ -35,7 +36,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     final message = _controller.text.trim();
     if (_rating == 0 && message.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Add a rating or a note first.')),
+        SnackBar(content: Text(context.l10n.feedbackAddRatingNoteFirst)),
       );
       return;
     }
@@ -51,8 +52,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     );
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Your email app is open — press send and we’ll get it.'),
+      SnackBar(
+        content: Text(context.l10n.feedbackEmailOpened),
         backgroundColor: AppColors.primaryDark,
       ),
     );
@@ -65,12 +66,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Feedback')),
+      appBar: AppBar(title: Text(context.l10n.feedbackFeedback)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
         children: [
-          const Text('How is your Kinnav experience?',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          Text(context.l10n.feedbackHowKinnavExperience,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
           Row(
             children: [
@@ -90,7 +91,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             controller: _controller,
             maxLines: 6,
             decoration: InputDecoration(
-              hintText: 'Tell us what you love or what we can improve…',
+              hintText: context.l10n.feedbackHint,
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(
@@ -109,8 +110,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: _submit,
-              child: const Text('Send feedback',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+              child: Text(context.l10n.feedbackSendFeedback,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
             ),
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// The 40-hour advocacy course guardians complete (virtual, NGO-trained).
@@ -22,7 +23,7 @@ class GuardianCourseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Guardian Course')),
+      appBar: AppBar(title: Text(context.l10n.courseGuardianCourse)),
       body: ListenableBuilder(
         listenable: appState,
         builder: (context, _) {
@@ -91,13 +92,13 @@ class GuardianCourseScreen extends StatelessWidget {
                           fontSize: 16, fontWeight: FontWeight.w700)),
                 )
               else
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.verified, color: AppColors.online),
-                    SizedBox(width: 8),
-                    Text('Verified Guardian',
-                        style: TextStyle(
+                    const Icon(Icons.verified, color: AppColors.online),
+                    const SizedBox(width: 8),
+                    Text(context.l10n.courseVerifiedGuardian,
+                        style: const TextStyle(
                             color: AppColors.online,
                             fontWeight: FontWeight.w700)),
                   ],

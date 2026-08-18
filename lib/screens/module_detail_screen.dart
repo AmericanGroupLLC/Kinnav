@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../app_state.dart';
 import '../models/content.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// Detail for a Self Care & Empowerment module: lessons + completion tracking.
@@ -41,8 +42,8 @@ class ModuleDetailScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text('Lessons',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+              Text(context.l10n.moduleDetailLessons,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
               const SizedBox(height: 8),
               for (int i = 0; i < lessons.length; i++)
                 Card(

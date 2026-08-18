@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../app_state.dart';
 import '../services/auth_service.dart';
+import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
 /// Sign-in against the org's real Supabase backend.
@@ -127,13 +128,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: 48, height: 48),
               ),
               const SizedBox(height: 20),
-              const Text('Join Kinnav',
+              Text(context.l10n.signUpTitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
+                  style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
               const SizedBox(height: 8),
-              const Text('Sign in to connect with guardians near you.',
+              Text(context.l10n.signUpSubtitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColors.textMuted)),
+                  style: const TextStyle(color: AppColors.textMuted)),
               const SizedBox(height: 28),
               TextField(
                 controller: _emailCtrl,
@@ -154,7 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 contentPadding: EdgeInsets.zero,
                 controlAffinity: ListTileControlAffinity.leading,
                 activeColor: AppColors.primary,
-                title: const Text('I confirm I am 18 years or older'),
+                title: Text(context.l10n.signUpAgeConfirm),
               ),
               if (_error != null) ...[
                 const SizedBox(height: 8),
@@ -175,8 +176,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: 22,
                         child: CircularProgressIndicator(
                             color: Colors.white, strokeWidth: 2))
-                    : const Text('Log in',
-                        style: TextStyle(
+                    : Text(context.l10n.signUpLogIn,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w700)),
               ),
               const SizedBox(height: 10),
@@ -188,18 +189,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   side: const BorderSide(color: AppColors.primaryLight),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
-                label: const Text('Use test account'),
+                label: Text(context.l10n.signUpTestAccount),
               ),
               const SizedBox(height: 18),
-              const Row(
+              Row(
                 children: [
-                  Expanded(child: Divider()),
+                  const Expanded(child: Divider()),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text('or',
-                        style: TextStyle(color: AppColors.textMuted)),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(context.l10n.signUpOr,
+                        style: const TextStyle(color: AppColors.textMuted)),
                   ),
-                  Expanded(child: Divider()),
+                  const Expanded(child: Divider()),
                 ],
               ),
               const SizedBox(height: 14),
@@ -213,8 +214,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   side: const BorderSide(color: AppColors.primaryLight),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
-                label: const Text('Sign in with Apple',
-                    style: TextStyle(fontWeight: FontWeight.w600)),
+                label: Text(context.l10n.signUpApple,
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
               ),
               const SizedBox(height: 10),
               OutlinedButton.icon(
@@ -227,21 +228,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   side: const BorderSide(color: AppColors.primaryLight),
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
-                label: const Text('Continue with Google',
-                    style: TextStyle(fontWeight: FontWeight.w600)),
+                label: Text(context.l10n.signUpGoogle,
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
               ),
               const SizedBox(height: 12),
-              const Text(
-                'By continuing you agree to our Terms & Privacy Policy.',
+              Text(
+                context.l10n.signUpLegalNote,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textMuted, fontSize: 12),
+                style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
               ),
               if (kDebugMode) ...[
                 const SizedBox(height: 12),
                 TextButton.icon(
                   onPressed: () => appState.enterDemoMode(),
                   icon: const Icon(Icons.fast_forward, size: 18),
-                  label: const Text('Demo mode (dev) — skip to app'),
+                  label: Text(context.l10n.onboardingDemoMode),
                 ),
               ],
             ],
