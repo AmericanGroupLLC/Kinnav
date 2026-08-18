@@ -62,3 +62,7 @@ fastlane/play-service-account.json
 /bundle/
 /flutter-apk/
 *.ipa
+
+# fastlane rewrites this JUnit report on every lane run, so it showed up as a
+# diff after each release and once carried a local stack trace into a commit.
+fastlane/report.xml
