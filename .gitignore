@@ -45,3 +45,12 @@ website/playwright-report/
 *.p8
 *.p12
 *.mobileprovision
+
+# Downloaded release artifacts. `gh release download` drops these in the repo
+# root; they are tens of megabytes and rebuilt every release, so they belong on
+# a GitHub release, never in git. See store/README.md.
+/app-release.aab
+/app-release.apk
+/bundle/
+/flutter-apk/
+*.ipa
