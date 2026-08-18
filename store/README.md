@@ -242,35 +242,48 @@ first launch and lands in the screenshot. `adb shell screencap -p /sdcard/…`
 fails with `Bad address` on this emulator image — use `exec-out`.
 
 
-## The Android screenshots are NOT safe to upload
+## Screenshots
 
-Every file in `screenshots/android/` was captured from a debug build and shows
-the **"Demo mode (dev) — skip to app"** button, which `kDebugMode` gates and the
-release build never renders. A screenshot containing UI the shipped app does not
-have is a rejection under Apple 2.3.3 and Play's equivalent metadata policy.
+Both sets are regenerated and safe. The previous ones all showed the debug-only
+**"Demo mode (dev) — skip to app"** button, which `kDebugMode` gates and the
+release build never renders; a screenshot containing UI the shipped app lacks is
+a rejection.
 
-The iOS set had the same problem; `store/screenshots/ios/01-welcome.png` was
-deleted for that reason and replaced with `01-sign-in.png`, captured with the
-fix below.
+| | Count | Size | Captured from |
+|---|---|---|---|
+| `ios/` | 6 iPhone + 1 iPad | 1320x2868, 2064x2752 | debug build with `--dart-define=SCREENSHOT=true` |
+| `android/` | 7 | 1080x2160 (2:1) | the **release** APK |
 
-**How to capture clean ones.** `AppConfig.showDevShortcuts` is
-`kDebugMode && !SCREENSHOT`, so building with `--dart-define=SCREENSHOT=true`
-renders exactly what release renders. iOS release builds cannot run on a
-simulator at all, so this flag is the only honest way to get simulator shots.
+Android needs no flag: release builds run on an emulator, so `kDebugMode` is
+already false. iOS release builds cannot run on a simulator at all, which is why
+the flag exists — `AppConfig.showDevShortcuts` is `kDebugMode && !SCREENSHOT`.
+
+**iOS.** `integration_test/screenshots_test.dart` drives the app and holds on
+each screen; the host photographs with `xcrun simctl io … screenshot`. Two
+things it handles: the map raises a system location dialog that covers every
+later frame, so the host re-grants `location-always` on a loop for the duration;
+and rather than syncing captures to the run, the host photographs continuously
+and frames are grouped by RMSE afterwards, so a mistimed hold costs nothing.
+
+**Android.** `adb` can tap, so no driver is needed:
 
 ```bash
-flutter run -d <device> --dart-define=SCREENSHOT=true
-# then, against a freshly erased simulator so onboarding is not skipped:
-xcrun simctl erase <udid> && xcrun simctl boot <udid>
-xcrun simctl install <udid> build/ios/Debug-iphonesimulator/Runner.app
-xcrun simctl launch  <udid> com.americangroupllc.kinnav
-xcrun simctl io <udid> screenshot shot.png
+adb install -r app-release.apk
+adb shell pm grant com.americangroupllc.kinnav android.permission.ACCESS_FINE_LOCATION
+adb shell am start -n com.americangroupllc.kinnav/.MainActivity
+adb shell input tap <x> <y>
+adb exec-out screencap -p > shot.png
 ```
 
-Verify before uploading — the footer of a clean shot is a single flat colour:
+Emulator output is 1080x2400 (2.22:1) and Play caps phone screenshots at 2:1, so
+each is cropped to 1080x2160. Crop the status bar and gesture bar — OS chrome,
+not app content — except on the map and menu, where the bottom row carries
+content and the 240px comes off the top instead.
+
+Verify before uploading; a clean footer is one flat colour:
 
 ```bash
-magick shot.png -crop 1320x300+0+2568 +repage -format '%k' info:   # 1 = clean
+magick shot.png -crop 1080x180+0+1980 +repage -format '%k' info:
 ```
 
 ## Before you submit
