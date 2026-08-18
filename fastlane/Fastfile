@@ -68,6 +68,40 @@ def play_json_key
   ENV.fetch("PLAY_JSON_KEY_FILE", "fastlane/play-service-account.json")
 end
 
+# The Android lanes used to call a bare `flutter build appbundle --release`.
+# Every one of these values is a --dart-define with a *safe local default* in
+# lib/config/app_config.dart — BACKEND falls back to "mock" and FLAVOR to "dev"
+# — so the bare build compiled fine, signed fine, uploaded fine, and put a
+# mock-backend build in front of real testers. Nothing failed; it just shipped
+# the wrong app. scripts/build_release.sh and .github/workflows/release.yml
+# both passed these already; only fastlane did not.
+def release_defines
+  defines = [
+    "--dart-define=BACKEND=americangroupllc",
+    "--dart-define=FLAVOR=prod"
+  ]
+
+  maps = ENV["MAPS_API_KEY"].to_s.strip
+  if maps.empty?
+    # LiveMap silently degrades to the non-Google MapView placeholder without
+    # this. On an app whose main screen is a guardian map, that is not a
+    # release. Set ALLOW_NO_MAPS_KEY=1 to build one deliberately.
+    unless ENV["ALLOW_NO_MAPS_KEY"] == "1"
+      UI.user_error!("MAPS_API_KEY is not set — the build would ship with no " \
+        "Google Maps key and LiveMap would fall back to the placeholder map. " \
+        "Export MAPS_API_KEY=… , or set ALLOW_NO_MAPS_KEY=1 to override.")
+    end
+    UI.important("Building with no MAPS_API_KEY (ALLOW_NO_MAPS_KEY=1)")
+  else
+    defines << "--dart-define=MAPS_API_KEY=#{maps.shellescape}"
+  end
+
+  agora = ENV["AGORA_APP_ID"].to_s.strip
+  defines << "--dart-define=AGORA_APP_ID=#{agora.shellescape}" unless agora.empty?
+
+  defines.join(" ")
+end
+
 PROFILE_DIRS = [
   "~/Library/MobileDevice/Provisioning Profiles",
   "~/Library/Developer/Xcode/UserData/Provisioning Profiles"
@@ -264,7 +298,7 @@ end
 platform :android do
   desc "Build + upload the AAB to the Play internal track"
   lane :beta do
-    flutter_sh("build appbundle --release")
+    flutter_sh("build appbundle --release #{release_defines}")
     upload_to_play_store(
       track: "internal",
       aab: AAB_PATH,
@@ -276,7 +310,7 @@ platform :android do
 
   desc "Build + upload the AAB straight to production"
   lane :release do
-    flutter_sh("build appbundle --release")
+    flutter_sh("build appbundle --release #{release_defines}")
     upload_to_play_store(
       track: "production",
       aab: AAB_PATH,
