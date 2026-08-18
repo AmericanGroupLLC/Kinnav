@@ -32,9 +32,23 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const dist = join(root, 'dist')
 const ssrOut = join(root, '.ssr-build')
 
-// Legal/static routes only. Interactive pages (waitlist, contact form) gain
-// nothing from prerendering and would just duplicate markup.
-const ROUTES = ['/', '/privacy', '/terms', '/about', '/how-it-works']
+// Every real route, not just the legal ones.
+//
+// The SPA fallback serves dist/index.html, which is now the prerendered *home*
+// page. Any route missing from this list therefore ships homepage markup and
+// paints it for a moment before React renders the real page — a visible flash
+// on /contact, and homepage content indexed under the wrong URL. Prerendering
+// each route gives it its own correct HTML; only genuinely unknown URLs fall
+// back to home.
+const ROUTES = [
+  '/',
+  '/how-it-works',
+  '/waitlist',
+  '/about',
+  '/privacy',
+  '/terms',
+  '/contact',
+]
 
 // Every route must already be a <Route> in src/App.jsx, or it would silently
 // prerender the 404 page and publish it as if it were real content.
