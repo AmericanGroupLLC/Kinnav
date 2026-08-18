@@ -1,0 +1,32 @@
+Kinnav is a personal safety and wellbeing companion built for women.
+
+Getting home late. Walking to the car after a shift. A first date in an unfamiliar part of town. Kinnav is designed for the moments when you want someone with you, and a way to feel steadier the rest of the time.
+
+<b>Reach a guardian</b>
+Open the map and see the guardians around you. One tap on CALL GUARDIANS opens your options: voice, video, text, or a direct line to emergency services. No menus to dig through when you are in a hurry.
+
+<b>Your map</b>
+The map centres on you and shows who is nearby. Location is used to place you and the guardians around you, and nothing more.
+
+<b>Emergency dialling</b>
+A confirmed one-tap route to 911. Kinnav is not a replacement for emergency services and never tries to be — when you need police, fire, or an ambulance, the app puts you straight through.
+
+<b>Safety contacts</b>
+Keep the people who matter one tap away.
+
+<b>Self-care modules</b>
+Short, practical lessons on situational awareness, boundaries, de-escalation, and recovery. Work through them at your own pace and keep your progress.
+
+<b>Rewards</b>
+Finish modules and earn rewards you can redeem in the app.
+
+<b>Call history</b>
+Every Safe Call is recorded in your history so you have a record of what happened and when.
+
+<b>Early access</b>
+Kinnav is in early access. The guardian network is still being built out, so the guardians you see are sample profiles and Safe Call is clearly labelled in the app as a simulation — it does not connect you to a live responder yet. Emergency dialling, your map, safety contacts, modules, and rewards all work today. We would rather tell you exactly where we are than overpromise on an app you might need in a bad moment.
+
+<b>Privacy</b>
+Location is used to show you and nearby guardians on the map. Your account is protected and your data is encrypted in transit. Read the full policy at https://kinnav.com/privacy
+
+Questions or feedback: support@kinnav.com

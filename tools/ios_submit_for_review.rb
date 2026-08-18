@@ -1,0 +1,156 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+#
+# Kinnav · attach the app version + all in-app purchases to ONE App Review
+# submission, then submit.
+#
+#   bundle exec ruby tools/ios_submit_for_review.rb            # dry run
+#   bundle exec ruby tools/ios_submit_for_review.rb --submit   # actually submit
+#
+# Why this exists: fastlane's `submit_for_review: true` submits only the app
+# VERSION. On a first release Apple requires the in-app purchases to be
+# reviewed alongside the binary, and there is no deliver option for that. The
+# ReviewSubmission API bundles them into a single submission.
+#
+# A reviewSubmission cannot be created until a build is attached to the
+# version, so run this AFTER tools/ios_appstore_submit.sh has uploaded and the
+# build has finished processing (usually 5–15 minutes).
+
+require 'jwt'
+require 'openssl'
+require 'net/http'
+require 'json'
+
+KEY_PATH = ENV.fetch('ASC_KEY_PATH', File.expand_path('../AuthKey_UV8NYF9767.p8', __dir__))
+
+
+APP_ID = ENV.fetch('ASC_APP_ID') { asc_app_id }
+SUBMIT   = ARGV.include?('--submit')
+
+abort "✗ No .p8 at #{KEY_PATH} (override with ASC_KEY_PATH)" unless File.exist?(KEY_PATH)
+
+PK = OpenSSL::PKey::EC.new(File.read(KEY_PATH))
+
+
+
+
+# Plain method body, not an endless def — this has to parse under the system
+# Ruby 2.6 that fastlane runs on.
+
+# --- 1. Version must exist and have a build --------------------------------
+code, body = asc_api(:get, "/v1/apps/#{APP_ID}/appStoreVersions?limit=1&include=build")
+version = (body['data'] || []).first
+abort "✗ No app version found (HTTP #{code})" unless version
+
+state = version.dig('attributes', 'appStoreState') || version.dig('attributes', 'appVersionState')
+puts "Version #{version.dig('attributes', 'versionString')} — #{state}"
+
+build = version.dig('relationships', 'build', 'data')
+# Don't stop at "a build is attached" — after a rebuild the version can still
+# point at the OLD binary, which is how build 3 stayed attached once build 4
+# had uploaded. Always reconcile against the newest VALID build.
+if build
+  code, blist = asc_api(:get, "/v1/apps/#{APP_ID}/builds?limit=20")
+  usable = (blist['data'] || [])
+           .select { |b| b.dig('attributes', 'processingState') == 'VALID' }
+           .reject { |b| b.dig('attributes', 'expired') }
+  newest = usable.max_by { |b| b.dig('attributes', 'version').to_i }
+  if newest && newest['id'] != build['id']
+    puts "Attached build is stale — switching to build #{newest.dig('attributes', 'version')}..."
+    code, body = asc_api(:patch, "/v1/appStoreVersions/#{version['id']}/relationships/build",
+                     { data: { type: 'builds', id: newest['id'] } })
+    abort "✗ Could not switch build (HTTP #{code})\n    #{asc_errors(body)}" unless asc_ok?(code)
+    puts "✓ Build #{newest.dig('attributes', 'version')} attached"
+  else
+    puts "Build already attached: #{build['id']}"
+  end
+else
+  # deliver uploads the binary but does not attach it to the version — that is
+  # a separate relationship, and App Store Connect leaves it unset until the
+  # build finishes processing. Attach the newest VALID build ourselves.
+  code, body = asc_api(:get, "/v1/apps/#{APP_ID}/builds?limit=20")
+  builds = (body['data'] || [])
+  if builds.empty?
+    abort "✗ No builds uploaded. Run tools/ios_appstore_submit.sh first."
+  end
+  valid = builds.select { |b| b.dig('attributes', 'processingState') == 'VALID' }
+                .reject { |b| b.dig('attributes', 'expired') }
+  if valid.empty?
+    states = builds.map { |b| "#{b.dig('attributes', 'version')}=#{b.dig('attributes', 'processingState')}" }
+    abort "✗ No VALID build yet (#{states.join(', ')}).\n" \
+          "  Processing usually takes 5-15 minutes; re-run when it reports VALID."
+  end
+  newest = valid.max_by { |b| b.dig('attributes', 'version').to_i }
+  puts "Attaching build #{newest.dig('attributes', 'version')} (#{newest['id']})..."
+  code, body = asc_api(:patch, "/v1/appStoreVersions/#{version['id']}/relationships/build",
+                   { data: { type: 'builds', id: newest['id'] } })
+  abort "✗ Could not attach build (HTTP #{code})\n    #{asc_errors(body)}" unless asc_ok?(code)
+  puts "✓ Build attached"
+end
+
+# --- 2. Collect the in-app purchases ---------------------------------------
+items = [{ appStoreVersion: version['id'] }]
+
+code, body = asc_api(:get, "/v1/apps/#{APP_ID}/subscriptionGroups?limit=10")
+(body['data'] || []).each do |group|
+  c, b = asc_api(:get, "/v1/subscriptionGroups/#{group['id']}/subscriptions?limit=50")
+  (b['data'] || []).each do |sub|
+    st = sub.dig('attributes', 'state')
+    puts "  subscription #{sub.dig('attributes', 'productId')} — #{st}"
+    items << { subscription: sub['id'] } if st == 'READY_TO_SUBMIT'
+  end
+end
+
+code, body = asc_api(:get, "/v1/apps/#{APP_ID}/inAppPurchasesV2?limit=50")
+(body['data'] || []).each do |iap|
+  st = iap.dig('attributes', 'state')
+  puts "  in-app purchase #{iap.dig('attributes', 'productId')} — #{st}"
+  items << { inAppPurchaseV2: iap['id'] } if st == 'READY_TO_SUBMIT'
+end
+
+puts "\n#{items.size} item(s) would be submitted together."
+unless SUBMIT
+  puts 'Dry run — re-run with --submit to create and submit the review.'
+  exit 0
+end
+
+# --- 3. Create the review submission ---------------------------------------
+code, body = asc_api(:post, '/v1/reviewSubmissions', {
+                   data: { type: 'reviewSubmissions',
+                           attributes: { platform: 'IOS' },
+                           relationships: { app: { data: { type: 'apps', id: APP_ID } } } } })
+unless asc_ok?(code)
+  # An open submission already exists — reuse it rather than failing.
+  c, b = asc_api(:get, "/v1/apps/#{APP_ID}/reviewSubmissions?filter[state]=READY_FOR_REVIEW,UNRESOLVED_ISSUES,WAITING_FOR_REVIEW&limit=1")
+  existing = (b['data'] || []).first
+  abort "✗ Could not create reviewSubmission (HTTP #{code})\n    #{asc_errors(body)}" unless existing
+  body = { 'data' => existing }
+  puts "Reusing existing review submission #{existing['id']}"
+end
+submission_id = body.dig('data', 'id')
+puts "Review submission: #{submission_id}"
+
+# --- 4. Add each item ------------------------------------------------------
+items.each do |item|
+  key, id = item.first
+  type = { appStoreVersion: 'appStoreVersions',
+           subscription: 'subscriptions',
+           inAppPurchaseV2: 'inAppPurchases' }.fetch(key)
+  code, body = asc_api(:post, '/v1/reviewSubmissionItems', {
+                     data: { type: 'reviewSubmissionItems',
+                             relationships: {
+                               reviewSubmission: { data: { type: 'reviewSubmissions', id: submission_id } },
+                               key => { data: { type: type, id: id } }
+                             } } })
+  puts asc_ok?(code) ? "  + #{key} #{id}" : "  ! #{key} #{id} -> #{code}\n    #{asc_errors(body)}"
+end
+
+# --- 5. Submit -------------------------------------------------------------
+code, body = asc_api(:patch, "/v1/reviewSubmissions/#{submission_id}", {
+                   data: { type: 'reviewSubmissions', id: submission_id,
+                           attributes: { submitted: true } } })
+if asc_ok?(code)
+  puts "\n✓ Submitted for App Review — track at https://appstoreconnect.apple.com"
+else
+  abort "\n✗ Submit failed (HTTP #{code})\n    #{asc_errors(body)}"
+end

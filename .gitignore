@@ -42,3 +42,6 @@ _sim_*.png
 coverage/
 website/test-results/
 website/playwright-report/
+*.p8
+*.p12
+*.mobileprovision

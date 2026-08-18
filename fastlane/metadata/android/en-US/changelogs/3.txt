@@ -1,0 +1,10 @@
+First release of Kinnav.
+
+- Guardian map with one-tap CALL GUARDIANS
+- Confirmed one-tap emergency dialling
+- Safety contacts
+- Self-care modules with saved progress
+- Rewards you can redeem
+- Safe Call history
+
+Early access: the guardian network is still being built out, so guardian profiles are samples and Safe Call is labelled in-app as a simulation. Everything else works today.

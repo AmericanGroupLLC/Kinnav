@@ -30,10 +30,32 @@ location, data collected, third parties, retention (call history for 12
 months), children, and deletion rights, and both it and the terms name the
 support address directly, which reviewers look for.
 
-A caveat: these routes are served by the SPA, so they only resolve on a host
-where the `.htaccess` fallback is active. Confirm each returns 200 in a
-browser **before** pasting it into a console — a reviewer hitting a 404
-privacy URL is an automatic rejection.
+### These URLs used to be empty to anything but a browser
+
+All four returned HTTP 200, so they looked fine. They were not: the site is a
+client-rendered SPA, so every URL served the same 3,818-byte shell with an
+**empty `<body>`**. `curl https://kinnav.com/privacy` contained the word
+"privacy" zero times.
+
+That matters because Google Play fetches the privacy-policy URL and checks it
+for an actual policy. A listing whose policy URL looks blank gets rejected, and
+"it works in my browser" is exactly how this one hides.
+
+`website/scripts/prerender.mjs` now bakes `/`, `/privacy`, `/terms`, `/about`
+and `/how-it-works` into real HTML at build time (`dist/privacy/index.html`,
+…). The `.htaccess` SPA fallback only rewrites when a request matches no real
+file or directory, so those directories are served directly and every other
+route still falls through to the SPA. The client boots and takes over as
+before, so nothing changes in a browser.
+
+`pnpm build` runs it, and `publish-deploy.sh` both runs it and refuses to
+publish if `dist/privacy/index.html` or `dist/terms/index.html` is missing or
+has no matching text.
+
+> **Not live yet.** The fix is in the source tree; `kinnav.com` still serves the
+> old empty shell until someone runs `cd website && pnpm deploy`. Verify with
+> `curl -s https://kinnav.com/privacy | grep -c -i privacy` — it must be
+> non-zero **before** the URL goes into either console.
 
 ## Signing
 
@@ -235,9 +257,6 @@ fails with `Bad address` on this emulator image — use `exec-out`.
 
 ## Known gaps
 
-- The About screen still lists `@getsaferapp` for Instagram, Facebook and
-  Twitter, and those rows link to the bare `instagram.com` / `facebook.com`
-  roots rather than real accounts. Reviewers do look at outbound links.
 - The About screen no longer lists Instagram, Facebook or Twitter. They
   advertised `@getsaferapp` — the previous brand — and pointed at bare
   `instagram.com` / `facebook.com` roots. Reviewers follow outbound links.
@@ -247,6 +266,31 @@ fails with `Bad address` on this emulator image — use `exec-out`.
   `DEMO · simulated safe call` on screen. Treat `screenshots/` as internal
   until a backend is wired; shipping them as-is claims a live responder
   network the build does not have.
+- Safety contacts now start **empty**. The app used to seed two fictional
+  contacts ("Mom", "Emma") with invented numbers, and starting a Safe Call
+  texts every safety contact the user's precise live location — so a user who
+  never edited the list would have sent their location to numbers they had
+  never seen. The screenshots predate this change and may still show the
+  seeded pair; retake them before they go on a listing.
+
+## Claims the binary has to be able to back up
+
+App Review reads the listing and then tries the app. Three defects were fixed
+because the app asserted things that were not true, which is both a safety
+problem and a 2.3.1 rejection risk:
+
+- Choosing **Emergency** showed "Police added" without ever dialling. It now
+  places a real confirmed 911 call.
+- Cancelling the "Add police" confirmation still flipped the badge to "Police
+  added" and wrote `policeAdded: true` into call history.
+- **Log out left everything behind** — profile, safety contacts, Safe Call
+  history, rewards and plan. The next person to sign in on the same device
+  skipped profile setup, saw the previous user's name, and could read their
+  call history.
+
+Covered by `test/emergency_test.dart` and the `logOut` group in
+`test/app_state_test.dart`. Keep them passing: each one is a claim a reviewer
+can check by hand in about a minute.
 
 ## Privacy policy — what a reviewer sees
 
