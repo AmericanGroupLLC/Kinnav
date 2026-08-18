@@ -60,7 +60,7 @@
   "signUpApple": "Iniciar sesión con Apple",
   "signUpGoogle": "Continuar con Google",
   "signUpLegalNote": "Al continuar aceptas nuestros Términos y la Política de Privacidad.",
-  "drawerVersion": "Versión 1.0.0",
+  "drawerVersion": "Versión 1.0.1",
   "profileChooseFromLibrary": "Elegir de la galería",
   "profileTakePhoto": "Hacer una foto",
   "profileMyProfile": "Mi perfil",
@@ -141,5 +141,9 @@
   "drawerMembership": "Membresía",
   "drawerContactUs": "Contáctanos",
   "drawerContactSubject": "Consulta sobre la app Kinnav",
-  "drawerLogOut": "Cerrar sesión"
+  "drawerLogOut": "Cerrar sesión",
+  "signUpAgeRequired": "Debes confirmar que tienes 18 años o más.",
+  "signUpOffline": "Sin conexión. Comprueba tu red e inténtalo de nuevo.",
+  "signUpFailed": "No se pudo iniciar sesión. Comprueba tu conexión y tus credenciales.",
+  "signUpUnavailable": "El inicio de sesión no está disponible ahora. Inténtalo de nuevo."
 }

@@ -60,7 +60,7 @@
   "signUpApple": "تسجيل الدخول عبر Apple",
   "signUpGoogle": "المتابعة عبر Google",
   "signUpLegalNote": "بالمتابعة فإنكِ توافقين على الشروط وسياسة الخصوصية.",
-  "drawerVersion": "الإصدار 1.0.0",
+  "drawerVersion": "الإصدار 1.0.1",
   "profileChooseFromLibrary": "الاختيار من المعرض",
   "profileTakePhoto": "التقاط صورة",
   "profileMyProfile": "ملفي الشخصي",
@@ -141,5 +141,9 @@
   "drawerMembership": "العضوية",
   "drawerContactUs": "تواصلي معنا",
   "drawerContactSubject": "استفسار عن تطبيق Kinnav",
-  "drawerLogOut": "تسجيل الخروج"
+  "drawerLogOut": "تسجيل الخروج",
+  "signUpAgeRequired": "عليكِ تأكيد أن عمركِ 18 عامًا أو أكثر.",
+  "signUpOffline": "لا يوجد اتصال. تحقّقي من الشبكة وحاولي مرة أخرى.",
+  "signUpFailed": "تعذّر تسجيل الدخول. تحقّقي من الاتصال وبيانات الدخول.",
+  "signUpUnavailable": "تسجيل الدخول غير متاح حاليًا. حاولي مرة أخرى."
 }

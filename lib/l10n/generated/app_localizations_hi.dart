@@ -227,7 +227,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'जारी रखने पर आप हमारी शर्तों और गोपनीयता नीति से सहमत होती हैं।';
 
   @override
-  String get drawerVersion => 'संस्करण 1.0.0';
+  String get drawerVersion => 'संस्करण 1.0.1';
 
   @override
   String get profileChooseFromLibrary => 'गैलरी से चुनें';
@@ -486,4 +486,20 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get drawerLogOut => 'लॉग आउट';
+
+  @override
+  String get signUpAgeRequired =>
+      'आपको पुष्टि करनी होगी कि आपकी उम्र 18 वर्ष या अधिक है।';
+
+  @override
+  String get signUpOffline =>
+      'कोई कनेक्शन नहीं। अपना नेटवर्क जाँचें और फिर कोशिश करें।';
+
+  @override
+  String get signUpFailed =>
+      'साइन इन नहीं हो सका। अपना कनेक्शन और क्रेडेंशियल जाँचें।';
+
+  @override
+  String get signUpUnavailable =>
+      'अभी साइन इन उपलब्ध नहीं है। कृपया फिर कोशिश करें।';
 }

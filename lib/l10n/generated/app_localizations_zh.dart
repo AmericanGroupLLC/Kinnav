@@ -212,7 +212,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get signUpLegalNote => '继续即表示你同意我们的条款和隐私政策。';
 
   @override
-  String get drawerVersion => '版本 1.0.0';
+  String get drawerVersion => '版本 1.0.1';
 
   @override
   String get profileChooseFromLibrary => '从相册选择';
@@ -459,4 +459,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get drawerLogOut => '退出登录';
+
+  @override
+  String get signUpAgeRequired => '你必须确认已年满 18 周岁。';
+
+  @override
+  String get signUpOffline => '无网络连接。请检查网络后重试。';
+
+  @override
+  String get signUpFailed => '无法登录。请检查网络和账号信息。';
+
+  @override
+  String get signUpUnavailable => '当前无法登录，请稍后重试。';
 }

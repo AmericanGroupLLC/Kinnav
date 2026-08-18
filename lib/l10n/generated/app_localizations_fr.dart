@@ -229,7 +229,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'En continuant, vous acceptez nos Conditions et notre Politique de confidentialité.';
 
   @override
-  String get drawerVersion => 'Version 1.0.0';
+  String get drawerVersion => 'Version 1.0.1';
 
   @override
   String get profileChooseFromLibrary => 'Choisir dans la galerie';
@@ -493,4 +493,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get drawerLogOut => 'Se déconnecter';
+
+  @override
+  String get signUpAgeRequired =>
+      'Vous devez confirmer que vous avez 18 ans ou plus.';
+
+  @override
+  String get signUpOffline =>
+      'Pas de connexion. Vérifiez votre réseau et réessayez.';
+
+  @override
+  String get signUpFailed =>
+      'Connexion impossible. Vérifiez votre réseau et vos identifiants.';
+
+  @override
+  String get signUpUnavailable =>
+      'Connexion indisponible pour le moment. Veuillez réessayer.';
 }

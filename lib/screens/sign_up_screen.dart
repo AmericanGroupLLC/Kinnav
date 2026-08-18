@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../app_state.dart';
@@ -36,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> _login() async {
     if (!_is18) {
-      setState(() => _error = 'You must confirm you are 18 or older.');
+      setState(() => _error = context.l10n.signUpAgeRequired);
       return;
     }
     await _signInWith(_emailCtrl.text, _passwordCtrl.text);
@@ -61,9 +62,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await appState.signIn(); // routes to profile setup / home
     } on AuthException catch (e) {
       setState(() => _error = e.message);
+    } on TimeoutException {
+      // Distinguish "we could not reach the server" from "those credentials
+      // were wrong": telling someone to check their password when they are
+      // simply offline sends them down the wrong path.
+      setState(() => _error = context.l10n.signUpOffline);
     } catch (_) {
-      setState(() =>
-          _error = 'Could not sign in. Check your connection and credentials.');
+      setState(() => _error = context.l10n.signUpFailed);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -85,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } catch (e) {
       if (mounted && !_isCancellation(e)) {
         setState(() =>
-            _error = 'Sign-in unavailable right now. Please try again.');
+            _error = context.l10n.signUpUnavailable);
       }
     } finally {
       if (mounted) setState(() => _busy = false);

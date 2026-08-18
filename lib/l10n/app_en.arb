@@ -152,7 +152,7 @@
   "signUpApple": "Sign in with Apple",
   "signUpGoogle": "Continue with Google",
   "signUpLegalNote": "By continuing you agree to our Terms & Privacy Policy.",
-  "drawerVersion": "Version 1.0.0",
+  "drawerVersion": "Version 1.0.1",
   "profileChooseFromLibrary": "Choose from library",
   "profileTakePhoto": "Take a photo",
   "profileMyProfile": "My Profile",
@@ -239,5 +239,9 @@
   "drawerMembership": "Membership",
   "drawerContactUs": "Contact Us",
   "drawerContactSubject": "Kinnav app enquiry",
-  "drawerLogOut": "Log out"
+  "drawerLogOut": "Log out",
+  "signUpAgeRequired": "You must confirm you are 18 or older.",
+  "signUpOffline": "No connection. Check your network and try again.",
+  "signUpFailed": "Could not sign in. Check your connection and credentials.",
+  "signUpUnavailable": "Sign-in unavailable right now. Please try again."
 }

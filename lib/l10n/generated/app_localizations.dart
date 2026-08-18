@@ -469,7 +469,7 @@ abstract class AppLocalizations {
   /// No description provided for @drawerVersion.
   ///
   /// In en, this message translates to:
-  /// **'Version 1.0.0'**
+  /// **'Version 1.0.1'**
   String get drawerVersion;
 
   /// No description provided for @profileChooseFromLibrary.
@@ -957,6 +957,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log out'**
   String get drawerLogOut;
+
+  /// No description provided for @signUpAgeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You must confirm you are 18 or older.'**
+  String get signUpAgeRequired;
+
+  /// No description provided for @signUpOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Check your network and try again.'**
+  String get signUpOffline;
+
+  /// No description provided for @signUpFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not sign in. Check your connection and credentials.'**
+  String get signUpFailed;
+
+  /// No description provided for @signUpUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in unavailable right now. Please try again.'**
+  String get signUpUnavailable;
 }
 
 class _AppLocalizationsDelegate

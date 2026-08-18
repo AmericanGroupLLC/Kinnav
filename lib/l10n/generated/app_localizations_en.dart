@@ -224,7 +224,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'By continuing you agree to our Terms & Privacy Policy.';
 
   @override
-  String get drawerVersion => 'Version 1.0.0';
+  String get drawerVersion => 'Version 1.0.1';
 
   @override
   String get profileChooseFromLibrary => 'Choose from library';
@@ -481,4 +481,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get drawerLogOut => 'Log out';
+
+  @override
+  String get signUpAgeRequired => 'You must confirm you are 18 or older.';
+
+  @override
+  String get signUpOffline =>
+      'No connection. Check your network and try again.';
+
+  @override
+  String get signUpFailed =>
+      'Could not sign in. Check your connection and credentials.';
+
+  @override
+  String get signUpUnavailable =>
+      'Sign-in unavailable right now. Please try again.';
 }

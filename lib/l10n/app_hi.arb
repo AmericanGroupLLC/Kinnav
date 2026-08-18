@@ -60,7 +60,7 @@
   "signUpApple": "Apple से साइन इन करें",
   "signUpGoogle": "Google से जारी रखें",
   "signUpLegalNote": "जारी रखने पर आप हमारी शर्तों और गोपनीयता नीति से सहमत होती हैं।",
-  "drawerVersion": "संस्करण 1.0.0",
+  "drawerVersion": "संस्करण 1.0.1",
   "profileChooseFromLibrary": "गैलरी से चुनें",
   "profileTakePhoto": "फ़ोटो लें",
   "profileMyProfile": "मेरी प्रोफ़ाइल",
@@ -141,5 +141,9 @@
   "drawerMembership": "सदस्यता",
   "drawerContactUs": "संपर्क करें",
   "drawerContactSubject": "Kinnav ऐप पूछताछ",
-  "drawerLogOut": "लॉग आउट"
+  "drawerLogOut": "लॉग आउट",
+  "signUpAgeRequired": "आपको पुष्टि करनी होगी कि आपकी उम्र 18 वर्ष या अधिक है।",
+  "signUpOffline": "कोई कनेक्शन नहीं। अपना नेटवर्क जाँचें और फिर कोशिश करें।",
+  "signUpFailed": "साइन इन नहीं हो सका। अपना कनेक्शन और क्रेडेंशियल जाँचें।",
+  "signUpUnavailable": "अभी साइन इन उपलब्ध नहीं है। कृपया फिर कोशिश करें।"
 }

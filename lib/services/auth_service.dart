@@ -74,13 +74,24 @@ class SupabaseAuthService {
   /// match one of the provisioned test accounts — we fall back to a local demo
   /// session persisted via shared_preferences, so the app stays runnable
   /// offline. On a networked device the real Supabase path is always used.
+  /// How long to wait for Supabase before treating the attempt as offline.
+  ///
+  /// Without this the call inherits the platform's DNS/TCP timeout, which on a
+  /// dead connection is around a minute: measured at ~60s on an emulator with
+  /// no route out. The user sees an indefinite spinner with no explanation, and
+  /// on a safety app that is the wrong failure — someone in a dead zone should
+  /// be told quickly, not left guessing.
+  static const signInTimeout = Duration(seconds: 12);
+
   Future<void> signInWithPassword(String email, String password) async {
     final normalizedEmail = email.trim();
     try {
-      await _auth.signInWithPassword(
-        email: normalizedEmail,
-        password: password,
-      );
+      await _auth
+          .signInWithPassword(
+            email: normalizedEmail,
+            password: password,
+          )
+          .timeout(signInTimeout);
       // Real session established; make sure no stale fallback flag lingers.
       await Storage.instance.setBool(_kLocalSession, false);
     } catch (e) {
@@ -206,6 +217,10 @@ class SupabaseAuthService {
 
   bool _isNetworkError(Object e) {
     if (e is SocketException) return true;
+    // A timeout is the unreachable-network case too: the request never got an
+    // answer. Without this the offline fallback never fires on a hung
+    // connection, only on one that fails fast.
+    if (e is TimeoutException) return true;
     if (e is AuthRetryableFetchException) return true;
     if (e is AuthException) {
       // gotrue wraps low-level fetch failures; match by message as a fallback.

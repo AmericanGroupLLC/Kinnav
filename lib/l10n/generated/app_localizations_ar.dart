@@ -233,7 +233,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'بالمتابعة فإنكِ توافقين على الشروط وسياسة الخصوصية.';
 
   @override
-  String get drawerVersion => 'الإصدار 1.0.0';
+  String get drawerVersion => 'الإصدار 1.0.1';
 
   @override
   String get profileChooseFromLibrary => 'الاختيار من المعرض';
@@ -489,4 +489,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get drawerLogOut => 'تسجيل الخروج';
+
+  @override
+  String get signUpAgeRequired => 'عليكِ تأكيد أن عمركِ 18 عامًا أو أكثر.';
+
+  @override
+  String get signUpOffline =>
+      'لا يوجد اتصال. تحقّقي من الشبكة وحاولي مرة أخرى.';
+
+  @override
+  String get signUpFailed =>
+      'تعذّر تسجيل الدخول. تحقّقي من الاتصال وبيانات الدخول.';
+
+  @override
+  String get signUpUnavailable =>
+      'تسجيل الدخول غير متاح حاليًا. حاولي مرة أخرى.';
 }
