@@ -150,10 +150,23 @@ platform :ios do
   desc "Build + upload to TestFlight"
   lane :beta do
     build
+    upload
+  end
+
+  desc "Upload the existing .ipa to TestFlight (no rebuild)"
+  lane :upload do
+    # Separate from `beta` so a verified binary can be shipped without being
+    # rebuilt — a rebuild produces a different binary than the one that was
+    # checked, and on a safety app that difference is worth avoiding.
     upload_to_testflight(
       api_key: asc_api_key,
       ipa: latest_ipa,
-      skip_waiting_for_build_processing: true
+      app_identifier: APP_ID,
+      skip_waiting_for_build_processing: true,
+      # Nothing here is shown to external testers yet; internal testers on the
+      # team get the build immediately without a review step.
+      distribute_external: false,
+      notify_external_testers: false
     )
   end
 
