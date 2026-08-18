@@ -46,6 +46,11 @@ website/playwright-report/
 *.p12
 *.mobileprovision
 
+# Play Console service-account key — grants upload rights, never commit it.
+fastlane/play-service-account.json
+*.jks
+*.keystore
+
 # Downloaded release artifacts. `gh release download` drops these in the repo
 # root; they are tens of megabytes and rebuilt every release, so they belong on
 # a GitHub release, never in git. See store/README.md.
