@@ -48,6 +48,12 @@ rm -rf dist
 # NODE_ENV must be production or React ships its development build.
 NODE_ENV=production pnpm exec vite build
 
+# Bake the static routes into real HTML. Without this every URL serves the same
+# empty SPA shell, and Google Play's automated check of the privacy-policy URL
+# finds no policy — see scripts/prerender.mjs.
+echo "==> prerender"
+NODE_ENV=production node scripts/prerender.mjs
+
 echo "==> deployment manifest"
 cat > dist/.cpanel.yml <<EOF
 ---
@@ -68,8 +74,17 @@ EOF
 
 # Sanity checks — these are the failures that only show up once the site is
 # live, so they are worth catching before the push rather than after.
-for required in index.html .htaccess .cpanel.yml api/contact.php api/.htaccess; do
+for required in index.html .htaccess .cpanel.yml api/contact.php api/.htaccess \
+                privacy/index.html terms/index.html; do
   [ -e "dist/$required" ] || { echo "missing from build: $required" >&2; exit 1; }
+done
+
+# The store listings point at /privacy and /terms. Publishing those as empty
+# shells is what gets a submission rejected, so prove the text is really there
+# rather than trusting that the prerender ran.
+for page in privacy terms; do
+  grep -qi "$page" "dist/$page/index.html" \
+    || { echo "refusing to publish: dist/$page/index.html has no '$page' text" >&2; exit 1; }
 done
 if find dist -name '*.map' -o -name '.env*' | grep -q .; then
   echo "refusing to publish: build contains source maps or env files" >&2

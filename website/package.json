@@ -6,7 +6,7 @@
   "packageManager": "pnpm@11.2.2",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prerender.mjs",
     "package": "vite build && rm -f kinnav-site.zip && cd dist && zip -rq ../kinnav-site.zip . -x '.DS_Store'",
     "deploy": "bash scripts/publish-deploy.sh",
     "lint": "eslint .",
@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prerender": "node scripts/prerender.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

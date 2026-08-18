@@ -23,7 +23,9 @@ function ScrollToTop() {
   return null
 }
 
-function Layout() {
+// Exported so the prerenderer can mount it under a MemoryRouter. The router
+// lives in App, not Layout, precisely so this can be swapped for the build.
+export function Layout() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <ScrollToTop />
