@@ -241,6 +241,38 @@ Grant location up front: the permission dialog otherwise steals focus on
 first launch and lands in the screenshot. `adb shell screencap -p /sdcard/…`
 fails with `Bad address` on this emulator image — use `exec-out`.
 
+
+## The Android screenshots are NOT safe to upload
+
+Every file in `screenshots/android/` was captured from a debug build and shows
+the **"Demo mode (dev) — skip to app"** button, which `kDebugMode` gates and the
+release build never renders. A screenshot containing UI the shipped app does not
+have is a rejection under Apple 2.3.3 and Play's equivalent metadata policy.
+
+The iOS set had the same problem; `store/screenshots/ios/01-welcome.png` was
+deleted for that reason and replaced with `01-sign-in.png`, captured with the
+fix below.
+
+**How to capture clean ones.** `AppConfig.showDevShortcuts` is
+`kDebugMode && !SCREENSHOT`, so building with `--dart-define=SCREENSHOT=true`
+renders exactly what release renders. iOS release builds cannot run on a
+simulator at all, so this flag is the only honest way to get simulator shots.
+
+```bash
+flutter run -d <device> --dart-define=SCREENSHOT=true
+# then, against a freshly erased simulator so onboarding is not skipped:
+xcrun simctl erase <udid> && xcrun simctl boot <udid>
+xcrun simctl install <udid> build/ios/Debug-iphonesimulator/Runner.app
+xcrun simctl launch  <udid> com.americangroupllc.kinnav
+xcrun simctl io <udid> screenshot shot.png
+```
+
+Verify before uploading — the footer of a clean shot is a single flat colour:
+
+```bash
+magick shot.png -crop 1320x300+0+2568 +repage -format '%k' info:   # 1 = clean
+```
+
 ## Before you submit
 
 - [ ] Bump `version:` in `pubspec.yaml`

@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../app_state.dart';
 import '../services/auth_service.dart';
+import '../config/app_config.dart';
 import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
@@ -237,7 +237,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
               ),
-              if (kDebugMode) ...[
+              if (AppConfig.showDevShortcuts) ...[
                 const SizedBox(height: 12),
                 TextButton.icon(
                   onPressed: () => appState.enterDemoMode(),

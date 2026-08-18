@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../app_state.dart';
+import '../config/app_config.dart';
 import '../l10n/l10n.dart';
 import '../theme/app_theme.dart';
 
@@ -123,7 +123,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             // Dev/testing only: skip straight into the app.
-            if (kDebugMode)
+            if (AppConfig.showDevShortcuts)
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: OutlinedButton.icon(

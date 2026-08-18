@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 /// Build-time configuration, supplied via --dart-define (or a --dart-define-from-file
 /// JSON). Feature flags derive from whether the relevant credential is present,
 /// so the app runs fully today and lights up real integrations once keys land.
@@ -87,6 +88,20 @@ class AppConfig {
   static bool get hasVideo => agoraAppId.isNotEmpty;
   static bool get hasBackend => backend != 'mock';
   static bool get isProd => flavor == 'prod';
+
+  /// Hides debug-only affordances so a simulator build renders exactly what a
+  /// release build does.
+  ///
+  /// iOS release builds cannot run on a simulator, so store screenshots have to
+  /// come from a debug build — which shows the "Demo mode (dev)" buttons that
+  /// `kDebugMode` gates. A screenshot containing UI the shipped app does not
+  /// have is grounds for rejection, so builds captured for the store set
+  /// `--dart-define=SCREENSHOT=true` and those buttons disappear.
+  static const bool screenshotMode =
+      bool.fromEnvironment('SCREENSHOT', defaultValue: false);
+
+  /// True only when debug affordances should actually be drawn.
+  static bool get showDevShortcuts => kDebugMode && !screenshotMode;
 
   /// A one-line banner of what's live, useful in debug/settings.
   static String get summary =>

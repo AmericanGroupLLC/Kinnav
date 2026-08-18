@@ -197,6 +197,48 @@ platform :ios do
     )
   end
 
+  desc "Push listing metadata only — no binary, no screenshots"
+  lane :metadata do
+    # Metadata travels over the App Store Connect REST API, not the Java
+    # transporter that altool uses, so this works on machines where the binary
+    # upload is blocked. Lets the listing be filled in while the build is still
+    # being delivered by other means.
+    upload_to_app_store(
+      api_key: asc_api_key,
+      app_identifier: APP_ID,
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      skip_app_version_update: false,
+      force: true,                        # no interactive HTML preview
+      precheck_include_in_app_purchases: false,
+      submit_for_review: false,
+      run_precheck_before_submit: false
+    )
+  end
+
+  desc "Push screenshots only — no binary, no metadata"
+  lane :screenshots do
+    # Screenshots go over the REST API too, so they upload fine on machines
+    # where the Java binary transport is blocked.
+    #
+    # Capture them with `--dart-define=SCREENSHOT=true`: iOS release builds
+    # cannot run on a simulator, so shots come from a debug build, and that flag
+    # hides the "Demo mode (dev)" buttons which do not exist in the shipped app.
+    # A screenshot showing UI the release binary lacks is a rejection.
+    upload_to_app_store(
+      api_key: asc_api_key,
+      app_identifier: APP_ID,
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_screenshots: false,
+      overwrite_screenshots: true,
+      screenshots_path: File.expand_path("screenshots", __dir__),
+      force: true,
+      run_precheck_before_submit: false,
+      submit_for_review: false
+    )
+  end
+
   desc "Build + upload binary, metadata and screenshots (does NOT submit)"
   lane :release do
     build

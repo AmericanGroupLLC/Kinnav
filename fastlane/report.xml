@@ -5,32 +5,17 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000539">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000718">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: app_store_connect_api_key" time="0.057208">
+      <testcase classname="fastlane.lanes" name="1: app_store_connect_api_key" time="0.04271">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: get_provisioning_profile" time="2.193094">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="3: install_provisioning_profile" time="0.1485">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="4: update_code_signing_settings" time="0.126263">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="5: cd .. &amp;&amp; flutter build ipa --release --export-method app-store" time="131.136844">
+      <testcase classname="fastlane.lanes" name="2: upload_to_app_store" time="18.076269">
         
       </testcase>
     

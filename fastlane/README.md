@@ -39,6 +39,30 @@ Build a signed App Store IPA (manual signing)
 
 Build + upload to TestFlight
 
+### ios upload
+
+```sh
+[bundle exec] fastlane ios upload
+```
+
+Upload the existing .ipa to TestFlight (no rebuild)
+
+### ios metadata
+
+```sh
+[bundle exec] fastlane ios metadata
+```
+
+Push listing metadata only — no binary, no screenshots
+
+### ios screenshots
+
+```sh
+[bundle exec] fastlane ios screenshots
+```
+
+Push screenshots only — no binary, no metadata
+
 ### ios release
 
 ```sh
