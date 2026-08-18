@@ -1,73 +1,29 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# List (and optionally remove) duplicate App Store screenshots.
+# Remove duplicate App Store screenshots.
 #
-#   bundle exec ruby tools/dedupe_screenshots.rb            # list only
-#   bundle exec ruby tools/dedupe_screenshots.rb --prune    # delete duplicates
+# `deliver` runs its upload pass twice, so every `fastlane ios screenshots` run
+# leaves two copies of each file in the set. The listing then shows the same
+# image twice, which looks like a mistake because it is one.
 #
-# deliver retries the whole screenshot batch when it thinks an upload failed.
-# When the first attempt actually succeeded, every image lands twice and the
-# store listing shows each shot two times. Apple caps a display type at 10, so
-# a 5-shot set silently fills up. This keeps the first copy of each fileName
-# and deletes the rest.
-
-require 'jwt'
-require 'openssl'
-require 'net/http'
-require 'json'
-
+#   bundle exec ruby tools/dedupe_screenshots.rb
 require_relative 'asc_env'
+
 APP = asc_app_id
+_, b = asc_get("/v1/apps/#{APP}/appStoreVersions?limit=1")
+vid = (b['data'] || []).first['id']
+_, b = asc_get("/v1/appStoreVersions/#{vid}/appStoreVersionLocalizations")
+loc = (b['data'] || []).find { |l| l.dig('attributes', 'locale') == 'en-US' }
+_, b = asc_get("/v1/appStoreVersionLocalizations/#{loc['id']}/appScreenshotSets?include=appScreenshots")
 
-PRUNE = ARGV.include?('--prune')
-
-
-def api(method, path)
-  uri = URI("https://api.appstoreconnect.apple.com#{path}")
-  klass = { get: Net::HTTP::Get, delete: Net::HTTP::Delete }.fetch(method)
-  req = klass.new(uri)
-  req['Authorization'] = "Bearer #{token}"
-  res = Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |h| h.request(req) }
-  [res.code, (JSON.parse(res.body) rescue {})]
-end
-
-_, body = asc_api(:get, "/v1/apps/#{APP}/appStoreVersions?limit=1")
-version = body['data'].first['id']
-_, body = asc_api(:get, "/v1/appStoreVersions/#{version}/appStoreVersionLocalizations")
-loc = body['data'].find { |l| l.dig('attributes', 'locale') == 'en-US' }['id']
-_, body = asc_api(:get, "/v1/appStoreVersionLocalizations/#{loc}/appScreenshotSets")
-
-total_dupes = 0
-(body['data'] || []).each do |set|
-  display = set.dig('attributes', 'screenshotDisplayType')
-  _, shots = asc_api(:get, "/v1/appScreenshotSets/#{set['id']}/appScreenshots?limit=20")
-  list = shots['data'] || []
-  puts "#{display}: #{list.size} screenshot(s)"
-
-  seen = {}
-  list.each do |s|
-    name = s.dig('attributes', 'fileName')
-    if seen[name]
-      total_dupes += 1
-      if PRUNE
-        code, = asc_api(:delete, "/v1/appScreenshots/#{s['id']}")
-        puts "   #{%w[200 204].include?(code) ? 'deleted' : "FAILED #{code}"} duplicate #{name}"
-      else
-        puts "   duplicate: #{name} (#{s['id']})"
-      end
-    else
-      seen[name] = true
-      puts "   keep: #{name}"
-    end
+shots = (b['included'] || []).select { |i| i['type'] == 'appScreenshots' }
+removed = 0
+shots.group_by { |s| s.dig('attributes', 'fileName') }.each do |name, group|
+  group.drop(1).each do |dup|
+    code, _ = asc_api(:delete, "/v1/appScreenshots/#{dup['id']}")
+    puts "  removed duplicate #{name} (HTTP #{code})"
+    removed += 1
   end
 end
-
-puts
-if total_dupes.zero?
-  puts '✓ No duplicate screenshots'
-elsif PRUNE
-  puts "✓ Removed #{total_dupes} duplicate screenshot(s)"
-else
-  puts "#{total_dupes} duplicate(s) found — re-run with --prune to remove them"
-end
+puts removed.zero? ? '✓ no duplicates' : "✓ removed #{removed}"
